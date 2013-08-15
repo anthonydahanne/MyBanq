@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BanqNotifications</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="hello_world">Please enter your banq credentials and press submit.</string>
+    <string name="name">Nom : %s</string>
+    <string name="currentDebt">Déficit actuel : %s</string>
+    <string name="expirationDebt">Date d\'expiration : %s</string>
+    <string name="loggedAs">Connecté en tant que</string>
+    <string name="unexpectedError">Erreur</string>
+
+</resources>
