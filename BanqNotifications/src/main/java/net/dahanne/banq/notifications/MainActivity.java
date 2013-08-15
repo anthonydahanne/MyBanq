@@ -1,12 +1,12 @@
 package net.dahanne.banq.notifications;
 
-import android.app.Activity;
+import android.app.ListActivity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.dahanne.banq.BanqClient;
@@ -15,25 +15,20 @@ import net.dahanne.banq.model.Details;
 
 import java.util.Set;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ListActivity {
 
-    private EditText resultField;
+    private TextView userName;
+    private TextView currentdebt;
+    private TextView expirationDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final EditText usernameField = (EditText) findViewById(R.id.usernameField);
-        final EditText passwordField = (EditText) findViewById(R.id.passwordField);
-        final Button submitButton = (Button) findViewById(R.id.submitButton);
-        resultField = (EditText) findViewById(R.id.resultField);
-
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DoItAllAsyncTask().execute(usernameField.getText().toString(), passwordField.getText().toString());
-            }
-        });
+        userName = (TextView) findViewById(R.id.userName);
+        currentdebt = (TextView) findViewById(R.id.currentDebt);
+        expirationDate = (TextView) findViewById(R.id.expirationDate);
+        new RetrieveInfosAsyncTask().execute();
     }
 
 
@@ -44,41 +39,35 @@ public class MainActivity extends Activity {
         return true;
     }
 
+    public static Intent newIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
 
-    class DoItAllAsyncTask extends AsyncTask<String, Void, Details> {
 
-        private String username;
-        private String password;
+    class RetrieveInfosAsyncTask extends AsyncTask<String, Void, Details> {
         private Exception exceptionCaught;
 
         @Override
         protected Details doInBackground(String[] params) {
-            this.username = params[0];
-            this.password = params[1];
             BanqClient bc = new BanqClient();
-            Details details = null;
             try {
-                Set<String> cookies = bc.authenticate(username, password);
+                Set<String> cookies = PreferenceHelper.getCookies(MainActivity.this);
                 String detailsPage = bc.getDetailsPage(cookies);
-                details = bc.parseDetails(detailsPage);
+                return bc.parseDetails(detailsPage);
             } catch (Exception e) {
                 exceptionCaught = e;
             }
-            return details;
+            return null;
         }
 
         @Override
         protected void onPostExecute(Details details) {
-            if (exceptionCaught != null) {
-                Toast.makeText(MainActivity.this, exceptionCaught.getMessage(), Toast.LENGTH_SHORT).show();
-            } else if (details != null) {
-                StringBuilder detailsAsText = new StringBuilder();
+            if (exceptionCaught == null && details != null) {
+                userName.setText(String.format(getString(R.string.name), details.getName()));
+                currentdebt.setText(String.format(getString(R.string.currentDebt), details.getCurrentDebt()));
+                expirationDate.setText(String.format(getString(R.string.expirationDebt), details.getExpirationDate()));
 
-                detailsAsText.append("Name : ").append(details.getName()).append("\n");
-                detailsAsText.append("Current Debt : ").append(details.getCurrentDebt()).append("\n");
-                detailsAsText.append("Expiration Date : ").append(details.getExpirationDate()).append("\n");
-
-                detailsAsText.append("--List of items--").append("\n");
+                /*detailsAsText.append("--List of items--").append("\n");
 
 
                 for (BorrowedItem borrowedItem : details.getBorrowedItems()) {
@@ -87,9 +76,10 @@ public class MainActivity extends Activity {
                     detailsAsText.append("Borrowed date : ").append(borrowedItem.getBorrowedDate()).append("\n");
                     detailsAsText.append("To be returned before date : ").append(borrowedItem.getToBeReturnedBefore()).append("\n");
                     detailsAsText.append("-------------").append("\n");
-                }
-
-                resultField.setText(detailsAsText.toString());
+                }*/
+            }
+            else {
+                Toast.makeText(MainActivity.this, exceptionCaught.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }

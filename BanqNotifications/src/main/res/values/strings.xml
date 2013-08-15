@@ -4,5 +4,8 @@
     <string name="app_name">BanqNotifications</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Please enter your banq credentials and press submit.</string>
+    <string name="name">Name : %s</string>
+    <string name="currentDebt">Current Debt : %s</string>
+    <string name="expirationDebt">Expiration Date :%s</string>
 
 </resources>
