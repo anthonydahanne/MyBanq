@@ -9,7 +9,7 @@
     <string name="action_sign_in_short">S\'identifier</string>
 
 
-    <string name="login_progress_signing_in">En cours d'identification&#8230;</string>
+    <string name="login_progress_signing_in">En cours d\'identification&#8230;</string>
 
     <string name="error_field_required">Ce champ est requis</string>
 </resources>
