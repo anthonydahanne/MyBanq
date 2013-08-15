@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class PreferenceHelper {
 
-    private static final String KEY_PREF_LOGIN = "login_key";
+    public static final String KEY_PREF_LOGIN = "login_key";
     private static final String KEY_PREF_COOKIES = "cookies_key";
 
     public static void saveLogin(Context context, String login) {

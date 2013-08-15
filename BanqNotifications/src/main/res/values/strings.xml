@@ -7,5 +7,7 @@
     <string name="name">Name : %s</string>
     <string name="currentDebt">Current Debt : %s</string>
     <string name="expirationDebt">Expiration Date : %s</string>
+    <string name="loggedAs">Logged as</string>
+    <string name="unexpectedError">Unexpected Error</string>
 
 </resources>

@@ -4,9 +4,12 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -46,11 +49,16 @@ public class LoginActivity extends Activity {
     private View mLoginStatusView;
     private TextView mLoginStatusMessageView;
 
+    public static Intent newIntent(Context context) {
+        return new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (PreferenceHelper.isLoggedIn(this)){
+        if (PreferenceHelper.isLoggedIn(this)) {
             startActivity(MainActivity.newIntent(LoginActivity.this));
+            finish();
         }
 
         setContentView(R.layout.activity_login);
@@ -185,6 +193,7 @@ public class LoginActivity extends Activity {
         }
     }
 
+
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -212,6 +221,7 @@ public class LoginActivity extends Activity {
 
             if (exceptionCaught == null) {
                 startActivity(MainActivity.newIntent(LoginActivity.this));
+                finish();
             } else {
                 mPasswordView.setError(exceptionCaught.getMessage());
                 mPasswordView.requestFocus();

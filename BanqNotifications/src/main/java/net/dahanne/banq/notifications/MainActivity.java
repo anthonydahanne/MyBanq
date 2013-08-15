@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,15 @@ public class MainActivity extends ListActivity {
         return true;
     }
 
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                startActivity(PreferencesActivity.newIntent(this));
+        }
+        return super.onMenuItemSelected(featureId, item);
+    }
+
     public static Intent newIntent(Context context) {
         return new Intent(context, MainActivity.class);
     }
@@ -62,10 +72,13 @@ public class MainActivity extends ListActivity {
         @Override
         protected void onPostExecute(Details details) {
             if (exceptionCaught == null && details != null) {
+                PreferenceHelper.saveLogin(MainActivity.this, details.getName());
                 userName.setText(String.format(getString(R.string.name), details.getName()));
                 currentDebt.setText(String.format(getString(R.string.currentDebt), details.getCurrentDebt()));
                 expirationDate.setText(String.format(getString(R.string.expirationDebt), details.getExpirationDate()));
                 setListAdapter(new BorrowedItemAdapter(MainActivity.this, details.getBorrowedItems()));
+            } else if (exceptionCaught == null){
+                Toast.makeText(MainActivity.this, getString(R.string.unexpectedError), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(MainActivity.this, exceptionCaught.getMessage(), Toast.LENGTH_SHORT).show();
             }
