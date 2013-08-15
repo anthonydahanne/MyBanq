@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.dahanne.banq.BanqClient;
-import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
 
 import java.util.Set;
@@ -18,7 +17,7 @@ import java.util.Set;
 public class MainActivity extends ListActivity {
 
     private TextView userName;
-    private TextView currentdebt;
+    private TextView currentDebt;
     private TextView expirationDate;
 
     @Override
@@ -26,7 +25,7 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         userName = (TextView) findViewById(R.id.userName);
-        currentdebt = (TextView) findViewById(R.id.currentDebt);
+        currentDebt = (TextView) findViewById(R.id.currentDebt);
         expirationDate = (TextView) findViewById(R.id.expirationDate);
         new RetrieveInfosAsyncTask().execute();
     }
@@ -64,21 +63,10 @@ public class MainActivity extends ListActivity {
         protected void onPostExecute(Details details) {
             if (exceptionCaught == null && details != null) {
                 userName.setText(String.format(getString(R.string.name), details.getName()));
-                currentdebt.setText(String.format(getString(R.string.currentDebt), details.getCurrentDebt()));
+                currentDebt.setText(String.format(getString(R.string.currentDebt), details.getCurrentDebt()));
                 expirationDate.setText(String.format(getString(R.string.expirationDebt), details.getExpirationDate()));
-
-                /*detailsAsText.append("--List of items--").append("\n");
-
-
-                for (BorrowedItem borrowedItem : details.getBorrowedItems()) {
-                    detailsAsText.append("Name : ").append(borrowedItem.getTitle()).append("\n");
-                    detailsAsText.append("Shelf Mark : ").append(borrowedItem.getShelfMark()).append("\n");
-                    detailsAsText.append("Borrowed date : ").append(borrowedItem.getBorrowedDate()).append("\n");
-                    detailsAsText.append("To be returned before date : ").append(borrowedItem.getToBeReturnedBefore()).append("\n");
-                    detailsAsText.append("-------------").append("\n");
-                }*/
-            }
-            else {
+                setListAdapter(new BorrowedItemAdapter(MainActivity.this, details.getBorrowedItems()));
+            } else {
                 Toast.makeText(MainActivity.this, exceptionCaught.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
