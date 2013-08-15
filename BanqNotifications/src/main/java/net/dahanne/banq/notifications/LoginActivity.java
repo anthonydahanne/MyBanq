@@ -50,7 +50,7 @@ public class LoginActivity extends Activity {
     private TextView mLoginStatusMessageView;
 
     public static Intent newIntent(Context context) {
-        return new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        return new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
     @Override
