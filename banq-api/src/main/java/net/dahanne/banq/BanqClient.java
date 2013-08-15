@@ -1,5 +1,6 @@
 package net.dahanne.banq;
 
+import net.dahanne.banq.exceptions.InvalidSessionException;
 import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
 
@@ -158,7 +159,7 @@ public class BanqClient {
         return location;
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException, ParseException {
+    public static void main(String[] args) throws IOException, InterruptedException, ParseException, InvalidSessionException {
         if (args == null || args.length < 2) {
             System.out.println("Wrong number of arguments, please supply 2 arguments : username and password");
         }
@@ -173,10 +174,15 @@ public class BanqClient {
 
     }
 
-    public String getDetailsPage(Set<String> cookies) throws IOException, ParseException {
+    public String getDetailsPage(Set<String> cookies) throws IOException, ParseException, InvalidSessionException {
         HttpURLConnection connect = null;
         try {
             connect = new HttpBuilder("http://www.banq.qc.ca/mobile2/mon_dossier/detail.jsp").cookie(cookies).connect();
+            if(connect.getResponseCode() == 302) {
+                // the session is not usable, we should re authenticate from there.
+                throw new InvalidSessionException();
+            }
+
             InputStream inputStream = connect.getInputStream();
             return HttpBuilder.toString(inputStream);
         } finally {
