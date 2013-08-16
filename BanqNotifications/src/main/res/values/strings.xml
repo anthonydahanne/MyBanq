@@ -8,5 +8,9 @@
     <string name="expirationDebt">Expiration Date : %s</string>
     <string name="loggedAs">Logged as</string>
     <string name="unexpectedError">Unexpected Error</string>
+    <string name="action_test_notification">Notif</string>
+    <string name="item_to_return_to_banq">Item to return to BANQ</string>
+    <string name="see_all_items">All</string>
+    <string name="renew">Renew</string>
 
 </resources>

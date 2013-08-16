@@ -206,6 +206,9 @@ public class LoginActivity extends AccountAuthenticatorActivity {
                 Account account = new Account(login, "BANQ");
                 Set<String> cookies = bc.authenticate(login, password);
                 PreferenceHelper.saveCookies(LoginActivity.this, cookies);
+                PreferenceHelper.saveUsername(LoginActivity.this, params[0]);
+                PreferenceHelper.savePassword(LoginActivity.this, params[1]);
+
             } catch (Exception e) {
                 exceptionCaught = e;
             }
