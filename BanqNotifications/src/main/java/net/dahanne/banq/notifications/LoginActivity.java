@@ -2,17 +2,17 @@ package net.dahanne.banq.notifications;
 
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
+import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -24,6 +24,8 @@ import net.dahanne.banq.BanqClient;
 
 import java.util.Set;
 
+import static android.accounts.AccountManager.*;
+
 /**
  * Activity which displays a mLogin screen to the user, offering registration as
  * well.
@@ -33,7 +35,8 @@ public class LoginActivity extends AccountAuthenticatorActivity {
     /**
      * The default email to populate the email field with.
      */
-    public static final String EXTRA_EMAIL = "com.example.android.authenticatordemo.extra.EMAIL";
+    public static final String EXTRA_LOGIN = "com.example.android.authenticatordemo.extra.EMAIL";
+
 
     /**
      * Keep track of the mLogin task to ensure we can cancel it if requested.
@@ -66,7 +69,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         setContentView(R.layout.activity_login);
 
         // Set up the login form.
-        mLogin = getIntent().getStringExtra(EXTRA_EMAIL);
+        mLogin = getIntent().getStringExtra(EXTRA_LOGIN);
         mLoginView = (EditText) findViewById(R.id.email);
         mLoginView.setText(mLogin);
 
@@ -75,7 +78,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    attemptLogin(findViewById(R.id.sign_in_button));
                     return true;
                 }
                 return false;
@@ -100,7 +103,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    public void attemptLogin() {
+    public void attemptLogin(View v) {
         if (mAuthTask != null) {
             return;
         }
@@ -200,16 +203,25 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         protected Void doInBackground(String... params) {
 
             try {
-                BanqClient bc = new BanqClient();
                 String login = params[0];
                 String password = params[1];
-                Account account = new Account(login, "BANQ");
-                Set<String> cookies = bc.authenticate(login, password);
+                Set<String> cookies = new BanqClient().authenticate(login, password);
                 PreferenceHelper.saveCookies(LoginActivity.this, cookies);
-                PreferenceHelper.saveUsername(LoginActivity.this, params[0]);
-                PreferenceHelper.savePassword(LoginActivity.this, params[1]);
-
+                PreferenceHelper.saveUsername(LoginActivity.this, login);
+                PreferenceHelper.savePassword(LoginActivity.this, password);
+                Account account = new Account(login, getString(R.string.accountType));
+                AccountManager accountManager = AccountManager.get(LoginActivity.this);
+                //If the account already exists, we update the account
+                if (!accountManager.addAccountExplicitly(account, password, null)) {
+                    accountManager.setPassword(account, password);
+                }
+                final Intent intent = new Intent();
+                intent.putExtra(KEY_ACCOUNT_NAME, login);
+                intent.putExtra(KEY_ACCOUNT_TYPE, getString(R.string.accountType));
+                setAccountAuthenticatorResult(intent.getExtras());
+                setResult(RESULT_OK, intent);
             } catch (Exception e) {
+                Log.e(getClass().getSimpleName(), e.getMessage(), e);
                 exceptionCaught = e;
             }
             return null;

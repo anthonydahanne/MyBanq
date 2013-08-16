@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">BanqNotifications</string>
+    <string name="app_name">My Banq</string>
     <string name="action_settings">Settings</string>
     <string name="name">Name : %s</string>
     <string name="currentDebt">Current Debt : %s</string>
@@ -12,5 +12,6 @@
     <string name="item_to_return_to_banq">Item to return to BANQ</string>
     <string name="see_all_items">All</string>
     <string name="renew">Renew</string>
+    <string name="accountType">BANQ</string>
 
 </resources>

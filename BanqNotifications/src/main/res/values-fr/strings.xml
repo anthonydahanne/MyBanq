@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">BanqNotifications</string>
+    <string name="app_name">Ma Banq</string>
     <string name="action_settings">Paramètres</string>
     <string name="name">Nom : %s</string>
     <string name="currentDebt">Déficit actuel : %s</string>
