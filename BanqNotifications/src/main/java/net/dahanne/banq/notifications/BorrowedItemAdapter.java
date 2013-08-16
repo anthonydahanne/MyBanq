@@ -35,8 +35,8 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
         BorrowedItem book = getItem(position);
         holder.name.setText(book.getTitle());
         holder.shelfMark.setText(book.getShelfMark());
-        holder.borrowedDate.setText(book.getBorrowedDate().toString());
-        holder.toBeReturnedDate.setText(book.getToBeReturnedBefore().toString());
+        holder.borrowedDate.setText(String.format(getContext().getString(R.string.borrowedOn), book.getBorrowedDate().toString()));
+        holder.toBeReturnedDate.setText(String.format(getContext().getString(R.string.toBeReturnedOn), book.getToBeReturnedBefore().toString()));
         return convertView;
     }
 

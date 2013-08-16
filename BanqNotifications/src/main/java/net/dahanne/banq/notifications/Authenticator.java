@@ -222,7 +222,6 @@ class Authenticator extends AbstractAccountAuthenticator {
         }
         return new HashSet<String>();
     }
-
     public static Set<String> authenticate(Context mContext) {
         return authenticate(mContext, PreferenceHelper.getLogin(mContext), getPassword(mContext));
     }
