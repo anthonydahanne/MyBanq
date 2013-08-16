@@ -4,18 +4,23 @@ import net.dahanne.banq.exceptions.InvalidSessionException;
 import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
-import org.jsoup.Jsoup;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Anthony Dahanne
@@ -166,7 +171,7 @@ public class BanqClient {
         BanqClient bc = new BanqClient();
         Set<String> cookies = bc.authenticate(args[0], args[1]);
         String detailsPage = bc.getDetailsPage(cookies);
-        Details details =  bc.parseDetails(detailsPage);
+        Details details = bc.parseDetails(detailsPage);
 
         System.out.println("Borrower name  : " + details.getName());
         System.out.println("Current debt  : " + details.getCurrentDebt());
@@ -174,11 +179,11 @@ public class BanqClient {
 
     }
 
-    public String getDetailsPage(Set<String> cookies) throws IOException, ParseException, InvalidSessionException {
+    String getDetailsPage(Set<String> cookies) throws IOException, ParseException, InvalidSessionException {
         HttpURLConnection connect = null;
         try {
             connect = new HttpBuilder("http://www.banq.qc.ca/mobile2/mon_dossier/detail.jsp").cookie(cookies).connect();
-            if(connect.getResponseCode() == 302) {
+            if (connect.getResponseCode() == 302) {
                 // the session is not usable, we should re authenticate from there.
                 throw new InvalidSessionException();
             }
@@ -192,7 +197,7 @@ public class BanqClient {
         }
     }
 
-    public Details parseDetails(String responseMessage) throws ParseException {
+    Details parseDetails(String responseMessage) throws ParseException {
 //        System.out.println(responseMessage);
         Document parse = Jsoup.parse(responseMessage);
         Element contenu = parse.getElementById("Contenu");
@@ -206,7 +211,7 @@ public class BanqClient {
             Date expirationDateAsDate = toDate(expirationDate.substring(expirationDate.indexOf(":") + 2) + "-00:00");
 
             String currentDebtText = nodes.get(6).toString();
-            String currentDebt =  currentDebtText.substring(currentDebtText.indexOf(":") + 2).trim();
+            String currentDebt = currentDebtText.substring(currentDebtText.indexOf(":") + 2).trim();
             List<BorrowedItem> borrowedItemsList = new ArrayList<BorrowedItem>();
 
 
@@ -217,7 +222,7 @@ public class BanqClient {
                 String title = borrowedItemProperties.get(0).toString();
 
                 String shelfMarkText = borrowedItemProperties.get(2).toString();
-                String shelfMark =  shelfMarkText.substring(shelfMarkText.indexOf(":") + 2).trim();
+                String shelfMark = shelfMarkText.substring(shelfMarkText.indexOf(":") + 2).trim();
 
                 String borrowedDate = borrowedItemProperties.get(4).toString();
                 Date borrowedDateAsDate = toDate(borrowedDate.substring(borrowedDate.indexOf(":") + 2));
@@ -225,10 +230,10 @@ public class BanqClient {
                 String toBeReturnedBefore = borrowedItemProperties.get(6).toString();
                 Date toBeReturnedBeforeAsDate = toDate(toBeReturnedBefore.substring(toBeReturnedBefore.indexOf(":") + 2));
 
-                borrowedItemsList.add(new BorrowedItem(title,shelfMark,borrowedDateAsDate,toBeReturnedBeforeAsDate));
+                borrowedItemsList.add(new BorrowedItem(title, shelfMark, borrowedDateAsDate, toBeReturnedBeforeAsDate));
 
             }
-            details =  new Details(name,expirationDateAsDate,currentDebt,borrowedItemsList);
+            details = new Details(name, expirationDateAsDate, currentDebt, borrowedItemsList);
         }
         return details;
     }
@@ -238,5 +243,11 @@ public class BanqClient {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH:mm zzz");
         return formatter.parse(substring);
 
+    }
+
+    public Details getDetails(Set<String> cookies) throws ParseException, InvalidSessionException, IOException {
+        String detailsPage = this.getDetailsPage(cookies);
+        Details details = this.parseDetails(detailsPage);
+        return details;
     }
 }

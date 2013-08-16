@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.dahanne.banq.BanqClient;
+import net.dahanne.banq.exceptions.InvalidSessionException;
 import net.dahanne.banq.model.Details;
 
 import java.util.Set;
@@ -59,14 +60,20 @@ public class MainActivity extends ListActivity {
         @Override
         protected Details doInBackground(String[] params) {
             BanqClient bc = new BanqClient();
+            Details details = null;
             try {
                 Set<String> cookies = PreferenceHelper.getCookies(MainActivity.this);
-                String detailsPage = bc.getDetailsPage(cookies);
-                return bc.parseDetails(detailsPage);
+                try {
+                    details = bc.getDetails(cookies);
+                } catch (InvalidSessionException ise) {
+                    cookies = bc.authenticate(PreferenceHelper.getUsername(MainActivity.this), PreferenceHelper.getPassword(MainActivity.this));
+                    PreferenceHelper.saveCookies(MainActivity.this, cookies);
+                    details = bc.getDetails(cookies);
+                }
             } catch (Exception e) {
                 exceptionCaught = e;
             }
-            return null;
+            return details;
         }
 
         @Override
@@ -77,7 +84,7 @@ public class MainActivity extends ListActivity {
                 currentDebt.setText(String.format(getString(R.string.currentDebt), details.getCurrentDebt()));
                 expirationDate.setText(String.format(getString(R.string.expirationDebt), details.getExpirationDate()));
                 setListAdapter(new BorrowedItemAdapter(MainActivity.this, details.getBorrowedItems()));
-            } else if (exceptionCaught == null){
+            } else if (exceptionCaught == null) {
                 Toast.makeText(MainActivity.this, getString(R.string.unexpectedError), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(MainActivity.this, exceptionCaught.getMessage(), Toast.LENGTH_SHORT).show();

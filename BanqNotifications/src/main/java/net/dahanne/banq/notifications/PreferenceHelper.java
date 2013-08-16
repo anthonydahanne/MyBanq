@@ -12,6 +12,16 @@ public class PreferenceHelper {
 
     public static final String KEY_PREF_LOGIN = "login_key";
     private static final String KEY_PREF_COOKIES = "cookies_key";
+    private static final String KEY_PREF_USERNAME = "username_key";
+    private static final String KEY_PREF_PASSWORD = "password_key";
+
+    public static void saveUsername(Context context, String username) {
+        getPreferences(context).edit().putString(KEY_PREF_USERNAME, username).commit();
+    }
+
+    public static void savePassword(Context context, String password) {
+        getPreferences(context).edit().putString(KEY_PREF_PASSWORD, password).commit();
+    }
 
     public static void saveLogin(Context context, String login) {
         getPreferences(context).edit().putString(KEY_PREF_LOGIN, login).commit();
@@ -27,6 +37,14 @@ public class PreferenceHelper {
 
     public static String getLogin(Context context) {
         return getPreferences(context).getString(KEY_PREF_LOGIN, "");
+    }
+
+    public static String getUsername(Context context) {
+        return getPreferences(context).getString(KEY_PREF_USERNAME, "");
+    }
+
+    public static String getPassword(Context context) {
+        return getPreferences(context).getString(KEY_PREF_PASSWORD, "");
     }
 
     private static SharedPreferences getPreferences(Context context) {
