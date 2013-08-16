@@ -2,14 +2,14 @@
         <string name="title_activity_login">S\'identifier</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Utilisateur</string>
+    <string name="prompt_login">Utilisateur</string>
     <string name="prompt_password">Mot de passe</string>
 
     <string name="action_sign_in_register"><b>S\'identifier</b></string>
     <string name="action_sign_in_short">S\'identifier</string>
 
 
-    <string name="login_progress_signing_in">En cours d'identification&#8230;</string>
+    <string name="login_progress_signing_in">En cours d\'identification&#8230;</string>
 
     <string name="error_field_required">Ce champ est requis</string>
 </resources>
