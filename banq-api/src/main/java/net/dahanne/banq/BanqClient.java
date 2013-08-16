@@ -138,7 +138,6 @@ public class BanqClient {
                 connect.disconnect();
             }
         }
-
         return cookies;
     }
 

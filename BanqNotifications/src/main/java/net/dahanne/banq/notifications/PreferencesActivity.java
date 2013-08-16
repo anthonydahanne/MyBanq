@@ -15,7 +15,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
         public boolean onPreferenceClick(Preference preference) {
             if (PreferenceHelper.KEY_PREF_LOGIN.equals(preference.getKey())) {
                 PreferenceHelper.clearCache(PreferencesActivity.this);
-                startActivity(LoginActivity.newIntent(PreferencesActivity.this));
+                startActivity(LoginActivity.newIntent(PreferencesActivity.this, true));
                 finish();
             }
             return true;
@@ -23,7 +23,6 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     };
 
     @SuppressWarnings("deprecation")
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.prefs);

@@ -24,7 +24,8 @@ import net.dahanne.banq.BanqClient;
 
 import java.util.Set;
 
-import static android.accounts.AccountManager.*;
+import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
+import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
 
 /**
  * Activity which displays a mLogin screen to the user, offering registration as
@@ -36,6 +37,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
      * The default email to populate the email field with.
      */
     public static final String EXTRA_LOGIN = "com.example.android.authenticatordemo.extra.EMAIL";
+    private static final String EXTRA_GO_TO_MAIN_ACTIVITY = "EXTRA_GO_TO_MAIN_ACTIVITY";
 
 
     /**
@@ -53,20 +55,18 @@ public class LoginActivity extends AccountAuthenticatorActivity {
     private View mLoginFormView;
     private View mLoginStatusView;
     private TextView mLoginStatusMessageView;
+    private boolean goToMainActivity;
 
-    public static Intent newIntent(Context context) {
-        return new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+    public static Intent newIntent(Context context, boolean goToMainActivity) {
+        return new Intent(context, LoginActivity.class).putExtra(EXTRA_GO_TO_MAIN_ACTIVITY, goToMainActivity).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (PreferenceHelper.isLoggedIn(this)) {
-            startActivity(MainActivity.newIntent(LoginActivity.this));
-            finish();
-        }
-
         setContentView(R.layout.activity_login);
+
+        goToMainActivity = getIntent().getBooleanExtra(EXTRA_GO_TO_MAIN_ACTIVITY, false);
 
         // Set up the login form.
         mLogin = getIntent().getStringExtra(EXTRA_LOGIN);
@@ -88,14 +88,6 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         mLoginFormView = findViewById(R.id.login_form);
         mLoginStatusView = findViewById(R.id.login_status);
         mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.login, menu);
-        return true;
     }
 
     /**
@@ -205,16 +197,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
             try {
                 String login = params[0];
                 String password = params[1];
-                Set<String> cookies = new BanqClient().authenticate(login, password);
-                PreferenceHelper.saveCookies(LoginActivity.this, cookies);
-                PreferenceHelper.saveUsername(LoginActivity.this, login);
-                PreferenceHelper.savePassword(LoginActivity.this, password);
-                Account account = new Account(login, getString(R.string.accountType));
-                AccountManager accountManager = AccountManager.get(LoginActivity.this);
-                //If the account already exists, we update the account
-                if (!accountManager.addAccountExplicitly(account, password, null)) {
-                    accountManager.setPassword(account, password);
-                }
+                Authenticator.authenticate(LoginActivity.this, login, password);
                 final Intent intent = new Intent();
                 intent.putExtra(KEY_ACCOUNT_NAME, login);
                 intent.putExtra(KEY_ACCOUNT_TYPE, getString(R.string.accountType));
@@ -233,7 +216,9 @@ public class LoginActivity extends AccountAuthenticatorActivity {
             showProgress(false);
 
             if (exceptionCaught == null) {
-                startActivity(MainActivity.newIntent(LoginActivity.this));
+                if (goToMainActivity){
+                    startActivity(MainActivity.newIntent(LoginActivity.this));
+                }
                 finish();
             } else {
                 mPasswordView.setError(exceptionCaught.getMessage());

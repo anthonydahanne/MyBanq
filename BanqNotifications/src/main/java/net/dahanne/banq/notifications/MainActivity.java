@@ -1,5 +1,6 @@
 package net.dahanne.banq.notifications;
 
+import android.accounts.AccountManager;
 import android.app.ListActivity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -26,15 +28,22 @@ public class MainActivity extends ListActivity {
     private TextView userName;
     private TextView currentDebt;
     private TextView expirationDate;
+    private AccountManager accountManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        userName = (TextView) findViewById(R.id.userName);
-        currentDebt = (TextView) findViewById(R.id.currentDebt);
-        expirationDate = (TextView) findViewById(R.id.expirationDate);
-        new RetrieveInfosAsyncTask().execute();
+        if (TextUtils.isEmpty(PreferenceHelper.getLogin(this))) {
+            startActivity(LoginActivity.newIntent(this, true));
+            finish();
+        } else {
+            setContentView(R.layout.activity_main);
+            userName = (TextView) findViewById(R.id.userName);
+            currentDebt = (TextView) findViewById(R.id.currentDebt);
+            expirationDate = (TextView) findViewById(R.id.expirationDate);
+            new RetrieveInfosAsyncTask().execute();
+            accountManager = AccountManager.get(this);
+        }
     }
 
 
@@ -51,38 +60,11 @@ public class MainActivity extends ListActivity {
             case R.id.action_settings:
                 startActivity(PreferencesActivity.newIntent(this));
             case R.id.action_test_notification:
-                launchNotification(new BorrowedItem("Book title","BTU",new Date(), new Date()));
+                NotificationHelper.launchNotification(this, new BorrowedItem("Book title", "BTU", new Date(), new Date()));
         }
         return super.onMenuItemSelected(featureId, item);
     }
 
-    private void launchNotification(BorrowedItem borrowedItem) {
-        // Prepare intent which is triggered if the
-// notification is selected
-
-        Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
-// Build notification
-// Actions are just fake
-        Notification noti = new Notification.Builder(this)
-                .setContentTitle(getString(R.string.item_to_return_to_banq))
-                .setContentText(borrowedItem.getTitle())
-                .setSubText(borrowedItem.getToBeReturnedBefore().toString())
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentIntent(pIntent)
-                .addAction(android.R.drawable.ic_menu_more, getString(R.string.see_all_items), pIntent)
-                .addAction(android.R.drawable.ic_menu_rotate, getString(R.string.renew), pIntent).build();
-
-
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-// Hide the notification after its selected
-        noti.flags |= Notification.FLAG_AUTO_CANCEL;
-
-        notificationManager.notify(0, noti);
-    }
 
     public static Intent newIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -97,12 +79,11 @@ public class MainActivity extends ListActivity {
             BanqClient bc = new BanqClient();
             Details details = null;
             try {
-                Set<String> cookies = PreferenceHelper.getCookies(MainActivity.this);
+                Set<String> cookies = Authenticator.getCookies(MainActivity.this);
                 try {
                     details = bc.getDetails(cookies);
                 } catch (InvalidSessionException ise) {
-                    cookies = bc.authenticate(PreferenceHelper.getUsername(MainActivity.this), PreferenceHelper.getPassword(MainActivity.this));
-                    PreferenceHelper.saveCookies(MainActivity.this, cookies);
+                    cookies = Authenticator.authenticate(MainActivity.this);
                     details = bc.getDetails(cookies);
                 }
             } catch (Exception e) {
@@ -114,7 +95,6 @@ public class MainActivity extends ListActivity {
         @Override
         protected void onPostExecute(Details details) {
             if (exceptionCaught == null && details != null) {
-                PreferenceHelper.saveLogin(MainActivity.this, details.getName());
                 userName.setText(String.format(getString(R.string.name), details.getName()));
                 currentDebt.setText(String.format(getString(R.string.currentDebt), details.getCurrentDebt()));
                 expirationDate.setText(String.format(getString(R.string.expirationDebt), details.getExpirationDate()));
