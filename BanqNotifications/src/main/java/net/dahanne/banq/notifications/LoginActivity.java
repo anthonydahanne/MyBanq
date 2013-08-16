@@ -1,5 +1,7 @@
 package net.dahanne.banq.notifications;
 
+import android.accounts.Account;
+import android.accounts.AccountAuthenticatorActivity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -26,7 +28,7 @@ import java.util.Set;
  * Activity which displays a mLogin screen to the user, offering registration as
  * well.
  */
-public class LoginActivity extends Activity {
+public class LoginActivity extends AccountAuthenticatorActivity {
 
     /**
      * The default email to populate the email field with.
@@ -83,13 +85,6 @@ public class LoginActivity extends Activity {
         mLoginFormView = findViewById(R.id.login_form);
         mLoginStatusView = findViewById(R.id.login_status);
         mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
-
-        findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
     }
 
 
@@ -206,7 +201,10 @@ public class LoginActivity extends Activity {
 
             try {
                 BanqClient bc = new BanqClient();
-                Set<String> cookies = bc.authenticate(params[0], params[1]);
+                String login = params[0];
+                String password = params[1];
+                Account account = new Account(login, "BANQ");
+                Set<String> cookies = bc.authenticate(login, password);
                 PreferenceHelper.saveCookies(LoginActivity.this, cookies);
             } catch (Exception e) {
                 exceptionCaught = e;
