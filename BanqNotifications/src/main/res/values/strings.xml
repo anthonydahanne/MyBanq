@@ -13,5 +13,6 @@
     <string name="see_all_items">All</string>
     <string name="renew">Renew</string>
     <string name="accountType">BANQ</string>
+    <string name="retrieving_your_informations">Retrieving your informations</string>
 
 </resources>

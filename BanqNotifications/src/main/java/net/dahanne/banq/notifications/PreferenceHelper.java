@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class PreferenceHelper {
 
     public static final String KEY_PREF_LOGIN = "login_key";

@@ -1,17 +1,19 @@
 package net.dahanne.banq.notifications;
 
 import android.accounts.AccountManager;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.ListActivity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,11 +43,11 @@ public class MainActivity extends ListActivity {
             userName = (TextView) findViewById(R.id.userName);
             currentDebt = (TextView) findViewById(R.id.currentDebt);
             expirationDate = (TextView) findViewById(R.id.expirationDate);
+            showProgress(true);
             new RetrieveInfosAsyncTask().execute();
             accountManager = AccountManager.get(this);
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -99,11 +101,54 @@ public class MainActivity extends ListActivity {
                 currentDebt.setText(String.format(getString(R.string.currentDebt), details.getCurrentDebt()));
                 expirationDate.setText(String.format(getString(R.string.expirationDebt), details.getExpirationDate()));
                 setListAdapter(new BorrowedItemAdapter(MainActivity.this, details.getBorrowedItems()));
+                showProgress(false);
             } else if (exceptionCaught == null) {
                 Toast.makeText(MainActivity.this, getString(R.string.unexpectedError), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(MainActivity.this, exceptionCaught.getMessage(), Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    /**
+     * Shows the progress UI and hides the login form.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        final View detailStatusView = findViewById(R.id.detail_status);
+        final View userInfosView = findViewById(R.id.user_infos);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            detailStatusView.setVisibility(View.VISIBLE);
+            detailStatusView.animate()
+                    .setDuration(shortAnimTime)
+                    .alpha(show ? 1 : 0)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            detailStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
+                        }
+                    });
+
+            userInfosView.setVisibility(View.VISIBLE);
+            userInfosView.animate()
+                    .setDuration(shortAnimTime)
+                    .alpha(show ? 0 : 1)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            userInfosView.setVisibility(show ? View.GONE : View.VISIBLE);
+                        }
+                    });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            detailStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
+            userInfosView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 

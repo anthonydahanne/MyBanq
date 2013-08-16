@@ -20,9 +20,7 @@ import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
-import android.accounts.AuthenticatorException;
 import android.accounts.NetworkErrorException;
-import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -32,7 +30,6 @@ import android.util.Log;
 
 import net.dahanne.banq.BanqClient;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
