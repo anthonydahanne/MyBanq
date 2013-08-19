@@ -1,7 +1,12 @@
 package net.dahanne.banq.notifications;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +21,17 @@ import net.dahanne.banq.exceptions.InvalidSessionException;
 import net.dahanne.banq.model.BorrowedItem;
 
 import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
 
-    private final DateFormat dateFormat;
     private ViewHolder holder;
 
     public BorrowedItemAdapter(Context context, List<BorrowedItem> borrowedItems) {
         super(context, R.layout.borrowed_item, R.id.bookName, borrowedItems);
-        dateFormat = DateFormat.getDateInstance();
     }
 
     @Override
@@ -37,33 +42,45 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.bookName);
             holder.shelfMark = (TextView) convertView.findViewById(R.id.shelfMark);
-            holder.borrowedDate = (TextView) convertView.findViewById(R.id.borrowedDate);
-            holder.toBeReturnedDate = (TextView) convertView.findViewById(R.id.toBeReturnedDate);
+            holder.remainingDays = (TextView) convertView.findViewById(R.id.remainingDays);
             holder.renewButton = (Button) convertView.findViewById(R.id.renewButton);
+            holder.separator = convertView.findViewById(R.id.separator);
             convertView.setTag(holder);
         }
         holder = (ViewHolder) convertView.getTag();
         final BorrowedItem item = getItem(position);
         holder.name.setText(item.getTitle());
         holder.shelfMark.setText(item.getShelfMark());
-        holder.borrowedDate.setText(dateFormat.format(item.getBorrowedDate()));
-        holder.toBeReturnedDate.setText(dateFormat.format(item.getToBeReturnedBefore()));
+        Spannable daysRemainig = new SpannableString(String.format(getContext().getString(R.string.daysRemaining), item.getRemaingDays()));
+        daysRemainig.setSpan(new ForegroundColorSpan(getColor(item.getRemaingDays())), 0, daysRemainig.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.remainingDays.setText(daysRemainig);
         holder.renewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new RenewAsyncTask(getContext()).execute(item.getUserID(), item.getDocNo());
             }
         });
+        holder.renewButton.setVisibility(item.getRemaingDays() > 7 ? View.GONE : View.VISIBLE);
+        holder.separator.setVisibility(item.getRemaingDays() > 7 ? View.GONE : View.VISIBLE);
         return convertView;
+    }
+
+    private int getColor(int dayRemaining) {
+        if (dayRemaining > 7) {
+            return Color.GREEN;
+        } else if (dayRemaining > 3) {
+            return Color.YELLOW;
+        } else {
+            return Color.RED;
+        }
     }
 
     private class ViewHolder {
         public TextView name;
         public TextView shelfMark;
-        public TextView borrowedDate;
-        public TextView toBeReturnedDate;
+        public TextView remainingDays;
         public Button renewButton;
-
+        public View separator;
     }
 
     class RenewAsyncTask extends AsyncTask<String, Void, Void> {

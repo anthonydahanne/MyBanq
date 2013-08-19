@@ -136,7 +136,7 @@ public class MainActivity extends Activity {
         private int getColor(Date expirationDate) {
             if (expirationDate.getTime() - Calendar.getInstance().getTimeInMillis() > _1_month) {
                 return Color.GREEN;
-            } else if (expirationDate.getTime() - Calendar.getInstance().getTimeInMillis() > _1_month) {
+            } else if (expirationDate.getTime() - Calendar.getInstance().getTimeInMillis() > _1_week) {
                 return Color.YELLOW;
             } else {
                 return Color.RED;

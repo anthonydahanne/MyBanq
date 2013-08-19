@@ -25,23 +25,17 @@
             android:id="@+id/shelfMark"/>
 
     <TextView
-            android:drawableLeft="@drawable/ic_green_up_arrow"
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_margin="5dp"
             android:layout_height="wrap_content"
-            android:id="@+id/borrowedDate"/>
-
-    <TextView
-            android:layout_width="match_parent"
-            android:drawableLeft="@drawable/ic_red_arrow_down"
-            android:gravity="center_vertical"
-            android:layout_height="wrap_content"
-            android:id="@+id/toBeReturnedDate"/>
+            android:id="@+id/remainingDays"/>
 
     <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="?android:attr/listDivider" />
+            android:background="?android:attr/listDivider"
+            android:id="@+id/separator"/>
 
     <Button
             android:layout_width="match_parent"

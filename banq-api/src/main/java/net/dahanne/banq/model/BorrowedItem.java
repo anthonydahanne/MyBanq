@@ -1,5 +1,6 @@
 package net.dahanne.banq.model;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -7,12 +8,13 @@ import java.util.Date;
  */
 public class BorrowedItem {
 
-    private final String title ;
-    private final String shelfMark ;
+    private final String title;
+    private final String shelfMark;
     private final Date borrowedDate;
-    private final Date toBeReturnedBefore ;
+    private final Date toBeReturnedBefore;
     private final String docNo;
     private final String userID;
+    private String remaingDays;
 
     public BorrowedItem(String title, String shelfMark, Date borrowedDate, Date toBeReturnedBefore, String docNo, String userID) {
         this.title = title;
@@ -20,7 +22,7 @@ public class BorrowedItem {
         this.borrowedDate = borrowedDate;
         this.toBeReturnedBefore = toBeReturnedBefore;
         this.docNo = docNo;
-        this.userID =  userID;
+        this.userID = userID;
     }
 
     public String getUserID() {
@@ -71,5 +73,9 @@ public class BorrowedItem {
         result = 31 * result + toBeReturnedBefore.hashCode();
         result = 31 * result + docNo.hashCode();
         return result;
+    }
+
+    public int getRemaingDays() {
+        return Math.round((toBeReturnedBefore.getTime() - Calendar.getInstance().getTimeInMillis()) / (1000 * 60 * 60 * 24));
     }
 }
