@@ -241,7 +241,6 @@ public class BanqClient {
         substring = substring + " EDT";
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH:mm zzz");
         return formatter.parse(substring);
-
     }
 
     public Details getDetails(Set<String> cookies) throws ParseException, InvalidSessionException, IOException {

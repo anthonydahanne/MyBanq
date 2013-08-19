@@ -14,7 +14,5 @@
     <string name="renew">Renew</string>
     <string name="accountType">BANQ</string>
     <string name="retrieving_your_informations">Retrieving your informations</string>
-    <string name="borrowedOn">Borrowed on %s</string>
-    <string name="toBeReturnedOn">To be returned before %s</string>
 
 </resources>

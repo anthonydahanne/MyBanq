@@ -9,14 +9,17 @@ import android.widget.TextView;
 
 import net.dahanne.banq.model.BorrowedItem;
 
+import java.text.DateFormat;
 import java.util.List;
 
 public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
 
+    private final DateFormat dateFormat;
     private ViewHolder holder;
 
     public BorrowedItemAdapter(Context context, List<BorrowedItem> borrowedItems) {
         super(context, R.layout.borrowed_item, R.id.bookName, borrowedItems);
+        dateFormat = DateFormat.getDateInstance();
     }
 
     @Override
@@ -35,8 +38,8 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
         BorrowedItem book = getItem(position);
         holder.name.setText(book.getTitle());
         holder.shelfMark.setText(book.getShelfMark());
-        holder.borrowedDate.setText(String.format(getContext().getString(R.string.borrowedOn), book.getBorrowedDate().toString()));
-        holder.toBeReturnedDate.setText(String.format(getContext().getString(R.string.toBeReturnedOn), book.getToBeReturnedBefore().toString()));
+        holder.borrowedDate.setText(dateFormat.format(book.getBorrowedDate()));
+        holder.toBeReturnedDate.setText(dateFormat.format(book.getToBeReturnedBefore()));
         return convertView;
     }
 
