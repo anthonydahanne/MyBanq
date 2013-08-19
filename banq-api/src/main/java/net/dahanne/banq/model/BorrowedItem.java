@@ -7,18 +7,24 @@ import java.util.Date;
  */
 public class BorrowedItem {
 
-    private String title ;
-    private String shelfMark ;
-    private Date borrowedDate;
-    private Date toBeReturnedBefore ;
-    private String docNo;
+    private final String title ;
+    private final String shelfMark ;
+    private final Date borrowedDate;
+    private final Date toBeReturnedBefore ;
+    private final String docNo;
+    private final String userID;
 
-    public BorrowedItem(String title, String shelfMark, Date borrowedDate, Date toBeReturnedBefore, String docNo) {
+    public BorrowedItem(String title, String shelfMark, Date borrowedDate, Date toBeReturnedBefore, String docNo, String userID) {
         this.title = title;
         this.shelfMark = shelfMark;
         this.borrowedDate = borrowedDate;
         this.toBeReturnedBefore = toBeReturnedBefore;
         this.docNo = docNo;
+        this.userID =  userID;
+    }
+
+    public String getUserID() {
+        return userID;
     }
 
     public String getTitle() {

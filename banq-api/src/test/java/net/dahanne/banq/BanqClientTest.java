@@ -45,7 +45,7 @@ public class BanqClientTest {
         assertEquals("9.50$",details.getCurrentDebt());
         assertEquals("02002005631076",details.getUserID());
 
-        BorrowedItem expectedMaisy =  new BorrowedItem("Maisy's colors / Lucy Cousins.","COU", getDate(2013,7,13,23,27),getDate(2013,8,3,23,59), "32002500975246");
+        BorrowedItem expectedMaisy =  new BorrowedItem("Maisy's colors / Lucy Cousins.","COU", getDate(2013,7,13,23,27),getDate(2013,8,3,23,59), "32002500975246","02002005631076" );
         assertEquals(expectedMaisy,details.getBorrowedItems().get(2));
     }
 

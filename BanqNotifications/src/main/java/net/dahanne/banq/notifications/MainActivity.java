@@ -62,7 +62,7 @@ public class MainActivity extends ListActivity {
             case R.id.action_settings:
                 startActivity(PreferencesActivity.newIntent(this));
             case R.id.action_test_notification:
-                NotificationHelper.launchNotification(this, new BorrowedItem("Book title", "BTU", new Date(), new Date()));
+                NotificationHelper.launchNotification(this, new BorrowedItem("Book title", "BTU", new Date(), new Date(), "", ""));
         }
         return super.onMenuItemSelected(featureId, item);
     }
@@ -104,8 +104,8 @@ public class MainActivity extends ListActivity {
                 showProgress(false);
             } else if (exceptionCaught == null) {
                 Toast.makeText(MainActivity.this, getString(R.string.unexpectedError), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(MainActivity.this, exceptionCaught.getMessage(), Toast.LENGTH_SHORT).show();
+            } else if(exceptionCaught instanceof InvalidSessionException) {
+                Toast.makeText(MainActivity.this, getString(R.string.invalid_session), Toast.LENGTH_SHORT).show();
             }
         }
     }

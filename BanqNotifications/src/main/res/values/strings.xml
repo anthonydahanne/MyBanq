@@ -16,5 +16,8 @@
     <string name="retrieving_your_informations">Retrieving your informations</string>
     <string name="borrowedOn">Borrowed on %s</string>
     <string name="toBeReturnedOn">To be returned before %s</string>
+    <string name="invalid_session">The session is invalid, please try to re enter your credentials
+    </string>
+    <string name="renewal_successful">Your borrrowed item was renewed with success !</string>
 
 </resources>

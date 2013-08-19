@@ -237,7 +237,7 @@ public class BanqClient {
                 Element docNoElement = borrowedItem.getElementsByAttributeValue("name", "docNo").first();
                 String docNoValue = docNoElement.attr("value");
 
-                borrowedItemsList.add(new BorrowedItem(title, shelfMark, borrowedDateAsDate, toBeReturnedBeforeAsDate, docNoValue));
+                borrowedItemsList.add(new BorrowedItem(title, shelfMark, borrowedDateAsDate, toBeReturnedBeforeAsDate, docNoValue, userIdValue));
 
             }
             details = new Details(name, expirationDateAsDate, currentDebt, userIdValue, borrowedItemsList);
@@ -258,10 +258,17 @@ public class BanqClient {
         return details;
     }
 
-    public void renew(Set<String> cookies, String userId, String docNo) throws FailedToRenewException, IOException {
+    public void renew(Set<String> cookies, String userId, String docNo) throws FailedToRenewException, IOException, InvalidSessionException {
+
+        HttpURLConnection connect = null;
+        connect = new HttpBuilder("http://www.banq.qc.ca/mobile2/mon_dossier/detail.jsp").cookie(cookies).connect();
+        if (connect.getResponseCode() == 302) {
+            // the session is not usable, we should re authenticate from there.
+            throw new InvalidSessionException();
+        }
 
         String location = "http://www.banq.qc.ca/mobile2/renew.jsp";
-        HttpURLConnection connect = null;
+        connect = null;
         InputStream inputStream = null;
         String responseMessage = null;
         HashMap<String, String> data = new HashMap<String, String>();
