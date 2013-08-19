@@ -14,5 +14,7 @@
     <string name="renew">Renew</string>
     <string name="accountType">BANQ</string>
     <string name="retrieving_your_informations">Retrieving your informations</string>
+    <string name="invalid_session">The session is invalid, please try to re enter your credentials</string>
+    <string name="renewal_successful">Your borrrowed item was renewed with success !</string>
 
 </resources>

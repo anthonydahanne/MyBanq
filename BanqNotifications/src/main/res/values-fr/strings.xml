@@ -8,5 +8,7 @@
     <string name="expirationDebt">Date d\'expiration : %s</string>
     <string name="loggedAs">Connecté en tant que</string>
     <string name="unexpectedError">Erreur</string>
+    <string name="invalid_session">La session est invalide. Essayez de re saisir vos identifiants svp.</string>
+    <string name="renewal_successful">Vous avez renouvelé votre emprunt avec succès !</string>
 
 </resources>

@@ -33,4 +33,10 @@
             android:gravity="center_vertical"
             android:layout_height="wrap_content"
             android:id="@+id/toBeReturnedDate"/>
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/renew"
+            android:id="@+id/renewButton"/>
+
 </LinearLayout>
