@@ -23,6 +23,14 @@ public class Details {
         this.borrowedItems = borrowedItems;
     }
 
+    public Details(String name, Date expirationDateAsDate, String currentDebt) {
+        this.name = name;
+        this.expirationDate = expirationDateAsDate;
+        this.currentDebt = currentDebt;
+        this.borrowedItems = new ArrayList<BorrowedItem>();
+        this.userID = null;
+    }
+
     public String getUserID() {
         return userID;
     }

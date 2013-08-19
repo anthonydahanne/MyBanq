@@ -51,7 +51,7 @@
 
         <GridView
                 android:id="@android:id/list"
-                android:numColumns="auto_fit"
+                android:numColumns="@integer/nb_column"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:horizontalSpacing="5dp"

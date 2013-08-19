@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ import net.dahanne.banq.exceptions.InvalidSessionException;
 import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
 
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.Set;
 
@@ -91,6 +93,7 @@ public class MainActivity extends Activity {
                     details = bc.getDetails(cookies);
                 }
             } catch (Exception e) {
+                Log.e(getClass().getSimpleName(), e.getMessage(), e);
                 exceptionCaught = e;
             }
             return details;
@@ -98,16 +101,16 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onPostExecute(Details details) {
+            showProgress(false);
             if (exceptionCaught == null && details != null) {
                 userName.setText(String.format(getString(R.string.name), details.getName()));
                 currentDebt.setText(String.format(getString(R.string.currentDebt), details.getCurrentDebt()));
-                expirationDate.setText(String.format(getString(R.string.expirationDebt), details.getExpirationDate()));
+                expirationDate.setText(String.format(getString(R.string.expirationDebt), DateFormat.getDateInstance().format(details.getExpirationDate())));
                 ((GridView)findViewById(android.R.id.list)).setAdapter(new BorrowedItemAdapter(MainActivity.this, details.getBorrowedItems()));
-                showProgress(false);
             } else if (exceptionCaught == null) {
                 Toast.makeText(MainActivity.this, getString(R.string.unexpectedError), Toast.LENGTH_SHORT).show();
-            } else if(exceptionCaught instanceof InvalidSessionException) {
-                Toast.makeText(MainActivity.this, getString(R.string.invalid_session), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(MainActivity.this, exceptionCaught.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
