@@ -8,10 +8,15 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +31,7 @@ import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
@@ -35,6 +41,8 @@ public class MainActivity extends Activity {
     private TextView currentDebt;
     private TextView expirationDate;
     private AccountManager accountManager;
+    private long _1_month = 1000 * 60 * 60 * 24 * 30;
+    private long _1_week = 1000 * 60 * 60 * 24 * 7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,12 +93,19 @@ public class MainActivity extends Activity {
             BanqClient bc = new BanqClient();
             Details details = null;
             try {
+                Log.i(getClass().getSimpleName(), "Récupération des cookies");
                 Set<String> cookies = Authenticator.getCookies(MainActivity.this);
+                Log.i(getClass().getSimpleName(), "Cookies récupérés");
                 try {
+                    Log.i(getClass().getSimpleName(), "Récupération du détail");
                     details = bc.getDetails(cookies);
+                    Log.i(getClass().getSimpleName(), "Cookies récupérés");
                 } catch (InvalidSessionException ise) {
+                    Log.i(getClass().getSimpleName(), "Session invalide : reconnexion");
                     cookies = Authenticator.authenticate(MainActivity.this);
+                    Log.i(getClass().getSimpleName(), "Réconnecté avec cookies -> Récupération du détail");
                     details = bc.getDetails(cookies);
+                    Log.i(getClass().getSimpleName(), "Détail récupéré");
                 }
             } catch (Exception e) {
                 Log.e(getClass().getSimpleName(), e.getMessage(), e);
@@ -104,13 +119,27 @@ public class MainActivity extends Activity {
             showProgress(false);
             if (exceptionCaught == null && details != null) {
                 userName.setText(String.format(getString(R.string.name), details.getName()));
-                currentDebt.setText(String.format(getString(R.string.currentDebt), details.getCurrentDebt()));
-                expirationDate.setText(String.format(getString(R.string.expirationDebt), DateFormat.getDateInstance().format(details.getExpirationDate())));
-                ((GridView)findViewById(android.R.id.list)).setAdapter(new BorrowedItemAdapter(MainActivity.this, details.getBorrowedItems()));
+                Spannable debt = new SpannableString(String.format(getString(R.string.currentDebt), details.getCurrentDebt()));
+                debt.setSpan(new ForegroundColorSpan(Color.RED), debt.length() - 5, debt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                currentDebt.setText(debt);
+                Spannable expiration = new SpannableString(String.format(getString(R.string.expirationDebt), DateFormat.getDateInstance().format(details.getExpirationDate())));
+                expiration.setSpan(new ForegroundColorSpan(getColor(details.getExpirationDate())), expiration.length() - 10, expiration.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                expirationDate.setText(expiration);
+                ((GridView) findViewById(android.R.id.list)).setAdapter(new BorrowedItemAdapter(MainActivity.this, details.getBorrowedItems()));
             } else if (exceptionCaught == null) {
                 Toast.makeText(MainActivity.this, getString(R.string.unexpectedError), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(MainActivity.this, exceptionCaught.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        private int getColor(Date expirationDate) {
+            if (expirationDate.getTime() - Calendar.getInstance().getTimeInMillis() > _1_month) {
+                return Color.GREEN;
+            } else if (expirationDate.getTime() - Calendar.getInstance().getTimeInMillis() > _1_month) {
+                return Color.YELLOW;
+            } else {
+                return Color.RED;
             }
         }
     }
