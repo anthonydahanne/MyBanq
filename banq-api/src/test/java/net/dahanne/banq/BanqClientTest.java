@@ -1,5 +1,6 @@
 package net.dahanne.banq;
 
+import net.dahanne.banq.exceptions.FailedToRenewException;
 import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
 
@@ -58,7 +59,20 @@ public class BanqClientTest {
         System.out.println("Borrower name  : " + details.getName());
         System.out.println("Current debt  : " + details.getCurrentDebt());
         System.out.println("Subscription expiration date : " + details.getExpirationDate());
+
+
+        // we try to renew a doc that can't be renewed
+        String docNo = "3200251908339";
+        String userId = "02002005631076";
+        try {
+        bc.renew(cookies, userId, docNo);
+        }
+        catch (FailedToRenewException itre) {
+            System.out.println(itre.getMessage());
+        }
+
     }
+
     private Date getDate(int year, int month, int day, int hourOfDay, int minute) {
         Calendar calendar =  Calendar.getInstance();
         calendar.set(year, month, day, hourOfDay, minute,0);

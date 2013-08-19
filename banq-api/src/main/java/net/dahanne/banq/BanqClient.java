@@ -1,5 +1,6 @@
 package net.dahanne.banq;
 
+import net.dahanne.banq.exceptions.FailedToRenewException;
 import net.dahanne.banq.exceptions.InvalidSessionException;
 import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
@@ -255,5 +256,43 @@ public class BanqClient {
         String detailsPage = this.getDetailsPage(cookies);
         Details details = this.parseDetails(detailsPage);
         return details;
+    }
+
+    public void renew(Set<String> cookies, String userId, String docNo) throws FailedToRenewException, IOException {
+
+        String location = "http://www.banq.qc.ca/mobile2/renew.jsp";
+        HttpURLConnection connect = null;
+        InputStream inputStream = null;
+        String responseMessage = null;
+        HashMap<String, String> data = new HashMap<String, String>();
+        data.put("docNo", docNo);
+        data.put("userID", userId);
+        try {
+            connect = new HttpBuilder(HttpBuilder.HttpMethod.POST, location).data(data).cookie(cookies).connect();
+            location = getLocationHeader(connect);
+            enrichCookies(connect, cookies);
+            inputStream = connect.getInputStream();
+            responseMessage = HttpBuilder.toString(inputStream);
+//    System.out.println(responseMessage);
+        } finally {
+            if (connect != null) {
+                connect.disconnect();
+            }
+        }
+
+        Document parse = Jsoup.parse(responseMessage);
+        Element contenu = parse.getElementById("Contenu");
+        if(contenu.html().contains("La transaction a &eacute;chou&eacute;e")) {
+            StringBuilder sb = new StringBuilder();
+            for (Node node : contenu.childNodes()) {
+                String nodeString = node.toString();
+                // banq returns some soap envelope, with some internal error codes, we filter this
+                if(!nodeString.contains("soap:envelope") && !nodeString.contains("encoding=") && !nodeString.contains("<br />")&& !nodeString.trim().equals("")) {
+                    sb.append(nodeString.trim()).append("\n");
+                }
+            }
+            throw new FailedToRenewException(sb.toString());
+        }
+
     }
 }
