@@ -211,36 +211,40 @@ public class BanqClient {
             Date expirationDateAsDate = toDate(expirationDate.substring(expirationDate.indexOf(":") + 2) + "-00:00");
 
             Element userIdElement = contenu.getElementsByAttributeValue("name", "userID").first();
-            String userIdValue = userIdElement.attr("value");
-
 
             String currentDebtText = nodes.get(6).toString();
             String currentDebt = currentDebtText.substring(currentDebtText.indexOf(":") + 2).trim();
-            List<BorrowedItem> borrowedItemsList = new ArrayList<BorrowedItem>();
 
+            if (userIdElement == null) {
+                details = new Details(name, expirationDateAsDate, currentDebt);
+            } else {
+                List<BorrowedItem> borrowedItemsList = new ArrayList<BorrowedItem>();
+                String userIdValue = userIdElement.attr("value");
 
-            Elements borrowedItems = contenu.getElementsByTag("li");
-            for (Element borrowedItem : borrowedItems) {
-                List<Node> borrowedItemProperties = borrowedItem.childNodes();
+                Elements borrowedItems = contenu.getElementsByTag("li");
+                for (Element borrowedItem : borrowedItems) {
+                    List<Node> borrowedItemProperties = borrowedItem.childNodes();
 
-                String title = borrowedItemProperties.get(0).toString();
+                    String title = borrowedItemProperties.get(0).toString();
 
-                String shelfMarkText = borrowedItemProperties.get(2).toString();
-                String shelfMark = shelfMarkText.substring(shelfMarkText.indexOf(":") + 2).trim();
+                    String shelfMarkText = borrowedItemProperties.get(2).toString();
+                    String shelfMark = shelfMarkText.substring(shelfMarkText.indexOf(":") + 2).trim();
 
-                String borrowedDate = borrowedItemProperties.get(4).toString();
-                Date borrowedDateAsDate = toDate(borrowedDate.substring(borrowedDate.indexOf(":") + 2));
+                    String borrowedDate = borrowedItemProperties.get(4).toString();
+                    Date borrowedDateAsDate = toDate(borrowedDate.substring(borrowedDate.indexOf(":") + 2));
 
-                String toBeReturnedBefore = borrowedItemProperties.get(6).toString();
-                Date toBeReturnedBeforeAsDate = toDate(toBeReturnedBefore.substring(toBeReturnedBefore.indexOf(":") + 2));
+                    String toBeReturnedBefore = borrowedItemProperties.get(6).toString();
+                    Date toBeReturnedBeforeAsDate = toDate(toBeReturnedBefore.substring(toBeReturnedBefore.indexOf(":") + 2));
 
-                Element docNoElement = borrowedItem.getElementsByAttributeValue("name", "docNo").first();
-                String docNoValue = docNoElement.attr("value");
+                    Element docNoElement = borrowedItem.getElementsByAttributeValue("name", "docNo").first();
+                    String docNoValue = docNoElement.attr("value");
 
-                borrowedItemsList.add(new BorrowedItem(title, shelfMark, borrowedDateAsDate, toBeReturnedBeforeAsDate, docNoValue, userIdValue));
+                    borrowedItemsList.add(new BorrowedItem(title, shelfMark, borrowedDateAsDate, toBeReturnedBeforeAsDate, docNoValue, userIdValue));
 
+                }
+                details = new Details(name, expirationDateAsDate, currentDebt, userIdValue, borrowedItemsList);
             }
-            details = new Details(name, expirationDateAsDate, currentDebt, userIdValue, borrowedItemsList);
+
         }
         return details;
     }
@@ -288,12 +292,12 @@ public class BanqClient {
 
         Document parse = Jsoup.parse(responseMessage);
         Element contenu = parse.getElementById("Contenu");
-        if(contenu.html().contains("La transaction a &eacute;chou&eacute;e")) {
+        if (contenu.html().contains("La transaction a &eacute;chou&eacute;e")) {
             StringBuilder sb = new StringBuilder();
             for (Node node : contenu.childNodes()) {
                 String nodeString = node.toString();
                 // banq returns some soap envelope, with some internal error codes, we filter this
-                if(!nodeString.contains("soap:envelope") && !nodeString.contains("encoding=") && !nodeString.contains("<br />")&& !nodeString.trim().equals("")) {
+                if (!nodeString.contains("soap:envelope") && !nodeString.contains("encoding=") && !nodeString.contains("<br />") && !nodeString.trim().equals("")) {
                     sb.append(nodeString.trim()).append("\n");
                 }
             }
