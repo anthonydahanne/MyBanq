@@ -4,6 +4,7 @@ import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +27,7 @@ import net.dahanne.banq.model.Details;
 import java.util.Date;
 import java.util.Set;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends Activity {
 
     private TextView userName;
     private TextView currentDebt;
@@ -100,7 +102,7 @@ public class MainActivity extends ListActivity {
                 userName.setText(String.format(getString(R.string.name), details.getName()));
                 currentDebt.setText(String.format(getString(R.string.currentDebt), details.getCurrentDebt()));
                 expirationDate.setText(String.format(getString(R.string.expirationDebt), details.getExpirationDate()));
-                setListAdapter(new BorrowedItemAdapter(MainActivity.this, details.getBorrowedItems()));
+                ((GridView)findViewById(android.R.id.list)).setAdapter(new BorrowedItemAdapter(MainActivity.this, details.getBorrowedItems()));
                 showProgress(false);
             } else if (exceptionCaught == null) {
                 Toast.makeText(MainActivity.this, getString(R.string.unexpectedError), Toast.LENGTH_SHORT).show();

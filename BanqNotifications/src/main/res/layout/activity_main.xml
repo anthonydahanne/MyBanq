@@ -45,10 +45,13 @@
                 android:layout_height="wrap_content"
                 layout="@layout/user_info_view"/>
 
-        <ListView
+        <GridView
                 android:id="@android:id/list"
+                android:numColumns="auto_fit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:horizontalSpacing="5dp"
+                android:verticalSpacing="5dp"
                 android:choiceMode="multipleChoice"/>
 
 
