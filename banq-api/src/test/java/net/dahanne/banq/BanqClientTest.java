@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
@@ -43,8 +42,9 @@ public class BanqClientTest {
         assertEquals("Dahanne Anthony",details.getName());
         assertEquals(getDate(2014,4,5,0,0),details.getExpirationDate());
         assertEquals("9.50$",details.getCurrentDebt());
+        assertEquals("02002005631076",details.getUserID());
 
-        BorrowedItem expectedMaisy =  new BorrowedItem("Maisy's colors / Lucy Cousins.","COU", getDate(2013,7,13,23,27),getDate(2013,8,3,23,59));
+        BorrowedItem expectedMaisy =  new BorrowedItem("Maisy's colors / Lucy Cousins.","COU", getDate(2013,7,13,23,27),getDate(2013,8,3,23,59), "32002500975246");
         assertEquals(expectedMaisy,details.getBorrowedItems().get(2));
     }
 

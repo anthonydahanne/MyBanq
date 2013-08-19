@@ -209,6 +209,10 @@ public class BanqClient {
             String expirationDate = nodes.get(4).toString();
             Date expirationDateAsDate = toDate(expirationDate.substring(expirationDate.indexOf(":") + 2) + "-00:00");
 
+            Element userIdElement = contenu.getElementsByAttributeValue("name", "userID").first();
+            String userIdValue = userIdElement.attr("value");
+
+
             String currentDebtText = nodes.get(6).toString();
             String currentDebt = currentDebtText.substring(currentDebtText.indexOf(":") + 2).trim();
             List<BorrowedItem> borrowedItemsList = new ArrayList<BorrowedItem>();
@@ -229,10 +233,13 @@ public class BanqClient {
                 String toBeReturnedBefore = borrowedItemProperties.get(6).toString();
                 Date toBeReturnedBeforeAsDate = toDate(toBeReturnedBefore.substring(toBeReturnedBefore.indexOf(":") + 2));
 
-                borrowedItemsList.add(new BorrowedItem(title, shelfMark, borrowedDateAsDate, toBeReturnedBeforeAsDate));
+                Element docNoElement = borrowedItem.getElementsByAttributeValue("name", "docNo").first();
+                String docNoValue = docNoElement.attr("value");
+
+                borrowedItemsList.add(new BorrowedItem(title, shelfMark, borrowedDateAsDate, toBeReturnedBeforeAsDate, docNoValue));
 
             }
-            details = new Details(name, expirationDateAsDate, currentDebt, borrowedItemsList);
+            details = new Details(name, expirationDateAsDate, currentDebt, userIdValue, borrowedItemsList);
         }
         return details;
     }
