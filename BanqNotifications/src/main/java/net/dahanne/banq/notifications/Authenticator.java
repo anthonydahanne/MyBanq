@@ -111,6 +111,7 @@ class Authenticator extends AbstractAccountAuthenticator {
             if (cookies != null && !cookies.isEmpty()) {
                 final Bundle result = new Bundle();
                 result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
+                result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
                 result.putString(AccountManager.KEY_AUTHTOKEN, TextUtils.join("$$$", cookies));
                 return result;
             }
@@ -216,7 +217,8 @@ class Authenticator extends AbstractAccountAuthenticator {
 
     public static Set<String> getCookies(Context mContext, Account account) {
         try {
-            return extractCookies(AccountManager.get(mContext).blockingGetAuthToken(account, mContext.getString(R.string.accountType), true));
+            String cookieString = AccountManager.get(mContext).blockingGetAuthToken(account, mContext.getString(R.string.accountType), true);
+            return extractCookies(cookieString);
         } catch (Exception e) {
             Log.e(Authenticator.class.getSimpleName(), e.getMessage(), e);
         }

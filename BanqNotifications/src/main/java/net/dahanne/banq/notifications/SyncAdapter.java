@@ -51,13 +51,24 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         mContext = context;
     }
 
+    public SyncAdapter(
+            Context context,
+            boolean autoInitialize,
+            boolean allowParallelSyncs) {
+        super(context, autoInitialize, allowParallelSyncs);
+        mContext = context;
+    }
+
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient provider, SyncResult syncResult) {
         try {
+            Log.i(getClass().getSimpleName(), "Start syncing");
             Set<String> cookies = Authenticator.getCookies(mContext, account);
+            Log.i(getClass().getSimpleName(), "Cookies retrieved");
             BanqClient bc = new BanqClient();
             Details details = getDetails(cookies, bc);
+            Log.i(getClass().getSimpleName(), "Détail retrieved");
             for (BorrowedItem borrowedItem : details.getBorrowedItems()) {
                 Date toBeReturnedBefore = borrowedItem.getToBeReturnedBefore();
                 Date today = new Date();
@@ -68,8 +79,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 if(PreferenceHelper.getDaysToTrigger(mContext) >= diffDays) {
                     NotificationHelper.launchNotification(mContext, borrowedItem);
                 }
-
             }
+            Log.i(getClass().getSimpleName(), "Stop syncing");
         } catch (IOException e) {
             Log.e(TAG, "IOException", e);
             syncResult.stats.numIoExceptions++;

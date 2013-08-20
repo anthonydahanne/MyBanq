@@ -1,5 +1,6 @@
 package net.dahanne.banq.notifications;
 
+import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -196,6 +197,8 @@ public class LoginActivity extends AccountAuthenticatorActivity {
                 intent.putExtra(KEY_ACCOUNT_TYPE, getString(R.string.accountType));
                 setAccountAuthenticatorResult(intent.getExtras());
                 setResult(RESULT_OK, intent);
+                Account account = new Account(login, LoginActivity.this.getString(R.string.accountType));
+                getContentResolver().addPeriodicSync(account, LoginActivity.this.getString(R.string.authority), null, PreferenceHelper.getSyncFrequency(LoginActivity.this));
             } catch (Exception e) {
                 Log.e(getClass().getSimpleName(), e.getMessage(), e);
                 exceptionCaught = e;

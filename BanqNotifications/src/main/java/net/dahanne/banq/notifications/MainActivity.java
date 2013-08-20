@@ -40,7 +40,6 @@ public class MainActivity extends Activity {
     private TextView userName;
     private TextView currentDebt;
     private TextView expirationDate;
-    private AccountManager accountManager;
     private long _1_month = 1000l * 60l * 60l * 24l * 30l;
     private long _1_week = 1000l * 60l * 60l * 24l * 7l;
 
@@ -57,7 +56,6 @@ public class MainActivity extends Activity {
             expirationDate = (TextView) findViewById(R.id.expirationDate);
             showProgress(true);
             new RetrieveInfosAsyncTask().execute();
-            accountManager = AccountManager.get(this);
         }
     }
 

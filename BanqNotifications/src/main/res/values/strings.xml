@@ -20,5 +20,6 @@
     <string name="daysToTrigger">Number of remaining days before alert</string>
     <string name="daysToTriggerDialog">Choose the remaining number of days before you get an alert
     </string>
+    <string name="authority">net.dahanne.banq.notifications.stubprovider</string>
 
 </resources>

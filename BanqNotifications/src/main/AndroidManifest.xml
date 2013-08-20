@@ -11,6 +11,9 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
     <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
 
     <application
             android:allowBackup="true"
@@ -54,6 +57,10 @@
                     android:name="android.content.SyncAdapter"
                     android:resource="@xml/syncadapter"/>
         </service>
+        <provider
+                android:name=".StubProvider"
+                android:authorities="net.dahanne.banq.notifications.stubprovider"
+                android:syncable="true"/>
     </application>
 
 </manifest>
