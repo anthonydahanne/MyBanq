@@ -57,7 +57,7 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
                 new RenewAsyncTask(getContext()).execute(item.getUserID(), item.getDocNo());
             }
         });
-        int renewVisibility = DateComparatorUtil.getRenewVisibility(item.getRemaingDays());
+        int renewVisibility = DateComparatorUtil.getRenewVisibility(getContext(), item.getRemaingDays());
         holder.renewButton.setVisibility(renewVisibility);
         holder.separator.setVisibility(renewVisibility);
         return convertView;

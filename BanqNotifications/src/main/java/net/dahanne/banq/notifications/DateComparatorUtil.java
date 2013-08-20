@@ -31,8 +31,8 @@ public class DateComparatorUtil {
         }
     }
 
-    public static int getRenewVisibility(long remainingDays) {
-        return remainingDays >= 7 ? View.GONE : View.VISIBLE;
+    public static int getRenewVisibility(Context context, long remainingDays) {
+        return remainingDays >= PreferenceHelper.getDaysToTrigger(context) ? View.GONE : View.VISIBLE;
     }
 
     public static boolean shouldPopNotification(Context context, long diffDays) {
