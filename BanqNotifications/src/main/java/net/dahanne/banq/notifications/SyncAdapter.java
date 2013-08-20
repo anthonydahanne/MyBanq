@@ -29,6 +29,8 @@ import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -57,8 +59,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             BanqClient bc = new BanqClient();
             Details details = getDetails(cookies, bc);
             for (BorrowedItem borrowedItem : details.getBorrowedItems()) {
-                borrowedItem.getToBeReturnedBefore();
-                NotificationHelper.launchNotification(mContext, borrowedItem);
+                Date toBeReturnedBefore = borrowedItem.getToBeReturnedBefore();
+                Date today = new Date();
+                long todayTimeTime = today.getTime();
+                long toBeReturnedBeforeTime = toBeReturnedBefore.getTime();
+                long diffTime = toBeReturnedBeforeTime - todayTimeTime;
+                long diffDays = diffTime / (1000 * 60 * 60 * 24);
+                if(PreferenceHelper.getDaysToTrigger(mContext) >= diffDays) {
+                    NotificationHelper.launchNotification(mContext, borrowedItem);
+                }
+
             }
         } catch (IOException e) {
             Log.e(TAG, "IOException", e);

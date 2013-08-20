@@ -28,7 +28,7 @@ public class NotificationHelper {
                 .setSubText(borrowedItem.getToBeReturnedBefore().toString())
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setContentIntent(pIntent)
-                .addAction(android.R.drawable.ic_menu_more, context.getString(R.string.see_all_items), pIntent)
+//                .addAction(android.R.drawable.ic_menu_more, context.getString(R.string.see_all_items), pIntent)
                 .addAction(android.R.drawable.ic_menu_rotate, context.getString(R.string.renew), pIntent).build();
 
 

@@ -73,8 +73,8 @@ public class MainActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.action_settings:
                 startActivity(PreferencesActivity.newIntent(this));
-            case R.id.action_test_notification:
-                NotificationHelper.launchNotification(this, new BorrowedItem("Book title", "BTU", new Date(), new Date(), "", ""));
+//            case R.id.action_test_notification:
+//                NotificationHelper.launchNotification(this, new BorrowedItem("Book title", "BTU", new Date(), new Date(), "", ""));
         }
         return super.onMenuItemSelected(featureId, item);
     }
