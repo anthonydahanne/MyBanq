@@ -41,8 +41,8 @@ public class MainActivity extends Activity {
     private TextView currentDebt;
     private TextView expirationDate;
     private AccountManager accountManager;
-    private long _1_month = 1000 * 60 * 60 * 24 * 30;
-    private long _1_week = 1000 * 60 * 60 * 24 * 7;
+    private long _1_month = 1000l * 60l * 60l * 24l * 30l;
+    private long _1_week = 1000l * 60l * 60l * 24l * 7l;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

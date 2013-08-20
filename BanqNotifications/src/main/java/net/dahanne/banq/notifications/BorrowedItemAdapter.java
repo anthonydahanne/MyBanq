@@ -38,10 +38,9 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.borrowed_item, null);
+            convertView = inflater.inflate(R.layout.borrowed_item, parent, false);
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.bookName);
-            holder.shelfMark = (TextView) convertView.findViewById(R.id.shelfMark);
             holder.remainingDays = (TextView) convertView.findViewById(R.id.remainingDays);
             holder.renewButton = (Button) convertView.findViewById(R.id.renewButton);
             holder.separator = convertView.findViewById(R.id.separator);
@@ -50,7 +49,6 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
         holder = (ViewHolder) convertView.getTag();
         final BorrowedItem item = getItem(position);
         holder.name.setText(item.getTitle());
-        holder.shelfMark.setText(item.getShelfMark());
         Spannable daysRemainig = new SpannableString(String.format(getContext().getString(R.string.daysRemaining), item.getRemaingDays()));
         daysRemainig.setSpan(new ForegroundColorSpan(getColor(item.getRemaingDays())), 0, daysRemainig.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.remainingDays.setText(daysRemainig);
@@ -77,7 +75,6 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
 
     private class ViewHolder {
         public TextView name;
-        public TextView shelfMark;
         public TextView remainingDays;
         public Button renewButton;
         public View separator;
