@@ -14,16 +14,8 @@ public class PreferenceHelper {
     private static final String KEY_PREF_SYNC_FREQ = "";
     public static final long _8_HOURS = 1000l * 60l * 60l * 8l;
 
-    public static void saveUsername(Context context, String username) {
-        getPreferences(context).edit().putString(KEY_PREF_USERNAME, username).commit();
-    }
-
     public static void saveLogin(Context context, String login) {
         getPreferences(context).edit().putString(KEY_PREF_LOGIN, login).commit();
-    }
-
-    public static void saveDaysToTrigger(Context context, int daysToTrigger) {
-        getPreferences(context).edit().putInt(KEY_PREF_DAYS_TO_TRIGGER, daysToTrigger).commit();
     }
 
     public static String getLogin(Context context) {
