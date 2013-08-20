@@ -57,6 +57,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             BanqClient bc = new BanqClient();
             Details details = getDetails(cookies, bc);
             for (BorrowedItem borrowedItem : details.getBorrowedItems()) {
+                borrowedItem.getToBeReturnedBefore();
                 NotificationHelper.launchNotification(mContext, borrowedItem);
             }
         } catch (IOException e) {

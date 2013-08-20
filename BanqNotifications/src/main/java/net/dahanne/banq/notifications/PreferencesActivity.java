@@ -27,6 +27,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.prefs);
         updateSummary(PreferenceHelper.KEY_PREF_LOGIN);
+        updateSummary(PreferenceHelper.KEY_PREF_DAYS_TO_TRIGGER);
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         findPreference(PreferenceHelper.KEY_PREF_LOGIN).setOnPreferenceClickListener(onclickListsner);
     }
@@ -42,10 +43,14 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 
     @SuppressWarnings("deprecation")
     private void updateSummary(String key) {
-        String value = "";
+
         if (PreferenceHelper.KEY_PREF_LOGIN.equals(key)) {
-            value = PreferenceHelper.getLogin(this);
-            getPreferenceManager().findPreference(key).setSummary(value);
+            String loginValue = PreferenceHelper.getLogin(this);
+            getPreferenceManager().findPreference(key).setSummary(loginValue);
+        }
+        if (PreferenceHelper.KEY_PREF_DAYS_TO_TRIGGER.equals(key)) {
+            int daysToTriggerValue = PreferenceHelper.getDaysToTrigger(this);
+            getPreferenceManager().findPreference(key).setSummary(Integer.toString(daysToTriggerValue));
         }
     }
 }

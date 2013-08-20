@@ -17,5 +17,8 @@
     <string name="invalid_session">The session is invalid, please try to re enter your credentials</string>
     <string name="renewal_successful">Your borrowed item was renewed with success !</string>
     <string name="daysRemaining">%s days remaining</string>
+    <string name="daysToTrigger">Number of remaining days before alert</string>
+    <string name="daysToTriggerDialog">Choose the remaining number of days before you get an alert
+    </string>
 
 </resources>

@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:custom="http://schemas.android.com/apk/res-auto">
 
     <Preference
             android:title="@string/loggedAs"
             android:key="login_key"/>
 
+    <net.dahanne.banq.notifications.NumberPickerDialogPreference
+            android:defaultValue="3"
+            android:dialogMessage="@string/daysToTriggerDialog"
+            android:max="20"
+            android:title="@string/daysToTrigger"
+            android:key="days_to_trigger_key"
+            custom:min="1" />
+
+    <!--<NumberPicker-->
+            <!--android:title="@string/daysToTrigger"-->
+            <!--android:key="days_to_trigger_key"-->
+            <!--android:numeric="integer"-->
+            <!--android:maxLength="2"-->
+            <!--android:defaultValue="3"-->
+            <!--/>-->
 </PreferenceScreen>
