@@ -49,7 +49,7 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
         Spanned titleFromHtml = Html.fromHtml(item.getTitle());
         holder.name.setText(titleFromHtml.toString(), TextView.BufferType.SPANNABLE);
         Spannable daysRemainig = new SpannableString(String.format(getContext().getString(R.string.daysRemaining), item.getRemaingDays()));
-        daysRemainig.setSpan(new ForegroundColorSpan(getColor(item.getRemaingDays())), 0, daysRemainig.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        daysRemainig.setSpan(new ForegroundColorSpan(DateComparatorUtil.getBorrowColor(item.getRemaingDays())), 0, daysRemainig.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.remainingDays.setText(daysRemainig);
         holder.renewButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,19 +57,10 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
                 new RenewAsyncTask(getContext()).execute(item.getUserID(), item.getDocNo());
             }
         });
-        holder.renewButton.setVisibility(item.getRemaingDays() > 7 ? View.GONE : View.VISIBLE);
-        holder.separator.setVisibility(item.getRemaingDays() > 7 ? View.GONE : View.VISIBLE);
+        int renewVisibility = DateComparatorUtil.getRenewVisibility(item.getRemaingDays());
+        holder.renewButton.setVisibility(renewVisibility);
+        holder.separator.setVisibility(renewVisibility);
         return convertView;
-    }
-
-    private int getColor(int dayRemaining) {
-        if (dayRemaining > 7) {
-            return Color.GREEN;
-        } else if (dayRemaining > 3) {
-            return Color.YELLOW;
-        } else {
-            return Color.RED;
-        }
     }
 
     private class ViewHolder {

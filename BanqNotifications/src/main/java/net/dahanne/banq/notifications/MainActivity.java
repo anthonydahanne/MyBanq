@@ -40,8 +40,6 @@ public class MainActivity extends Activity {
     private TextView userName;
     private TextView currentDebt;
     private TextView expirationDate;
-    private long _1_month = 1000l * 60l * 60l * 24l * 30l;
-    private long _1_week = 1000l * 60l * 60l * 24l * 7l;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +119,7 @@ public class MainActivity extends Activity {
                 debt.setSpan(new ForegroundColorSpan(Color.RED), debt.length() - 5, debt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 currentDebt.setText(debt);
                 Spannable expiration = new SpannableString(String.format(getString(R.string.expirationDebt), DateFormat.getDateInstance().format(details.getExpirationDate())));
-                expiration.setSpan(new ForegroundColorSpan(getColor(details.getExpirationDate())), expiration.length() - 10, expiration.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                expiration.setSpan(new ForegroundColorSpan(DateComparatorUtil.getExpirationColor(details.getRemaingDays())), expiration.length() - 10, expiration.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 expirationDate.setText(expiration);
                 ((GridView) findViewById(android.R.id.list)).setAdapter(new BorrowedItemAdapter(MainActivity.this, details.getBorrowedItems()));
             } else if (exceptionCaught == null) {
@@ -131,15 +129,7 @@ public class MainActivity extends Activity {
             }
         }
 
-        private int getColor(Date expirationDate) {
-            if (expirationDate.getTime() - Calendar.getInstance().getTimeInMillis() > _1_month) {
-                return Color.GREEN;
-            } else if (expirationDate.getTime() - Calendar.getInstance().getTimeInMillis() > _1_week) {
-                return Color.YELLOW;
-            } else {
-                return Color.RED;
-            }
-        }
+
     }
 
     /**

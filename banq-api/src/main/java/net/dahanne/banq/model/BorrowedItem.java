@@ -14,7 +14,6 @@ public class BorrowedItem {
     private final Date toBeReturnedBefore;
     private final String docNo;
     private final String userID;
-    private String remaingDays;
 
     public BorrowedItem(String title, String shelfMark, Date borrowedDate, Date toBeReturnedBefore, String docNo, String userID) {
         this.title = title;
@@ -75,7 +74,7 @@ public class BorrowedItem {
         return result;
     }
 
-    public int getRemaingDays() {
-        return Math.round((toBeReturnedBefore.getTime() - Calendar.getInstance().getTimeInMillis()) / (1000 * 60 * 60 * 24));
+    public long getRemaingDays() {
+        return Math.round((toBeReturnedBefore.getTime() - Calendar.getInstance().getTimeInMillis()) / (1000l * 60l * 60l * 24l));
     }
 }

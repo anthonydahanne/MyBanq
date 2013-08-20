@@ -12,6 +12,7 @@ public class PreferenceHelper {
     private static final String KEY_PREF_USERNAME = "username_key";
     private static final int DEFAULT_DAYS_TO_TRIGGER = 3;
     private static final String KEY_PREF_SYNC_FREQ = "";
+    public static final long _8_HOURS = 1000l * 60l * 60l * 8l;
 
     public static void saveUsername(Context context, String username) {
         getPreferences(context).edit().putString(KEY_PREF_USERNAME, username).commit();
@@ -46,6 +47,6 @@ public class PreferenceHelper {
     }
 
     public static long getSyncFrequency(Context context) {
-        return getPreferences(context).getLong(KEY_PREF_SYNC_FREQ, 1000l * 60l * 60l * 8l);
+        return getPreferences(context).getLong(KEY_PREF_SYNC_FREQ, _8_HOURS);
     }
 }

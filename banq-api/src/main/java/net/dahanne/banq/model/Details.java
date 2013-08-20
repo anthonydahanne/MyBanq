@@ -1,6 +1,7 @@
 package net.dahanne.banq.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -71,5 +72,9 @@ public class Details {
         result = 31 * result + expirationDate.hashCode();
         result = 31 * result + currentDebt.hashCode();
         return result;
+    }
+
+    public long getRemaingDays() {
+        return (expirationDate.getTime() - Calendar.getInstance().getTimeInMillis()) / (1000 * 60 * 60 * 24);
     }
 }

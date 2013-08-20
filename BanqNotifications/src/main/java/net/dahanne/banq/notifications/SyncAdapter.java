@@ -70,13 +70,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             Details details = getDetails(cookies, bc);
             Log.i(getClass().getSimpleName(), "Détail retrieved");
             for (BorrowedItem borrowedItem : details.getBorrowedItems()) {
-                Date toBeReturnedBefore = borrowedItem.getToBeReturnedBefore();
-                Date today = new Date();
-                long todayTimeTime = today.getTime();
-                long toBeReturnedBeforeTime = toBeReturnedBefore.getTime();
-                long diffTime = toBeReturnedBeforeTime - todayTimeTime;
-                long diffDays = diffTime / (1000 * 60 * 60 * 24);
-                if(PreferenceHelper.getDaysToTrigger(mContext) >= diffDays) {
+                if(DateComparatorUtil.shouldPopNotification(mContext, borrowedItem.getRemaingDays())) {
                     NotificationHelper.launchNotification(mContext, borrowedItem);
                 }
             }
