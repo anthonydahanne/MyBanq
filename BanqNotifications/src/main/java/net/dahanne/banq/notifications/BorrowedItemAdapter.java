@@ -3,6 +3,7 @@ package net.dahanne.banq.notifications;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -48,7 +49,8 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
         }
         holder = (ViewHolder) convertView.getTag();
         final BorrowedItem item = getItem(position);
-        holder.name.setText(item.getTitle());
+        Spanned titleFromHtml = Html.fromHtml(item.getTitle());
+        holder.name.setText(titleFromHtml.toString(), TextView.BufferType.SPANNABLE);
         Spannable daysRemainig = new SpannableString(String.format(getContext().getString(R.string.daysRemaining), item.getRemaingDays()));
         daysRemainig.setSpan(new ForegroundColorSpan(getColor(item.getRemaingDays())), 0, daysRemainig.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.remainingDays.setText(daysRemainig);

@@ -26,9 +26,10 @@ import java.util.Set;
  */
 public class HttpBuilder {
 
-	private static final String COOKIE = "Cookie";
+    private static final String COOKIE = "Cookie";
+    public static final String ISO_8859_1 = "ISO-8859-1";
 
-	public enum HttpMethod {
+    public enum HttpMethod {
 		GET, POST, PUT, DELETE
 	}
 
@@ -82,7 +83,7 @@ public class HttpBuilder {
 			httpURLConnection.setDoInput(true);
 		}
 		if (!isBlank(data)) {
-			byte[] bytes = data.getBytes("UTF-8");
+			byte[] bytes = data.getBytes(ISO_8859_1);
 			httpURLConnection.setRequestProperty("Content-Length", ""
 					+ bytes.length);
 			OutputStream out = httpURLConnection.getOutputStream();
@@ -133,7 +134,7 @@ public class HttpBuilder {
 		try {
 			for (Entry<String, String> entry : data.entrySet()) {
 				this.data += entry.getKey() + "="
-						+ URLEncoder.encode(entry.getValue(), "UTF-8") + "&";
+						+ URLEncoder.encode(entry.getValue(), ISO_8859_1) + "&";
 			}
 			this.data = this.data.substring(0, this.data.length() - 1);
 //			Log.i(getClass().getSimpleName(), "Encoded payload : " + this.data);
@@ -186,7 +187,7 @@ public class HttpBuilder {
 		char[] buffer = new char[1024];
 		try {
 			Reader reader = new BufferedReader(new InputStreamReader(stream,
-					Charset.forName("UTF-8")));
+					Charset.forName(ISO_8859_1)));
 			int n;
 			while ((n = reader.read(buffer)) != -1) {
 				writer.write(buffer, 0, n);
