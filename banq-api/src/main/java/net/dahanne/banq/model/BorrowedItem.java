@@ -74,7 +74,7 @@ public class BorrowedItem {
         return result;
     }
 
-    public long getRemaingDays() {
+    public long getRemainingDays() {
         return Math.round((toBeReturnedBefore.getTime() - Calendar.getInstance().getTimeInMillis()) / (1000l * 60l * 60l * 24l));
     }
 }

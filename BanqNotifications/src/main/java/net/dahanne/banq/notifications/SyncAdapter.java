@@ -29,8 +29,6 @@ import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Set;
 
 /**
@@ -70,7 +68,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             Details details = getDetails(cookies, bc);
             Log.i(getClass().getSimpleName(), "Détail retrieved");
             for (BorrowedItem borrowedItem : details.getBorrowedItems()) {
-                if(DateComparatorUtil.shouldPopNotification(mContext, borrowedItem.getRemaingDays())) {
+                if(DateComparatorUtil.shouldPopNotification(mContext, borrowedItem.getRemainingDays())) {
                     NotificationHelper.launchNotification(mContext, borrowedItem);
                 }
             }

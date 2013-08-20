@@ -25,7 +25,7 @@ public class NotificationHelper {
         Notification noti = new Notification.Builder(context)
                 .setContentTitle(context.getString(R.string.item_to_return_to_banq))
                 .setContentText(borrowedItem.getTitle())
-                .setSubText(borrowedItem.getToBeReturnedBefore().toString())
+                .setSubText(String.format(context.getString(R.string.daysRemaining), borrowedItem.getRemainingDays()))
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setContentIntent(pIntent)
 //                .addAction(android.R.drawable.ic_menu_more, context.getString(R.string.see_all_items), pIntent)
