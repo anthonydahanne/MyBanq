@@ -42,17 +42,18 @@ public class DateComparatorUtilTest extends InstrumentationTestCase{
     }
 
     public void testGetRenewVisibility() {
-        assertEquals(View.GONE, DateComparatorUtil.getRenewVisibility(10));
-        assertEquals(View.GONE, DateComparatorUtil.getRenewVisibility(8));
-        assertEquals(View.GONE, DateComparatorUtil.getRenewVisibility(7));
-        assertEquals(View.VISIBLE, DateComparatorUtil.getRenewVisibility(6));
-        assertEquals(View.VISIBLE, DateComparatorUtil.getRenewVisibility(5));
-        assertEquals(View.VISIBLE, DateComparatorUtil.getRenewVisibility(4));
-        assertEquals(View.VISIBLE, DateComparatorUtil.getRenewVisibility(3));
-        assertEquals(View.VISIBLE, DateComparatorUtil.getRenewVisibility(2));
-        assertEquals(View.VISIBLE, DateComparatorUtil.getRenewVisibility(1));
-        assertEquals(View.VISIBLE, DateComparatorUtil.getRenewVisibility(0));
-        assertEquals(View.VISIBLE, DateComparatorUtil.getRenewVisibility(-1));
+        Context targetContext = getInstrumentation().getTargetContext();
+        assertEquals(View.GONE, DateComparatorUtil.getRenewVisibility(targetContext, 10));
+        assertEquals(View.GONE, DateComparatorUtil.getRenewVisibility(targetContext, 8));
+        assertEquals(View.GONE, DateComparatorUtil.getRenewVisibility(targetContext, 7));
+        assertEquals(View.GONE, DateComparatorUtil.getRenewVisibility(targetContext, 6));
+        assertEquals(View.GONE, DateComparatorUtil.getRenewVisibility(targetContext, 5));
+        assertEquals(View.GONE, DateComparatorUtil.getRenewVisibility(targetContext, 4));
+        assertEquals(View.GONE, DateComparatorUtil.getRenewVisibility(targetContext, 3));
+        assertEquals(View.VISIBLE, DateComparatorUtil.getRenewVisibility(targetContext, 2));
+        assertEquals(View.VISIBLE, DateComparatorUtil.getRenewVisibility(targetContext, 1));
+        assertEquals(View.VISIBLE, DateComparatorUtil.getRenewVisibility(targetContext, 0));
+        assertEquals(View.VISIBLE, DateComparatorUtil.getRenewVisibility(targetContext, -1));
     }
 
     public void testShouldPopNotification() {
