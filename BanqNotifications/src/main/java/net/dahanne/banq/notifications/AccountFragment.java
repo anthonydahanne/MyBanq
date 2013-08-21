@@ -47,6 +47,10 @@ public class AccountFragment extends Fragment {
         return accountFragment;
     }
 
+    public String getTitle() {
+        return getArguments().getString(EXTRA_ACOUNT_NAME);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LinearLayout wrapper = new LinearLayout(getActivity());

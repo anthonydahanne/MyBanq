@@ -88,6 +88,11 @@ public class MainActivity extends FragmentActivity {
             return fragments.get(position);
         }
 
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return ((AccountFragment)getItem(position)).getTitle();
+        }
+
         public void refreshFragments() {
             for (AccountFragment fragment : fragments) {
                 fragment.refresh();
