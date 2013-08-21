@@ -5,11 +5,22 @@ import android.graphics.Color;
 import android.test.InstrumentationTestCase;
 import android.view.View;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import org.robolectric.Robolectric;
+
 /**
  * Created by guilhem.demiollis on 13-08-20.
  */
-public class DateComparatorUtilTest extends InstrumentationTestCase{
+@RunWith(RobolectricGradleTestRunner.class)
+public class DateComparatorUtilTest {
 
+    @Test
     public void testGetExpirationColor() {
         assertEquals(Color.GREEN, DateComparatorUtil.getExpirationColor(40));
         assertEquals(Color.GREEN, DateComparatorUtil.getExpirationColor(35));
@@ -27,6 +38,7 @@ public class DateComparatorUtilTest extends InstrumentationTestCase{
         assertEquals(Color.RED, DateComparatorUtil.getExpirationColor(-10));
     }
 
+    @Test
     public void testGetBorrowColor() {
         assertEquals(Color.GREEN, DateComparatorUtil.getBorrowColor(10));
         assertEquals(Color.GREEN, DateComparatorUtil.getBorrowColor(8));
@@ -41,8 +53,9 @@ public class DateComparatorUtilTest extends InstrumentationTestCase{
         assertEquals(Color.RED, DateComparatorUtil.getBorrowColor(-1));
     }
 
+    @Test
     public void testGetRenewVisibility() {
-        Context targetContext = getInstrumentation().getTargetContext();
+        Context targetContext = Robolectric.application;
         assertEquals(View.GONE, DateComparatorUtil.getRenewVisibility(targetContext, 10));
         assertEquals(View.GONE, DateComparatorUtil.getRenewVisibility(targetContext, 8));
         assertEquals(View.GONE, DateComparatorUtil.getRenewVisibility(targetContext, 7));
@@ -56,8 +69,9 @@ public class DateComparatorUtilTest extends InstrumentationTestCase{
         assertEquals(View.VISIBLE, DateComparatorUtil.getRenewVisibility(targetContext, -1));
     }
 
+    @Test
     public void testShouldPopNotification() {
-        Context targetContext = getInstrumentation().getTargetContext();
+        Context targetContext = Robolectric.application;
         assertEquals(3, PreferenceHelper.getDaysToTrigger(targetContext));
         assertFalse(DateComparatorUtil.shouldPopNotification(targetContext, 10));
         assertFalse(DateComparatorUtil.shouldPopNotification(targetContext, 8));
