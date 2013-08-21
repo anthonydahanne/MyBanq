@@ -107,7 +107,7 @@ class Authenticator extends AbstractAccountAuthenticator {
         final AccountManager am = AccountManager.get(mContext);
         final String password = am.getPassword(account);
         if (password != null) {
-            Set<String> cookies = authenticate(mContext, account.name, password);
+            Set<String> cookies = authenticate(mContext, account, password);
             if (cookies != null && !cookies.isEmpty()) {
                 final Bundle result = new Bundle();
                 result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
@@ -154,29 +154,8 @@ class Authenticator extends AbstractAccountAuthenticator {
         return null;
     }
 
-    public static boolean isLoggedIn(Activity activity) {
-        try {
-            return !getLocalCookies(activity).isEmpty();
-        } catch (Exception e) {
-            Log.w(Authenticator.class.getSimpleName(), e.getMessage(), e);
-            return false;
-        }
-    }
-
-    public static Set<String> getCookies(Context context) {
-        return getCookies(context, getAccount(context));
-    }
-
-    private static String getPassword(Context context) {
-        return AccountManager.get(context).getPassword(getAccount(context));
-    }
-
-    public static Set<String> getLocalCookies(Activity activity) {
-        return getLocalCookies(activity, getAccount(activity));
-    }
-
-    private static Account getAccount(Context context) {
-        return new Account(PreferenceHelper.getLogin(context), context.getString(R.string.accountType));
+    private static String getPassword(Context context, Account account) {
+        return AccountManager.get(context).getPassword(account);
     }
 
     private static Set<String> getLocalCookies(Activity activity, Account account) {
@@ -198,17 +177,15 @@ class Authenticator extends AbstractAccountAuthenticator {
     }
 
 
-    public static Set<String> authenticate(Context context, String login, String password) {
+    public static Set<String> authenticate(Context context, Account account, String password) {
         Set<String> cookies = new HashSet<String>();
         try {
-            cookies = new BanqClient().authenticate(login, password);
-            Account account = new Account(login, context.getString(R.string.accountType));
+            cookies = new BanqClient().authenticate(account.name, password);
             AccountManager accountManager = AccountManager.get(context);
             //If the account already exists, we update the account
             if (!accountManager.addAccountExplicitly(account, password, null)) {
                 accountManager.setPassword(account, password);
             }
-            PreferenceHelper.saveLogin(context, login);
         } catch (Exception e) {
             Log.e(Authenticator.class.getSimpleName(), e.getMessage(), e);
         }
@@ -223,8 +200,5 @@ class Authenticator extends AbstractAccountAuthenticator {
             Log.e(Authenticator.class.getSimpleName(), e.getMessage(), e);
         }
         return new HashSet<String>();
-    }
-    public static Set<String> authenticate(Context mContext) {
-        return authenticate(mContext, PreferenceHelper.getLogin(mContext), getPassword(mContext));
     }
 }

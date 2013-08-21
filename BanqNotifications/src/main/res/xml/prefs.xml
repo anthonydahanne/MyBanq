@@ -2,10 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:custom="http://schemas.android.com/apk/res-auto">
 
-    <Preference
-            android:title="@string/loggedAs"
-            android:key="login_key"/>
-
     <net.dahanne.banq.notifications.NumberPickerDialogPreference
             android:defaultValue="3"
             android:dialogMessage="@string/daysToTriggerDialog"

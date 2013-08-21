@@ -50,7 +50,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
     private boolean goToMainActivity;
 
     public static Intent newIntent(Context context, boolean goToMainActivity) {
-        return new Intent(context, LoginActivity.class).putExtra(EXTRA_GO_TO_MAIN_ACTIVITY, goToMainActivity);
+        return new Intent(context, LoginActivity.class).putExtra(EXTRA_GO_TO_MAIN_ACTIVITY, goToMainActivity).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
     @Override
@@ -66,10 +66,6 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         mLoginView.setText(mLogin);
 
         mPasswordView = (EditText) findViewById(R.id.password);
-        //it looks like an account has already been parametrized; let's re use it to pre fill the password
-        if(! "".equals(PreferenceHelper.getLogin(this))) {
-            mPasswordView.setText(AccountManager.get(this).getPassword(new Account(PreferenceHelper.getLogin(this), this.getString(R.string.accountType))));
-        }
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -193,13 +189,13 @@ public class LoginActivity extends AccountAuthenticatorActivity {
             try {
                 String login = params[0];
                 String password = params[1];
-                Authenticator.authenticate(LoginActivity.this, login, password);
+                Account account = new Account(login, LoginActivity.this.getString(R.string.accountType));
+                Authenticator.authenticate(LoginActivity.this, account, password);
                 final Intent intent = new Intent();
                 intent.putExtra(KEY_ACCOUNT_NAME, login);
                 intent.putExtra(KEY_ACCOUNT_TYPE, getString(R.string.accountType));
                 setAccountAuthenticatorResult(intent.getExtras());
                 setResult(RESULT_OK, intent);
-                Account account = new Account(login, LoginActivity.this.getString(R.string.accountType));
                 getContentResolver().addPeriodicSync(account, LoginActivity.this.getString(R.string.authority), Bundle.EMPTY, PreferenceHelper.getSyncFrequency(LoginActivity.this));
             } catch (Exception e) {
                 Log.e(getClass().getSimpleName(), e.getMessage(), e);
@@ -214,7 +210,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
             showProgress(false);
 
             if (exceptionCaught == null) {
-                if (goToMainActivity){
+                if (goToMainActivity) {
                     startActivity(MainActivity.newIntent(LoginActivity.this));
                 }
                 finish();

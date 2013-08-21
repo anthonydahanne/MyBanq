@@ -16,6 +16,7 @@
 package net.dahanne.banq.notifications;
 
 import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.Context;
@@ -65,7 +66,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             Set<String> cookies = Authenticator.getCookies(mContext, account);
             Log.i(getClass().getSimpleName(), "Cookies retrieved");
             BanqClient bc = new BanqClient();
-            Details details = getDetails(cookies, bc);
+            Details details = getDetails(cookies, bc, null);
             Log.i(getClass().getSimpleName(), "Detail retrieved");
             for (BorrowedItem borrowedItem : details.getBorrowedItems()) {
                 if(DateComparatorUtil.shouldPopNotification(mContext, borrowedItem.getRemainingDays())) {
@@ -81,11 +82,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    private Details getDetails(Set<String> cookies, BanqClient bc) throws java.text.ParseException, IOException, InterruptedException, InvalidSessionException {
+    private Details getDetails(Set<String> cookies, BanqClient bc, Account account) throws java.text.ParseException, IOException, InterruptedException, InvalidSessionException {
         try {
             return bc.getDetails(cookies);
         } catch (InvalidSessionException ise) {
-            cookies = Authenticator.authenticate(mContext);
+            cookies = Authenticator.authenticate(mContext, account, AccountManager.get(mContext).getPassword(account));
             return bc.getDetails(cookies);
         }
     }

@@ -1,5 +1,7 @@
 package net.dahanne.banq.notifications;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.Html;
@@ -26,9 +28,11 @@ import java.util.Set;
 public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
 
     private ViewHolder holder;
+    private Account account;
 
-    public BorrowedItemAdapter(Context context, List<BorrowedItem> borrowedItems) {
+    public BorrowedItemAdapter(Context context, List<BorrowedItem> borrowedItems, Account account) {
         super(context, R.layout.borrowed_item, R.id.bookName, borrowedItems);
+        this.account = account;
     }
 
     @Override
@@ -81,7 +85,7 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
         protected Void doInBackground(String... params) {
             BanqClient bc = new BanqClient();
             try {
-                Set<String> cookies = Authenticator.getCookies(context);
+                Set<String> cookies = Authenticator.getCookies(context, account);
 
                 String userID = params[0];
                 String docNo = params[1];
@@ -89,7 +93,7 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
                 try {
                     bc.renew(cookies, userID, docNo);
                 } catch (InvalidSessionException ise) {
-                    cookies = Authenticator.authenticate(context);
+                    cookies = Authenticator.authenticate(context, account, AccountManager.get(context).getPassword(account));
                     bc.renew(cookies, userID, docNo);
                 }
             } catch (Exception e) {
@@ -102,11 +106,12 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
         protected void onPostExecute(Void nothing) {
             if (exceptionCaught == null) {
                 Toast.makeText(context, context.getString(R.string.renewal_successful), Toast.LENGTH_SHORT).show();
-                // TODO : revenir a l'activite principale et rafraichir les emprunts
+                ((MainActivity)getContext()).refresh();
             } else if (exceptionCaught == null) {
                 Toast.makeText(context, context.getString(R.string.unexpectedError), Toast.LENGTH_SHORT).show();
             } else if (exceptionCaught instanceof InvalidSessionException) {
                 Toast.makeText(context, context.getString(R.string.invalid_session), Toast.LENGTH_SHORT).show();
+                ((MainActivity)getContext()).backToLogin();
             } else if (exceptionCaught instanceof FailedToRenewException) {
                 Toast.makeText(context, Html.fromHtml(exceptionCaught.getMessage()), Toast.LENGTH_SHORT).show();
             }
