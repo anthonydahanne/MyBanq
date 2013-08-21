@@ -1,6 +1,7 @@
 package net.dahanne.banq;
 
 import net.dahanne.banq.exceptions.FailedToRenewException;
+import net.dahanne.banq.exceptions.InvalidCredentialsException;
 import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
 
@@ -70,6 +71,13 @@ public class BanqClientTest {
         catch (FailedToRenewException itre) {
             System.out.println(itre.getMessage());
         }
+
+    }
+
+    @Test(expected = InvalidCredentialsException.class)
+    public void authenticateTest__failure()  throws Exception{
+        BanqClient bc = new BanqClient();
+        bc.authenticate("99999999", "88888888");
 
     }
 

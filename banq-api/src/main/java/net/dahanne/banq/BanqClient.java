@@ -1,6 +1,7 @@
 package net.dahanne.banq;
 
 import net.dahanne.banq.exceptions.FailedToRenewException;
+import net.dahanne.banq.exceptions.InvalidCredentialsException;
 import net.dahanne.banq.exceptions.InvalidSessionException;
 import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
@@ -28,7 +29,7 @@ import java.util.Set;
  */
 public class BanqClient {
 
-    public Set<String> authenticate(String username, String password) throws IOException, InterruptedException {
+    public Set<String> authenticate(String username, String password) throws IOException, InterruptedException, InvalidCredentialsException {
         Set<String> cookies = new HashSet<String>();
 
         HttpURLConnection connect = null;
@@ -90,7 +91,14 @@ public class BanqClient {
 //    System.out.println(responseMessage);
 
 
+
             Document parse = Jsoup.parse(responseMessage);
+
+            Elements echec =  parse.getElementsByAttributeValue("class","echec");
+            if(!echec.isEmpty()) {
+                throw new InvalidCredentialsException();
+            }
+
             Elements p = parse.getElementsByTag("input");
             for (Element element : p) {
                 String type = element.attr("type");
@@ -164,7 +172,7 @@ public class BanqClient {
         return location;
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException, ParseException, InvalidSessionException {
+    public static void main(String[] args) throws IOException, InterruptedException, ParseException, InvalidSessionException, InvalidCredentialsException {
         if (args == null || args.length < 2) {
             System.out.println("Wrong number of arguments, please supply 2 arguments : username and password");
         }
