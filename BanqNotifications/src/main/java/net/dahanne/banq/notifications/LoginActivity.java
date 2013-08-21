@@ -19,6 +19,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import net.dahanne.banq.exceptions.InvalidCredentialsException;
+
 import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
 import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
 
@@ -119,6 +121,10 @@ public class LoginActivity extends AccountAuthenticatorActivity {
             mLoginView.setError(getString(R.string.error_field_required));
             focusView = mLoginView;
             cancel = true;
+        } else if (mLogin.length() !=8 ) {
+            mLoginView.setError(getString(R.string.error_invalid_email));
+            focusView = mLoginView;
+            cancel = true;
         }
 
         if (cancel) {
@@ -214,6 +220,9 @@ public class LoginActivity extends AccountAuthenticatorActivity {
                     startActivity(MainActivity.newIntent(LoginActivity.this));
                 }
                 finish();
+            } else if (exceptionCaught instanceof InvalidCredentialsException) {
+                mPasswordView.setError(getString(R.string.invalid_credentials));
+                mPasswordView.requestFocus();
             } else {
                 mPasswordView.setError(exceptionCaught.getMessage());
                 mPasswordView.requestFocus();

@@ -97,7 +97,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    private Details getDetails(Set<String> cookies, BanqClient bc, Account account) throws java.text.ParseException, IOException, InterruptedException, InvalidSessionException {
+    private Details getDetails(Set<String> cookies, BanqClient bc, Account account) throws Exception {
         try {
             return bc.getDetails(cookies);
         } catch (InvalidSessionException ise) {

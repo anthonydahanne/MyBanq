@@ -32,6 +32,10 @@ public class BanqClient {
     public Set<String> authenticate(String username, String password) throws IOException, InterruptedException, InvalidCredentialsException {
         Set<String> cookies = new HashSet<String>();
 
+        if(username.length() != 8) {
+            throw new InvalidCredentialsException();
+        }
+
         HttpURLConnection connect = null;
         String location = null;
         InputStream inputStream = null;

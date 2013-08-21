@@ -17,5 +17,6 @@
     </string>
     <string name="syncAndAccount">Comptes et synchro.</string>
     <string name="several_items_to_return_soon">Plusieurs emprunts doivent être ramenés à la BANQ</string>
+    <string name="invalid_credentials">Identifiants invalides, ré-essayez svp.</string>
 
 </resources>

@@ -24,5 +24,6 @@
     </string>
     <string name="syncAndAccount">Sync. and Account</string>
     <string name="several_items_to_return_soon">Several items to return to BANQ soon</string>
+    <string name="invalid_credentials">Invalid credentials, please try again</string>
 
 </resources>

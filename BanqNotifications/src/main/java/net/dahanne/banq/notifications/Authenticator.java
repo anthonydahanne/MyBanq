@@ -29,7 +29,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import net.dahanne.banq.BanqClient;
+import net.dahanne.banq.exceptions.InvalidCredentialsException;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -107,13 +109,17 @@ class Authenticator extends AbstractAccountAuthenticator {
         final AccountManager am = AccountManager.get(mContext);
         final String password = am.getPassword(account);
         if (password != null) {
-            Set<String> cookies = authenticate(mContext, account, password);
-            if (cookies != null && !cookies.isEmpty()) {
-                final Bundle result = new Bundle();
-                result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
-                result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
-                result.putString(AccountManager.KEY_AUTHTOKEN, TextUtils.join("$$$", cookies));
-                return result;
+            try {
+                Set<String> cookies = authenticate(mContext, account, password);
+                if (cookies != null && !cookies.isEmpty()) {
+                    final Bundle result = new Bundle();
+                    result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
+                    result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
+                    result.putString(AccountManager.KEY_AUTHTOKEN, TextUtils.join("$$$", cookies));
+                    return result;
+                }
+            } catch (Exception e) {
+                Log.e(getClass().getSimpleName(), e.getMessage(), e);
             }
         }
 
@@ -177,17 +183,13 @@ class Authenticator extends AbstractAccountAuthenticator {
     }
 
 
-    public static Set<String> authenticate(Context context, Account account, String password) {
+    public static Set<String> authenticate(Context context, Account account, String password) throws Exception {
         Set<String> cookies = new HashSet<String>();
-        try {
-            cookies = new BanqClient().authenticate(account.name, password);
-            AccountManager accountManager = AccountManager.get(context);
-            //If the account already exists, we update the account
-            if (!accountManager.addAccountExplicitly(account, password, null)) {
-                accountManager.setPassword(account, password);
-            }
-        } catch (Exception e) {
-            Log.e(Authenticator.class.getSimpleName(), e.getMessage(), e);
+        cookies = new BanqClient().authenticate(account.name, password);
+        AccountManager accountManager = AccountManager.get(context);
+        //If the account already exists, we update the account
+        if (!accountManager.addAccountExplicitly(account, password, null)) {
+            accountManager.setPassword(account, password);
         }
         return cookies;
     }
