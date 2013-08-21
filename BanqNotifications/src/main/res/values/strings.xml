@@ -4,11 +4,10 @@
     <string name="app_name">My Banq</string>
     <string name="action_settings">Settings</string>
     <string name="name">Name : %s</string>
-    <string name="currentDebt">Current Debt : %s</string>
-    <string name="expirationDebt">Expiration : %s</string>
-    <string name="loggedAs">Logged as</string>
+    <string name="currentDebt">Fines : %s</string>
+    <string name="expirationDebt">Expiry date : %s</string>
+    <string name="loggedAs">Logged in as</string>
     <string name="unexpectedError">Unexpected Error</string>
-    <string name="action_test_notification">Notif</string>
     <string name="item_to_return_to_banq">Item to return to BANQ</string>
     <string name="see_all_items">All</string>
     <string name="renew">Renew</string>
@@ -23,5 +22,6 @@
     <string name="remaining_days_summary">When a borrowed item is due for less than %s days, a
         notification will be launched and the renew option will become available
     </string>
+    <string name="syncAndAccount">Sync. and Account</string>
 
 </resources>

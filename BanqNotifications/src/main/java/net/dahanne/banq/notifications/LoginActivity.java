@@ -2,6 +2,7 @@ package net.dahanne.banq.notifications;
 
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
+import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -27,10 +28,7 @@ import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
  */
 public class LoginActivity extends AccountAuthenticatorActivity {
 
-    /**
-     * The default email to populate the email field with.
-     */
-    public static final String EXTRA_LOGIN = "com.example.android.authenticatordemo.extra.EMAIL";
+    public static final String EXTRA_LOGIN = "net.dahanne.banq.notifications.extra.CLIENT_NUMBER";
     private static final String EXTRA_GO_TO_MAIN_ACTIVITY = "EXTRA_GO_TO_MAIN_ACTIVITY";
 
 
@@ -52,7 +50,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
     private boolean goToMainActivity;
 
     public static Intent newIntent(Context context, boolean goToMainActivity) {
-        return new Intent(context, LoginActivity.class).putExtra(EXTRA_GO_TO_MAIN_ACTIVITY, goToMainActivity).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        return new Intent(context, LoginActivity.class).putExtra(EXTRA_GO_TO_MAIN_ACTIVITY, goToMainActivity);
     }
 
     @Override
@@ -68,6 +66,10 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         mLoginView.setText(mLogin);
 
         mPasswordView = (EditText) findViewById(R.id.password);
+        //it looks like an account has already been parametrized; let's re use it to pre fill the password
+        if(! "".equals(PreferenceHelper.getLogin(this))) {
+            mPasswordView.setText(AccountManager.get(this).getPassword(new Account(PreferenceHelper.getLogin(this), this.getString(R.string.accountType))));
+        }
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -116,7 +118,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
             cancel = true;
         }
 
-        // Check for a valid email address.
+        // Check for a valid client number
         if (TextUtils.isEmpty(mLogin)) {
             mLoginView.setError(getString(R.string.error_field_required));
             focusView = mLoginView;

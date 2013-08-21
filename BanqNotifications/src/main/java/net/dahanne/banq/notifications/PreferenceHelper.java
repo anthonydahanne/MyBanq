@@ -8,6 +8,7 @@ public class PreferenceHelper {
 
     public static final String KEY_PREF_LOGIN = "login_key";
     public static final String KEY_PREF_DAYS_TO_TRIGGER = "days_to_trigger_key";
+    public static final String KEY_PREF_SYNC = "sync_key";
 
     private static final String KEY_PREF_USERNAME = "username_key";
     private static final int DEFAULT_DAYS_TO_TRIGGER = 3;

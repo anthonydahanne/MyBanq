@@ -1,9 +1,11 @@
 package net.dahanne.banq.notifications;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.provider.Settings;
 
 public class PrefsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -12,6 +14,7 @@ public class PrefsFragment extends PreferenceFragment implements SharedPreferenc
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.prefs);
         findPreference(PreferenceHelper.KEY_PREF_LOGIN).setOnPreferenceClickListener(onclickListsner);
+        findPreference(PreferenceHelper.KEY_PREF_SYNC).setOnPreferenceClickListener(onclickListsner);
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         updateSummary(PreferenceHelper.KEY_PREF_LOGIN);
         updateSummary(PreferenceHelper.KEY_PREF_DAYS_TO_TRIGGER);
@@ -32,9 +35,11 @@ public class PrefsFragment extends PreferenceFragment implements SharedPreferenc
         @Override
         public boolean onPreferenceClick(Preference preference) {
             if (PreferenceHelper.KEY_PREF_LOGIN.equals(preference.getKey())) {
-                PreferenceHelper.clearCache(getActivity());
-                startActivity(LoginActivity.newIntent(getActivity(), true));
-                getActivity().finish();
+                //PreferenceHelper.clearCache(getActivity());
+                startActivity(LoginActivity.newIntent(getActivity(), true).putExtra(LoginActivity.EXTRA_LOGIN,PreferenceHelper.getLogin(getActivity())));
+//                getActivity().finish();
+            } else if (PreferenceHelper.KEY_PREF_SYNC.equals(preference.getKey())) {
+                startActivity(new Intent(Settings.ACTION_SYNC_SETTINGS).putExtra("authority",getString(R.string.authority)));
             }
             return true;
         }

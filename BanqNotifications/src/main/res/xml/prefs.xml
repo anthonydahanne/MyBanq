@@ -14,11 +14,8 @@
             android:key="days_to_trigger_key"
             custom:min="1" />
 
-    <!--<NumberPicker-->
-            <!--android:title="@string/daysToTrigger"-->
-            <!--android:key="days_to_trigger_key"-->
-            <!--android:numeric="integer"-->
-            <!--android:maxLength="2"-->
-            <!--android:defaultValue="3"-->
-            <!--/>-->
+    <Preference
+            android:title="@string/syncAndAccount"
+            android:key="sync_key"/>
+
 </PreferenceScreen>

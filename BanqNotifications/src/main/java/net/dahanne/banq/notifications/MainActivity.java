@@ -45,16 +45,25 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (TextUtils.isEmpty(PreferenceHelper.getLogin(this))) {
-            startActivity(LoginActivity.newIntent(this, true));
+            startActivity(LoginActivity.newIntent(this, true).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
             finish();
         } else {
             setContentView(R.layout.activity_main);
             userName = (TextView) findViewById(R.id.userName);
             currentDebt = (TextView) findViewById(R.id.currentDebt);
             expirationDate = (TextView) findViewById(R.id.expirationDate);
-            showProgress(true);
-            new RetrieveInfosAsyncTask().execute();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showProgress(true);
+        // ouai ouai c'est pas super de tout recharger a chaque fois
+        // mais si on fait pas ca, l utilisateur change la valeur de remaining days
+        // et ca rafraichit pas; un mal pour 1 bien en attendant mieux
+        new RetrieveInfosAsyncTask().execute();
+
     }
 
     @Override
@@ -77,7 +86,7 @@ public class MainActivity extends Activity {
 
 
     public static Intent newIntent(Context context) {
-        return new Intent(context, MainActivity.class);
+        return new Intent(context, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
 
@@ -118,12 +127,15 @@ public class MainActivity extends Activity {
                 Spannable debt = new SpannableString(String.format(getString(R.string.currentDebt), details.getCurrentDebt()));
                 debt.setSpan(new ForegroundColorSpan(Color.RED), debt.length() - 5, debt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 currentDebt.setText(debt);
-                Spannable expiration = new SpannableString(String.format(getString(R.string.expirationDebt), DateFormat.getDateInstance().format(details.getExpirationDate())));
-                expiration.setSpan(new ForegroundColorSpan(DateComparatorUtil.getExpirationColor(details.getRemaingDays())), expiration.length() - 10, expiration.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                String formattedExpirationDate = DateFormat.getDateInstance().format(details.getExpirationDate());
+                Spannable expiration = new SpannableString(String.format(getString(R.string.expirationDebt), formattedExpirationDate));
+                expiration.setSpan(new ForegroundColorSpan(DateComparatorUtil.getExpirationColor(details.getRemaingDays())), expiration.length() - formattedExpirationDate.length(), expiration.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 expirationDate.setText(expiration);
                 ((GridView) findViewById(android.R.id.list)).setAdapter(new BorrowedItemAdapter(MainActivity.this, details.getBorrowedItems()));
             } else if (exceptionCaught == null) {
                 Toast.makeText(MainActivity.this, getString(R.string.unexpectedError), Toast.LENGTH_SHORT).show();
+            } else if (exceptionCaught instanceof InvalidSessionException) {
+                Toast.makeText(MainActivity.this, getString(R.string.invalid_session), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(MainActivity.this, exceptionCaught.getMessage(), Toast.LENGTH_SHORT).show();
             }

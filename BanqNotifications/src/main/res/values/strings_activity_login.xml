@@ -2,7 +2,7 @@
         <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_login">Login</string>
+    <string name="prompt_login">Client Number (8 digits)</string>
     <string name="prompt_password">Password</string>
 
     <string name="action_sign_in_register"><b>Sign in</b></string>
@@ -12,7 +12,7 @@
 
     <string name="login_progress_signing_in">Signing in&#8230;</string>
 
-    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_email">This client number is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
