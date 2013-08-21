@@ -13,5 +13,7 @@
     <string name="daysRemaining">A rendre dans %s jours</string>
     <string name="daysToTrigger">Nombre de jours avant notification</string>
     <string name="daysToTriggerDialog">Définit combien de jours avant la fin de l\'emprunt une notification sera affichée</string>
+    <string name="remaining_days_summary">Quand un emprunt devra être rendu dans moins de %s jours, une notification sera lancée et le bouton de renouvellement sera disponible
+    </string>
 
 </resources>

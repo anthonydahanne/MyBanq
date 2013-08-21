@@ -108,7 +108,7 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
             } else if (exceptionCaught instanceof InvalidSessionException) {
                 Toast.makeText(context, context.getString(R.string.invalid_session), Toast.LENGTH_SHORT).show();
             } else if (exceptionCaught instanceof FailedToRenewException) {
-                Toast.makeText(context, exceptionCaught.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, Html.fromHtml(exceptionCaught.getMessage()), Toast.LENGTH_SHORT).show();
             }
         }
     }

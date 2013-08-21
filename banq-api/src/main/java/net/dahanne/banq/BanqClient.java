@@ -298,7 +298,7 @@ public class BanqClient {
                 String nodeString = node.toString();
                 // banq returns some soap envelope, with some internal error codes, we filter this
                 if (!nodeString.contains("soap:envelope") && !nodeString.contains("encoding=") && !nodeString.contains("<br />") && !nodeString.trim().equals("")) {
-                    sb.append(nodeString.trim()).append("\n");
+                    sb.append(nodeString.trim()).append("<br />");
                 }
             }
             throw new FailedToRenewException(sb.toString());

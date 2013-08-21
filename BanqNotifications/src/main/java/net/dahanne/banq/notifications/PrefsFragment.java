@@ -24,7 +24,7 @@ public class PrefsFragment extends PreferenceFragment implements SharedPreferenc
         }
         if (PreferenceHelper.KEY_PREF_DAYS_TO_TRIGGER.equals(key)) {
             int daysToTriggerValue = PreferenceHelper.getDaysToTrigger(getActivity());
-            getPreferenceManager().findPreference(key).setSummary(Integer.toString(daysToTriggerValue));
+            getPreferenceManager().findPreference(key).setSummary(getString(R.string.remaining_days_summary, Integer.toString(daysToTriggerValue)));
         }
     }
 

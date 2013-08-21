@@ -17,9 +17,11 @@
     <string name="invalid_session">The session is invalid, please try to re enter your credentials</string>
     <string name="renewal_successful">Your borrowed item was renewed with success !</string>
     <string name="daysRemaining">%s days remaining</string>
-    <string name="daysToTrigger">Number of remaining days before alert</string>
-    <string name="daysToTriggerDialog">Choose the remaining number of days before you get an alert
-    </string>
+    <string name="daysToTrigger">Remaining days before alert</string>
+    <string name="daysToTriggerDialog">Choose the remaining number of days before you get an alert</string>
     <string name="authority">net.dahanne.banq.notifications.stubprovider</string>
+    <string name="remaining_days_summary">When a borrowed item is due for less than %s days, a
+        notification will be launched and the renew option will become available
+    </string>
 
 </resources>
