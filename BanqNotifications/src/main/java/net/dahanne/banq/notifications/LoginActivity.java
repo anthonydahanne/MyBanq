@@ -198,7 +198,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
                 setAccountAuthenticatorResult(intent.getExtras());
                 setResult(RESULT_OK, intent);
                 Account account = new Account(login, LoginActivity.this.getString(R.string.accountType));
-                getContentResolver().addPeriodicSync(account, LoginActivity.this.getString(R.string.authority), null, PreferenceHelper.getSyncFrequency(LoginActivity.this));
+                getContentResolver().addPeriodicSync(account, LoginActivity.this.getString(R.string.authority), Bundle.EMPTY, PreferenceHelper.getSyncFrequency(LoginActivity.this));
             } catch (Exception e) {
                 Log.e(getClass().getSimpleName(), e.getMessage(), e);
                 exceptionCaught = e;

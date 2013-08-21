@@ -66,7 +66,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             Log.i(getClass().getSimpleName(), "Cookies retrieved");
             BanqClient bc = new BanqClient();
             Details details = getDetails(cookies, bc);
-            Log.i(getClass().getSimpleName(), "Détail retrieved");
+            Log.i(getClass().getSimpleName(), "Detail retrieved");
             for (BorrowedItem borrowedItem : details.getBorrowedItems()) {
                 if(DateComparatorUtil.shouldPopNotification(mContext, borrowedItem.getRemainingDays())) {
                     NotificationHelper.launchNotification(mContext, borrowedItem);
