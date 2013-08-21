@@ -30,6 +30,8 @@ import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -68,9 +70,22 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             BanqClient bc = new BanqClient();
             Details details = getDetails(cookies, bc, null);
             Log.i(getClass().getSimpleName(), "Detail retrieved");
+            List<BorrowedItem> itemsToReturnSoon =  new ArrayList<BorrowedItem>();
             for (BorrowedItem borrowedItem : details.getBorrowedItems()) {
                 if(DateComparatorUtil.shouldPopNotification(mContext, borrowedItem.getRemainingDays())) {
-                    NotificationHelper.launchNotification(mContext, borrowedItem);
+//                    NotificationHelper.launchNotification(mContext, borrowedItem);
+                    itemsToReturnSoon.add(borrowedItem);
+                }
+            }
+            if(!itemsToReturnSoon.isEmpty()) {
+                if(itemsToReturnSoon.size() ==1) {
+                    NotificationHelper.launchNotification(mContext, itemsToReturnSoon.get(0).getTitle(), itemsToReturnSoon.get(0).getRemainingDays());
+                } else {
+                    long shorterDelayToReturn = 100;
+                    for (BorrowedItem borrowedItem : itemsToReturnSoon) {
+                        shorterDelayToReturn = borrowedItem.getRemainingDays() < shorterDelayToReturn ? borrowedItem.getRemainingDays() : shorterDelayToReturn;
+                    }
+                    NotificationHelper.launchNotification(mContext, mContext.getString(R.string.several_items_to_return_soon) , shorterDelayToReturn);
                 }
             }
             Log.i(getClass().getSimpleName(), "Stop syncing");

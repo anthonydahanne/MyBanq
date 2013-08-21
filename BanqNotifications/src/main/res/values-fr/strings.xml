@@ -15,6 +15,7 @@
     <string name="daysToTriggerDialog">Définit combien de jours avant la fin de l\'emprunt une notification sera affichée</string>
     <string name="remaining_days_summary">Quand un emprunt devra être rendu dans moins de %s jours, une notification sera lancée et le bouton de renouvellement sera disponible
     </string>
-    <string name="syncAndAccount">Sync. and Account</string>
+    <string name="syncAndAccount">Comptes et synchro.</string>
+    <string name="several_items_to_return_soon">Plusieurs emprunts doivent être ramenés à la BANQ</string>
 
 </resources>
