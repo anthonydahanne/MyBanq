@@ -51,9 +51,9 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
         final BorrowedItem item = getItem(position);
         Spanned titleFromHtml = Html.fromHtml(item.getTitle());
         holder.name.setText(titleFromHtml.toString(), TextView.BufferType.SPANNABLE);
-        Spannable daysRemainig = new SpannableString(String.format(getContext().getString(R.string.daysRemaining), item.getRemainingDays()));
-        daysRemainig.setSpan(new ForegroundColorSpan(DateComparatorUtil.getBorrowColor(item.getRemainingDays())), 0, daysRemainig.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.remainingDays.setText(daysRemainig);
+        Spannable daysRemaining = new SpannableString(String.format(getContext().getString(R.string.daysRemaining), item.getRemainingDays()));
+        daysRemaining.setSpan(new ForegroundColorSpan(DateComparatorUtil.getBorrowColor(item.getRemainingDays())), 0, daysRemaining.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.remainingDays.setText(daysRemaining);
         holder.renewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +114,11 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
                 ((MainActivity)getContext()).backToLogin();
             } else if (exceptionCaught instanceof FailedToRenewException) {
                 Toast.makeText(context, Html.fromHtml(exceptionCaught.getMessage()), Toast.LENGTH_SHORT).show();
+                //TODO does not work
+                holder.renewButton.setEnabled(false);
+                holder.renewButton.setText(context.getString(R.string.not_renewable));
+                notifyDataSetChanged();
+                //TODO end
             }
         }
     }

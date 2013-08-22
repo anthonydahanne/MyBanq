@@ -9,10 +9,9 @@
     <string name="loggedAs">Logged in as</string>
     <string name="unexpectedError">Unexpected Error</string>
     <string name="item_to_return_to_banq">Item to return to BANQ</string>
-    <string name="see_all_items">All</string>
-    <string name="renew">Renew</string>
     <string name="accountType">BANQ</string>
-    <string name="retrieving_your_informations">Retrieving your informations</string>
+    <string name="renew">Renew</string>
+    <string name="retrieving_your_informations">Retrieving your information</string>
     <string name="invalid_session">The session is invalid, please try to re enter your credentials</string>
     <string name="renewal_successful">Your borrowed item was renewed with success !</string>
     <string name="daysRemaining">%s days remaining</string>
@@ -25,5 +24,10 @@
     <string name="syncAndAccount">Sync. and Account</string>
     <string name="several_items_to_return_soon">Several items to return to BANQ soon</string>
     <string name="invalid_credentials">Invalid credentials, please try again</string>
+    <string name="sync_account_summary">Choose your BANQ account, and enable/disable daily
+        sync. for notification or even delete it
+    </string>
+    <string name="addAccount">Add account</string>
+    <string name="not_renewable">Not renewable</string>
 
 </resources>

@@ -8,6 +8,8 @@
     <string name="expirationDebt">Expiration : %s</string>
     <string name="loggedAs">Connecté en tant que</string>
     <string name="unexpectedError">Erreur</string>
+    <string name="renew">Renouveler</string>
+    <string name="retrieving_your_informations">Chargement de votre dossier</string>
     <string name="invalid_session">La session est invalide. Essayez de re saisir vos identifiants svp.</string>
     <string name="renewal_successful">Vous avez renouvelé votre emprunt avec succès !</string>
     <string name="daysRemaining">A rendre dans %s jours</string>
@@ -18,5 +20,8 @@
     <string name="syncAndAccount">Comptes et synchro.</string>
     <string name="several_items_to_return_soon">Plusieurs emprunts doivent être ramenés à la BANQ</string>
     <string name="invalid_credentials">Identifiants invalides, ré-essayez svp.</string>
+    <string name="sync_account_summary">Choisissez votre compte BANQ et activer/désactiver la synchronisation journalière pour les notifications, ou supprimer le</string>
+    <string name="addAccount">Ajouter un compte BANQ</string>
+    <string name="not_renewable">Non renouvelable</string>
 
 </resources>

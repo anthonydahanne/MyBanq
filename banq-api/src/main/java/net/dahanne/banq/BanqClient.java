@@ -46,7 +46,6 @@ public class BanqClient {
             enrichCookies(connect, cookies);
             inputStream = connect.getInputStream();
             responseMessage = HttpBuilder.toString(inputStream);
-//      System.out.println(responseMessage);
         } finally {
             if (connect != null) {
                 connect.disconnect();
@@ -59,7 +58,6 @@ public class BanqClient {
             enrichCookies(connect, cookies);
             inputStream = connect.getInputStream();
             responseMessage = HttpBuilder.toString(inputStream);
-//      System.out.println(responseMessage);
         } finally {
             if (connect != null) {
                 connect.disconnect();
@@ -73,7 +71,6 @@ public class BanqClient {
             enrichCookies(connect, cookies);
             inputStream = connect.getInputStream();
             responseMessage = HttpBuilder.toString(inputStream);
-//    System.out.println(responseMessage);
         } finally {
             if (connect != null) {
                 connect.disconnect();
@@ -92,9 +89,6 @@ public class BanqClient {
             enrichCookies(connect, cookies);
             inputStream = connect.getInputStream();
             responseMessage = HttpBuilder.toString(inputStream);
-//    System.out.println(responseMessage);
-
-
 
             Document parse = Jsoup.parse(responseMessage);
 
@@ -133,7 +127,6 @@ public class BanqClient {
 
             inputStream = connect.getInputStream();
             responseMessage = HttpBuilder.toString(inputStream);
-//    System.out.println(responseMessage);
         } finally {
             if (connect != null) {
                 connect.disconnect();
@@ -210,7 +203,6 @@ public class BanqClient {
     }
 
     Details parseDetails(String responseMessage) throws ParseException {
-//        System.out.println(responseMessage);
         Document parse = Jsoup.parse(responseMessage);
         Element contenu = parse.getElementById("Contenu");
         Details details = null;
@@ -295,7 +287,6 @@ public class BanqClient {
             enrichCookies(connect, cookies);
             inputStream = connect.getInputStream();
             responseMessage = HttpBuilder.toString(inputStream);
-//    System.out.println(responseMessage);
         } finally {
             if (connect != null) {
                 connect.disconnect();

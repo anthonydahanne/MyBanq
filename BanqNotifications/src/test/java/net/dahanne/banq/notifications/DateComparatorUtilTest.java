@@ -2,7 +2,6 @@ package net.dahanne.banq.notifications;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.test.InstrumentationTestCase;
 import android.view.View;
 
 import org.junit.Test;

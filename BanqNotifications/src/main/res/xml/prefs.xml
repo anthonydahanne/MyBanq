@@ -12,6 +12,11 @@
 
     <Preference
             android:title="@string/syncAndAccount"
+            android:summary="@string/sync_account_summary"
             android:key="sync_key"/>
+
+    <Preference
+            android:title="@string/addAccount"
+            android:key="add_key"/>
 
 </PreferenceScreen>
