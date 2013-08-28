@@ -1,0 +1,3827 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"	"http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="fr">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<head>
+
+
+
+
+<title> - Mon dossier - Prêts et renouvellements</title>
+
+
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html charset=UTF-8"><META HTTP-EQUIV="Expires" CONTENT="-1">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+
+
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/JavaScript" />
+<meta name="description" content="" />
+
+
+<meta name="robots" content="noindex,nofollow" />
+
+
+
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<META NAME="ZonesObjClass" CONTENT="CWWWPortfolioSSAccount">
+<META NAME="ZonesObjName"  CONTENT="Obj_1191791377722030">
+<META NAME="ZonesTemplate"  CONTENT="PSSACCOUNT">
+<META NAME="ZonesTemplateFileName"  CONTENT="templates\Portal3\PSSACCOUNT.html">
+<META NAME="ZonesRef" CONTENT="Obj_1191791377722030?Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8">
+
+
+
+<link href="/portal3/css/btnStyles.css" rel="stylesheet" type="text/css">
+
+
+
+
+<style type="text/css">
+.clickable {
+cursor:pointer;
+cursor:hand;
+}
+#leftMenuContainer {
+float:left;
+width: 100px;
+}
+.SelectItem {
+background-color: green;
+}
+.printListLink:link, .printListLink:visited {
+color: white;
+font-size: 0.92em;
+}
+body {
+width:100%;
+margin:0px;
+padding:0px;
+}
+#contentContainer {
+width: 1200px;
+margin-left: auto;
+margin-right: auto;
+}
+#toolBar {
+height : 50px;
+background-color: white;
+}
+.enlargeCoverLink:link, .enlargeCoverLink:visited {
+font-size : 0.7em;
+color: black;
+display:block;
+text-align:center;
+width: 100%;
+}
+.IndexHeadingCell {
+padding-top:10px;
+padding-bottom: 10px;
+padding-left: 5px;
+padding-right: 5px;
+font-size: larger;
+background-color: #F4F4F4;
+}
+.IndexHeadingCellStripe {
+padding-top:10px;
+padding-left: 5px;
+padding-right: 5px;
+padding-bottom: 10px;
+font-size : larger;
+background-color: #FFFFFF;
+}
+.button {
+text-decoration:none;
+font-weight : bold;
+color : black;
+}
+.button:link {
+text-decoration:none;
+font-weight : bold;
+color : black;
+}
+.button:Hover {
+text-decoration:none;
+font-weight : bold;
+color : black;
+}
+.button:Visited {
+text-decoration:none;
+font-weight : bold;
+color : black;
+}
+.button_blue {
+text-decoration:none;
+font-weight : bold;
+color : #8c9fad;
+}
+.button_blue:link {
+text-decoration:none;
+font-weight : bold;
+color : #8c9fad;
+}
+.button_blue:Hover {
+text-decoration:none;
+font-weight : bold;
+color : #8c9fad;
+}
+.button_blue:Visited {
+text-decoration:none;
+font-weight : bold;
+color : #8c9fad;
+}
+
+
+
+.hi {
+background-color :#D7EAFA;
+text-decoration: none;
+font-weight: normal;
+padding-left: 2px;
+padding-right: 2px;
+}
+.PayImage {
+padding-left: 5px;
+}
+.CannotRenewLink {
+color: #bd5200;
+}
+.searchLimits {
+border-style: solid;
+border-width: 2px;
+border-color: #BBCCD9;
+padding-left : 3px;
+padding-right : 3px;
+}
+.limitBoxLabel {
+float:left;
+width:100px;
+margin-right: 10px;
+text-align: right;
+font-size : smaller;
+font-weight : bold;
+color : #6C8490;
+}
+.limitBoxContent {
+float:left;
+width:200px;
+height:auto;
+}
+.yearInput {
+width: 4em;
+}
+.limitToggle {
+float:right;
+}
+.dateLimitCell {
+width: 230px;
+font-size: smaller;
+}
+.limitCell {
+width: 180px;
+font-size: smaller;
+}
+.limitCell4 {
+width: 85px;
+font-size: smaller;
+}
+.limitCellSplitter {
+border-style: solid;
+border-top-width: 0px;
+border-bottom-width: 0px;
+border-left-width:  0px;
+border-right-width:  2px;
+border-color: #BBCCD9;
+}
+.limitSepLine {
+border-style: solid;
+border-top-width: 0px;
+border-bottom-width: 1px;
+border-left-width:  0px;
+border-right-width:  0px;
+border-color: #BBCCD9;
+width:600px;
+}
+.limitSepLineThick {
+clear : both;
+border-style: solid;
+border-top-width: 0px;
+border-bottom-width: 2px;
+border-left-width:  0px;
+border-right-width:  0px;
+border-color: #BBCCD9;
+width:713px;
+}
+.limitCheckBox {
+width: 150px;
+float: left;
+}
+#searchLimitsTitle {
+color : #6D6D6D;
+font-size: inherit;
+}
+.SearchFieldsTable {
+width: 100%;
+}
+
+.SearchFormRowSep {
+background-color: #6c96b3;
+height          : 2px;
+}
+.SearchFieldsTableCell {
+background-color :#a5cbe6;
+padding-right:5px;
+padding-top : 5px;
+padding-bottom : 5px;
+border-top-width: 0px;
+border-bottom-width: 1px;
+border-left-width:  0px;
+border-right-width:  0px;
+border-color: black;
+vertical-align: top;
+}
+.SearchFormIndexSelect {
+margin-left:10px;
+margin-top: 1px;
+margin-bottom: 1px;
+}
+.SearchFormField {
+margin-left:10px;
+margin-top: 1px;
+margin-bottom: 1px;
+}
+.pageNavLink, .pageNavLink:link, .pageNavLink:visited {
+color: white;
+font-size:smaller;
+}
+.SearchResultsPageNavCell {
+color: white;
+white-space:nowrap;
+}
+
+.SearchResultsPrintListCell {
+white-space:nowrap;
+}
+
+.SearchResultsEmailListCell {
+white-space:nowrap;
+}
+
+.ExportResultsCell {
+white-space:nowrap;
+}
+
+.browseList {
+width: 100%;
+}
+.SearchHistoryItemContainer {
+
+background-color :#fafafc;
+width: 100%;
+}
+.leftNavButton {
+display: block;
+float: left;
+width: 114px;
+height: 50px;
+border-right : 1px;
+border-left  : 0px;
+border-top   : 0px;
+border-bottom: 0px;
+padding-right : 3px;
+padding-left  : 3px;
+border-color : #EDEEEE;
+border-style : solid;
+cursor : hand;
+cursor : pointer;
+text-decoration : none;
+font-family : Arial;
+font-weight : bold;
+color : #6D6D6D;
+}
+.leftNavButton:hover {
+display: block;
+float: left;
+width: 114px;
+height: 50px;
+border-right : 1px;
+border-left  : 0px;
+border-top   : 0px;
+border-bottom: 0px;
+padding-right : 3px;
+padding-left  : 3px;
+border-color : #EDEEEE;
+border-style : solid;
+background-color : #deeaf6;
+cursor : hand;
+cursor : pointer;
+text-decoration : none;
+font-family : Arial;
+font-weight : bold;
+color : #6D6D6D;
+}
+.rightNavButton {
+display: block;
+float: right;
+width: 114px;
+height: 50px;
+border-left  : 1px;
+border-right : 0px;
+border-top   : 0px;
+border-bottom: 0px;
+padding-right : 3px;
+padding-left  : 3px;
+border-color : #EDEEEE;
+border-style : solid;
+cursor : hand;
+cursor : pointer;
+text-decoration : none;
+font-family : Arial;
+font-weight : bold;
+color : #6D6D6D;
+}
+.rightNavButton:hover {
+display: block;
+float: right;
+width: 114px;
+height: 50px;
+border-left  : 1px;
+border-right : 0px;
+border-top   : 0px;
+border-bottom: 0px;
+padding-right : 3px;
+padding-left  : 3px;
+border-color : black;
+border-style : solid;
+background-color : #deeaf6;
+cursor : hand;
+cursor : pointer;
+font-family : Arial;
+font-weight : bold;
+color : #6D6D6D;
+}
+.FacetBox {
+border-style: solid;
+border-color: #dfedf8;
+border-width: 1px;
+padding: 2px;
+}
+.FacetItem {
+display: block;
+color: #292424;
+font-family: Arial;
+font-size: smaller;
+padding-left:10px;
+}
+.FacetLink {
+color: #292424;
+font-family: Arial;
+}
+.FacetLinkA:link, .FacetLinkA:visited {
+padding-left:5px;
+padding-right:5px;
+margin-top:1px;
+margin-bottom:1px;
+
+color:#3e65a2;
+font-family: Arial;
+text-decoration:none;
+display:block;
+font-size:0.84em;
+}
+.FacetLinkA:hover {
+padding-left:5px;
+padding-right:5px;
+margin-bottom:1px;
+color: black;
+background-color:#dfedf8;
+font-family: Arial;
+text-decoration:none;
+display:block;
+font-size:0.84em;
+}
+.darkLink, .darkLink:link, .darkLink:visited {
+color: black;
+}
+.FacetCount {
+
+color: #7c7c7c
+}
+.FacetHeader {
+display: block;
+
+
+color: white;
+background-color: #7c7c7c;
+font-family: Arial;
+overflow: hidden;
+padding: 5px;
+}
+
+.FacetsList {
+overflow: hidden;
+}
+.arrow_down {
+border-style:solid;
+border-bottom-width: 2px;
+border-left-width: 0px;
+border-right-width: 0px;
+border-top-width:0px;
+border-color:white;
+}
+.FacetBoxHeader {
+margin-top     : 103px;
+margin-bottom  : 5px;
+color:#202020;
+font-family:Helvetica,Arial,sans-serif;
+font-size:0.90em;
+font-weight:bold;
+font-variant:small-caps;
+}
+.searchStatementBox {
+background-color : #f1f8fe;
+border-style: solid;
+border-width: 2px;
+border-color: #c8e2f4;
+width: 742px;
+min-height: 40px;
+}
+.searchStatementLabel {
+color:#9fb4c2;
+font-family : Arial;
+width: 100px;
+}
+.searchStatementCell {
+font-family : Arial;
+}
+.searchStatementModifyCell {
+
+width: 100px;
+
+text-align: right;
+padding-right:10px;
+}
+.banner {
+background-color : #559DCF;
+height : 30px;
+}
+.currentFunction {
+background-color : #deeaf6;
+}
+.SearchResultsHeader {
+background-color : #3E65A2;
+border-style: solid;
+border-width: 2px;
+border-color: #3E65A2;
+width: 742px;
+min-height: 20px;
+}
+.SearchResultsTrailer {
+background-color : #3E65A2;
+border-style: solid;
+border-width: 2px;
+
+border-color: #3E65A2;
+width: 742px;
+min-height: 20px;
+}
+.QuickSearchHeader {
+background-color : #3E65A2;
+border-style: solid;
+border-width: 2px;
+border-color: #c8e2f4;
+width: 715px;
+min-height: 40px;
+padding-top:10px;
+}
+.QuickSearchHeaderCollectionButton {
+float:left;
+display:block;
+vertical-align: top;
+}
+.QuickSearchHeaderCollectionLabel {
+padding-left:5px;
+float:left;
+width: 30px;
+display:block;
+font-size:smaller;
+vertical-align: top;
+}
+.QuickSearchHeaderCollectionLabel {
+font-family : Arial;
+float:left;
+width: 80px;
+display:block;
+}
+#RevenuEtJournaux.QuickSearchHeaderCollectionLabel {
+font-family : Arial;
+float:left;
+width: 200px;
+display:block;
+}
+#leftMenuContainer {
+width : 182px;
+padding-right : 0px;
+padding-left  : 0px;
+}
+#mainContent {
+float : left;
+
+
+width : 747px;
+height : 100%;
+border-left  : 1px;
+border-right : 0px;
+border-top   : 0px;
+border-bottom: 0px;
+padding-right : 3px;
+padding-left  : 3px;
+border-color : #EDEEEE;
+border-style : solid;
+}
+.floatClear {
+width: 0px;
+height: 0px;
+clear : both;
+}
+.seperator {
+width: 0px;
+height: 10px;
+clear : both;
+}
+.title {
+float : left;
+}
+.titleText {
+font-weight : bold;
+color : #5A5A5A;
+padding : 0px;
+margin : 0px;
+}
+.titleLink {
+font-size: smaller;
+font-weight: bold;
+display : block;
+padding-left: 16px;
+color : #9C9C9C;
+float:right;
+}
+.titleLink:visited {
+font-size: smaller;
+font-weight: bold;
+display : block;
+padding-left: 16px;
+color : #9C9C9C;
+float:right;
+}
+.SummaryPosInSetCell {
+
+background-color : #F4F4F4;
+width : 20px;
+text-align: center;
+font-weight: bold;
+font-size: smaller;
+}
+.EMediaSummaryPosInSetCell {
+background-color : #B9DAC1;
+width : 20px;
+text-align: right;
+font-weight: bold;
+font-size: smaller;
+}
+.DetailPosInSetCell {
+
+background-color : #f4f4f4;
+width : 20px;
+text-align: right;
+font-weight: bold;
+font-size: smaller;
+}
+.SummaryPosInSetCellStripe {
+
+background-color : #FFFFFF;
+width : 20px;
+text-align: center;
+font-weight: bold;
+font-size: smaller;
+}
+.EMediaSummaryPosInSetCellStripe {
+background-color : #DCEDE0;
+width : 20px;
+text-align: right;
+font-weight: bold;
+font-size: smaller;
+}
+.DetailPosInSetCellStripe {
+
+background-color : #f4f4f4;
+width : 20px;
+text-align: right;
+font-weight: bold;
+font-size: smaller;
+}
+.SummaryImageCell {
+background-color: #F4F4F4;
+width: 80px;
+}
+.SummaryImageCellStripe {
+background-color: #FFFFFF;
+width: 80px;
+}
+.EMediaSummaryImageCell {
+background-color: #B9DAC1;
+width: 80px;
+overflow: hidden;
+}
+.EMediaSummaryImageCellStripe {
+background-color: #DCEDE0;
+width: 80px;
+overflow: hidden;
+}
+.DetailImageCell {
+background-color: #F4F4F4;
+width:100px;
+}
+.DetailImageCellStripe {
+background-color: #F6F6F6;
+}
+.SummaryDataCell {
+background-color: #F4F4F4;
+}
+.SummaryDataCellStripe {
+background-color: #FFFFFF;
+}
+.EMediaSummaryDataCell {
+background-color: #B9DAC1;
+}
+.EMediaSummaryDataCellStripe {
+background-color: #DCEDE0;
+}
+.DetailDataCell {
+background-color: #F4F4F4;
+}
+.DetailDataCellStripe {
+background-color: #FFFFFF;
+}
+.SummaryMaterialTypeField {
+text-align: center;
+font-size   : smaller;
+font-weight: bold;
+}
+.SummaryFieldLegend {
+font-size   : Smaller;
+text-align  : right;
+width: 40px;
+}
+.SummaryFieldLegendSep {
+font-size   : Smaller;
+text-align  : right;
+}
+.SummaryFieldData {
+color: #292424;
+}
+.SummaryFieldLink  {
+font-weight: bold;
+color: #3E65A2;
+text-decoration: underline;
+}
+.SummaryFieldLink:link {
+font-weight: bold;
+text-decoration: underline;
+color: #3E65A2;
+}
+.SummaryFieldLink:visited {
+font-weight: bold;
+color: #3E65A2;
+text-decoration: underline;
+}
+.SummaryActionBox {
+width:137px;
+
+padding-bottom: 12px;
+background-color:white;
+border-color: #a8bbce;
+border-style:solid;
+border-width: 2px;
+}
+.EMediaSummaryActionBox {
+width:137px;
+height:85px;
+background-color:white;
+border-color: #a8bbce;
+border-style:solid;
+border-width: 2px;
+}
+.SummaryActionLink {
+padding-top:8px;
+margin-left: 10px;
+font-size:0.80em;
+color:black;
+display: block;
+text-align: left;
+}
+.SummaryActionLink:link, .SummaryActionLink:visited {
+padding-top:8px;
+margin-left: 10px;
+font-size:0.80em;
+color:black;
+display: block;
+text-align: left;
+}
+.SummaryActionLink:hover {
+padding-top:8px;
+margin-left: 10px;
+font-size:0.80em;
+color:black;
+display: block;
+text-align: left;
+}
+.DetailedActionBox {
+
+
+background-color:white;
+border-color: #a8bbce;
+border-style:solid;
+border-width: 2px;
+}
+.searchHits {
+margin-top     : 5px;
+margin-bottom  : 5px;
+font-family    : Arial;
+font-size      : larger;
+font-weight    : bold;
+}
+.SearchResultsHeaderSortCell {
+padding-left: 10px;
+padding-top: 5px;
+}
+
+.SearchResultsTrailerSortCell {
+padding-left: 10px;
+padding-top: 5px;
+}
+.SearchResultsPageField {
+width : 1.5em;
+}
+.SearchExampleListBox {
+width: 715px;
+min-height : 200px;
+background-color: #fafafc;
+border-color: #e1e8ee;
+border-style: solid;
+border-width: 2px;
+}
+.SearchExampleListHeader {
+color : #a1a1a3;
+font-weight: bold;
+padding-top:10px;
+padding-left: 10px;
+}
+.SearchExampleList {
+color : #a1a1a3;
+padding-top:10px;
+padding-left: 30px;
+list-style-type:none;
+}
+.MyZonePageLeftMenuItem {
+}
+.MyZonePageLeftMenuList{
+list-style-type: none;
+}
+.MyZoneHeaderLink {
+color: #cf8032;
+text-decoration: underline;
+font-size : smaller;
+}
+.MyZoneHeaderSectionSep {
+margin-left: 5px;
+margin-right: 5px;
+font-size : smaller;
+}
+.MyZoneHeaderSection {
+font-size: smaller;
+color: #5d5d5d;
+}
+.MyZonetitleText {
+font-size: 1.30em;
+color: #565656;
+}
+.LoginHelpCell {
+vertical-align : bottom;
+padding-left: 5px;
+}
+.LoginForgotPinCell {
+vertical-align : bottom;
+padding-left: 5px;
+}
+.AccountSummaryHeaderCell {
+background-color: #ECECEC;
+padding-left : 10px;
+font-weight : bold;
+}
+.AccountDetailsHeaderCell {
+background-color: #ECECEC;
+padding-left : 10px;
+font-weight : bold;
+}
+.AccountSummaryCounterNameCell {
+width : 200px;
+padding-left: 20px;
+}
+.AccountDetailFieldNameCell {
+text-align: right;
+width : 65px;
+padding-left: 20px;
+padding-right: 5px;
+}
+.AccountDetailFieldNameCellStripe {
+text-align: right;
+width: 65px;
+padding-left: 20px;
+padding-right: 5px;
+background-color: #f8f8f8;
+}
+
+.CAccountDetailFieldNameCell {
+text-align: right;
+width : 95px;
+padding-left: 20px;
+padding-right: 5px;
+}
+.CAccountDetailFieldNameCellStripe {
+text-align: right;
+width: 95px;
+padding-left: 20px;
+padding-right: 5px;
+background-color: #f8f8f8;
+}
+.AccountSummaryCounterValueCell {
+width:  200px;
+}
+.AccountDetails {
+margin-top : 20px;
+width:745px;
+}
+.AccountDetailFieldValueCell {
+width: 400px;
+}
+.AccountDetailFieldValueCellStripe {
+width: 400px;
+background-color: #f8f8f8;
+}
+.AccountSummaryActionCell {
+}
+.AccountDetailFieldActionCell {
+}
+.AccountDetailFieldActionCellStripe {
+background-color: #f8f8f8;
+}
+.AccountSummaryCounterNameCellStripe {
+width: 200px;
+padding-left: 20px;
+background-color: #f8f8f8;
+}
+.AccountSummaryCounterValueCellStripe {
+width: 200px;
+background-color: #f8f8f8;
+}
+.AccountSummaryActionCellStripe {
+background-color: #f8f8f8;
+}
+.AccountSummaryCounterLink {
+color : #ce8435;
+text-decoration : underline;
+}
+.AccountSummaryActionLink {
+color : #ce8435;
+text-decoration : underline;
+font-size : smaller;
+padding-top:5px;
+padding-bottom:5px;
+padding-left:5px;
+display: block;
+}
+.AccountTrapErrorContainer {
+padding-left:10px;
+}
+.AccountTrapWarningContainer {
+padding-left:10px;
+}
+.BoldTitle {
+font-size: 1.1em;
+font-weight: bold;
+color: #3E65A2;
+}
+.BoldTitle A {
+font-size: 1.1em;
+font-weight: bold;
+color: #3E65A2;
+}
+
+.AccountMenuLink, .AccountMenuLink:link, .AccountMenuLink:visited {
+
+}
+.AccountMenuLink:hover, .AccountMenuLinkSelected, .AccountMenuLinkSelected:link {
+background-color:#eaf3f9;
+color: #727272;
+}
+
+.LoansHistoryBrowseHitNumber {
+width : 20px;
+}
+.LoansHistoryBrowseHitNumberStripe {
+background-color: #f8f8f8;
+width : 20px;
+}
+.LoansBrowseHitNumber {
+width : 100px;
+}
+.LoansBrowseHitNumberStripe {
+background-color: #f8f8f8;
+width : 100px;
+}
+.LoansBrowseItemDetailsCell {
+}
+.LoansBrowseItemDetailsCellStripe {
+background-color: #f8f8f8;
+}
+.LoansBrowseItemDetailsCellSelected {
+background-color: #93F887;
+}
+.LoansBrowseItemDetailsCellStripeSelected {
+background-color: #93F887;
+}
+.LoanBrowseFieldNameCell {
+font-size : smaller;
+width     : 120px;
+}
+.LoansBrowseItemPictureCell {
+width: 100px;
+}
+.LoansBrowseItemPictureCellStripe {
+background-color: #f8f8f8;
+width: 100px;
+}
+.SearchExample {
+background: url(/portal3/img/icon/bullet.gif) left center no-repeat;
+padding-left: 15px;
+margin-bottom: 5px;
+}
+.MessageBrowseHitNumberCell {
+width : 40px;
+}
+.MessageBrowseHitNumberCellStripe {
+width : 40px;
+background-color: #f8f8f8;
+}
+.MessageBrowseItemDetailsCell {
+}
+.MessageBrowseItemDetailsCellStripe {
+background-color: #f8f8f8;
+}
+.MessageBrowseItemDetailsCellSelected {
+background-color: #F8ABAB;
+}
+.MessageBrowseItemDetailsCellStripeSelected {
+background-color: #F8ABAB;
+}
+.MessageBrowseItemDetailsCellDisabled {
+background-color: #DBDBDB;
+color: white;
+}
+.MessageBrowseItemDetailsCellStripeDisabled {
+background-color: #DBDBDB;
+color: white;
+}
+.MessageBrowseBodyContainer {
+width: 600px;
+overflow: hidden;
+}
+.MessageBrowseFieldNameCell {
+width: 75px;
+text-align : right;
+vertical-align: top;
+font-size: smaller;
+padding-right: 5px;
+}
+.MessageBrowseFieldDataCell {
+}
+
+.ReservationBrowseFieldNameCell {
+width: 75px;
+text-align : right;
+vertical-align: middle;
+font-size: smaller;
+padding-right: 5px;
+}
+
+.ReservationBrowseFieldDataCell {
+vertical-align: middle;
+}
+
+.ResvRank {
+margin-right: 7px;
+padding-top: 8px;
+float: left;
+display: table-cell;
+vertical-align: middle;
+}
+
+.ChangePinLabelCell {
+font-size:smaller;
+width: 400px;
+}
+.ChangePinFieldCell {
+font-size:smaller;
+width: 250px;
+}
+.SerialIssueDetail_hidden {
+height:1px;
+margin-top:-1px;
+overflow:hidden;
+position:relative;
+visibility:hidden;
+}
+.ElectreLinks {
+font-size:0.80em;
+color:black;
+display: block;
+text-align: left;
+}
+.ElectreLinks:link, a.ElectreLinks:visited {
+font-size:0.80em;
+color:black;
+display: block;
+text-align: left;
+}
+ElectreLinks:hover {
+font-size:0.80em;
+color:black;
+display: block;
+text-align: left;
+}
+.SyndeticsLinks {
+font-size:0.80em;
+color:black;
+display: block;
+text-align: left;
+}
+.SyndeticsLinks:link, a.SyndeticsLinks:visited {
+font-size:0.80em;
+color:black;
+display: block;
+text-align: left;
+}
+SyndeticsLinks:hover {
+font-size:0.80em;
+color:black;
+display: block;
+text-align: left;
+}
+.CantookLinks {
+font-size:0.80em;
+color:black;
+display: block;
+text-align: left;
+}
+.CantookLinks:link, a.CantookLinks:visited {
+font-size:0.80em;
+color:black;
+display: block;
+text-align: left;
+}
+CantookLinks:hover {
+font-size:0.80em;
+color:black;
+display: block;
+text-align: left;
+}
+
+.flipbook-text {
+font-size:0.80em;
+color:black;
+display: block;
+text-align: left;
+}
+.flipbook-text:link, a.flipbook-text:visited {
+font-size:0.80em;
+color:black;
+display: block;
+text-align: left;
+}
+.flipbook-text:hover {
+font-size:0.80em;
+color:black;
+display: block;
+text-align: left;
+}
+
+.SerialIssueHeader {
+margin-bottom: 10px;
+border-bottom:1px;
+border-top:1px;
+border-left:0px;
+border-right:0px;
+border-style:solid;
+background-color:#bcddf0;
+}
+
+.tagcloudbox {
+text-align:left;
+height:150px;
+background-color:white;
+border-color: #a8bbce;
+border-style:solid;
+border-width: 2px;
+}
+
+.tg5 {
+display: inline;
+padding-right: 2px;
+font-size : 1.1em;
+}
+.tg4 {
+display: inline;
+padding-right: 2px;
+font-size : 1.0em;
+}
+.tg3 {
+display: inline;
+padding-right: 2px;
+font-size : 0.95em;
+}
+.tg2 {
+cursor: hand;
+display: inline;
+padding-right: 2px;
+font-size : 0.9em;
+}
+.tg1 {
+cursor: hand;
+display: inline;
+padding-right: 2px;
+font-size : 0.8em;
+}
+.tg0 {
+cursor: hand;
+display: inline;
+padding-right: 2px;
+font-size : 0.7em;
+}
+.tgc {
+list-style-image: none;
+}
+#tagcloud_content {
+margin-top:8px;
+margin-left:8px;
+}
+#tagcloud_header {
+text-align: center;
+font-weight: bold;
+background-color:#a8bbce;
+}
+
+
+#TotalFines {
+margin-top: 15px;
+}
+
+.TotalFinesHeader {
+width:  125px;
+}
+
+.TotalFinesCell {
+width:  125px;
+}
+
+.navigation_icon { border:0; position:relative;top: 3px; }
+.SyndeticsContent {
+padding: 20px 10px 10px 10px;
+}
+.SyndeticsHeaderRow {
+min-height: 15px;
+background-color: #3e64a2;
+margin-top: 10px;
+}
+.SyndeticsChapterRow {
+background-color: #f4f4f4;
+width: 125px;
+}
+.SyndeticsChapterRowStripe {
+background-color: #ffffff;
+width: 125px;
+}
+.SyndeticsTitleRow {
+background-color: #f4f4f4;
+}
+.SyndeticsTitleRowStripe {
+background-color: #ffffff;
+}
+.SyndeticsPageRow {
+background-color: #f4f4f4;
+width: 100px;
+}
+.SyndeticsPageRowStripe {
+background-color: #ffffff;
+width: 100px;
+}
+.limitBlock {
+position: relative;
+}
+.hiddenBlock_display {
+display:block;
+border-top: solid 1px #A5CBE6;
+}
+.hiddenBlock_hidden {
+display:none;
+}
+.limitToggle {
+position: absolute;
+top:5px;
+right:-16px;
+}
+.limitChoice {
+float:left;
+padding:5px;
+margin-right:10px;
+width:165px;
+}
+.limitChoice input {
+float:left;
+vertical-align: top;
+}
+.limitChoice label {
+margin-left:20px;
+display: block;
+}
+
+
+
+
+#v2_Entete .logo {
+display:none;
+}
+#v2_Entete {
+position:relative;
+padding-top:40px;
+}
+#v2_Entete #v2_ZoneRecherche {
+width:700px;
+text-align:right;
+top :10px;
+}
+#ZoneMenu li {
+float:left;
+width:auto;
+list-style-type:none;
+border-left:1px solid #d9d9d9;
+font-size:.84em;
+min-height:auto;
+font-weight:bold;
+color:#d9d9d9;
+}
+#ZoneMenu li {
+float:left;
+list-style-type:none;
+border-left:1px solid #d9d9d9;
+font-size:.84em;
+font-weight:bold;
+color:#d9d9d9;
+}
+#ZoneMenu li a:link, #ZoneMenu li a:visited {
+display:block;
+height:2em;
+padding:10px 10px 2px 10px;
+color:#525252;
+text-decoration:none;
+}
+#ZoneMenu li img {
+margin-top:-10px;
+border: 0 none;
+}
+.MenuViewNotepad {
+border-right:1px solid #d9d9d9;
+}
+
+#PdP2{
+clear:both;
+background-color:#edeeef;
+padding:10px;
+margin-top:20px;
+}
+#PdP2 .pdp1 {
+text-align:center;
+background-color:#72797f;
+color:#fff;
+font-weight:bold;
+font-size:.96em;
+padding:14px;
+margin:0;
+}
+#PdP2 .pdp1 a:link, #PdP2 .pdp1 a:visited {
+color:#fff;
+text-decoration:underline;
+}
+#PdP2 .pdp1 a:hover, #PdP2 .pdp1 a:focus {
+color:#fff;
+text-decoration:none;
+}
+#PdP2 img, #PdP2 .pdp3 img  {
+border:none;
+}
+#PdP2 .pdp2 {
+width:100%;
+overflow:hidden;
+}
+#PdP2 .pdp2 li {
+list-style-type:none;
+padding-left:4px;
+margin-bottom:5px;
+}
+#PdP2 .pdp2 h1 {
+font-size:1.06em;
+color:#394144;
+margin-bottom:8px;
+}
+#PdP2 .pdp2 div {
+float:left;
+width:16%;
+font-size:.84em;
+margin:10px 2%;
+}
+#PdP2 .pdp2 ul.ListePlus {
+font-weight:bold;
+margin-top:25px;
+margin-bottom:15px;
+}
+#PdP2 .logoPdp {
+display:block;
+margin-top:60px;
+}
+#PdP2 .pdp2 a:link, #PdP2 .pdp2 a:visited {
+color:#394144;
+text-decoration:underline;
+}
+#PdP2 .pdp2 a:hover, #PdP2 .pdp2 a:focus {
+color:#394144;
+text-decoration:none;
+}
+#PdP2 #iconesPdp {
+float:none;
+width:100%;
+}
+#PdP2 #iconesPdp img {
+margin-right:3px;
+}
+#PdP .pdp3 p {
+text-align:center;
+}
+#PdP .pdp3 p {
+color:#394144;
+font-weight:bold;
+margin:10px 0;
+}
+#PdP p.pdp2  {
+display:none;
+}
+
+
+</style>
+
+
+
+<script type="text/javascript" src="script/lib/jquery-1.4.2.min.js"></script>
+
+
+<link type="text/css" href="/script/lib/css/redmond/jquery-ui-1.7.2.custom.1.css" rel="stylesheet" />
+<link type="text/css" href="/script/lib/css/redmond/jquery-ui-1.7.2.custom.2.css" rel="stylesheet" />
+<link type="text/css" href="/script/lib/css/redmond/jquery-ui-1.7.2.custom.3.css" rel="stylesheet" />
+<script type="text/javascript" src="script/lib/jquery-ui-1.7.2.custom.min.js"></script>
+<link media="screen" rel="stylesheet" href="/script/lib/colorbox/colorbox.css" />
+<script src="/script/lib/colorbox/jquery.colorbox.js"></script>
+
+<script type="text/javascript">
+function writeCookie(cookieName, cookieValue)
+{
+document.cookie = cookieName + '=' + cookieValue + ';';
+}
+function readCookie(cookieName)
+{
+var cookies = document.cookie.split('; ');
+for(var i=0; i < cookies.length; i++)
+{
+var cookie = cookies[i].split('=');
+if(cookie[0] == cookieName)
+return cookie[1];
+}
+return null;
+}
+
+var printOptions = "";
+var printExtent = "";
+var documentManager = {
+addStartup : function ( f )
+{
+$( f );
+}
+}
+function OpenPrintFrame() {
+$('PrintLDLG').show();
+}
+function windowWidth()
+            {
+                var myWidth = 0;
+                if( typeof( window.innerWidth ) == 'number' ) {
+                    //Non-IE
+                    myWidth = window.innerWidth;
+                }
+                else if
+                    ( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) )
+                {
+                    myWidth = document.documentElement.clientWidth;
+                }
+                else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) )
+                {
+                    myWidth = document.body.clientWidth;
+                }
+                return myWidth;
+            }
+            var Printing = true;
+function OfflinePrintList(limit)
+{
+DoPrintList('OfflinePrint',limit);
+}
+function PrintList(limit)
+{
+DoPrintList('Print',limit);
+}
+
+function DoPrintList(method,limit)
+{
+Printing = true;
+
+if(typeof(limit) != "undefined" && limit != "")
+{
+printOptions+="&Options.MaxItem=" + limit;
+}
+var dialogURL = "Obj_1191791377722030?Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8";
+dialogURL += "&Style=Portal2&SubStyle=ForPortal3&Method=" + method + "&PrintOnly=1" + printOptions + printExtent;
+var e = document.getElementById('PrintLDLG');
+var dlg_width = 470;
+e.style.width = dlg_width + "px";
+e.style.left = ((windowWidth() -dlg_width) /2) + "px";
+
+if (printOptions != null && printOptions != "" && printOptions.indexOf("Options.Export=1") < 0)
+{
+e.style.height = "300px";
+}
+else
+{
+e.style.height = "100px";
+}
+e.style.display  = "block";
+e.src = dialogURL;
+                printExtent = "&Extent=Detailed&Options.Format=CoteReceipt";
+
+}
+function OfflineSendList(limit)
+{
+DoSendList('OfflinePrint',limit);
+}
+function SendList(limit)
+{
+DoSendList('Print',limit);
+}
+function DoSendList(method,limit)
+{
+if(typeof(limit) != "undefined" && limit != "")
+{
+printOptions+="&Options.MaxItem=" + limit;
+}
+
+var options =  ""
+if(options != "")
+{
+printOptions+= "&" + options;
+}
+Printing = false;
+var dialogURL = "Obj_1191791377722030?Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8";
+dialogURL += "&Style=Portal2&SubStyle=ForPortal3&Method=" + method + "&EmailOnly=1" + printOptions;
+var e = document.getElementById('PrintLDLG');
+var dlg_width = 470;
+e.style.width = dlg_width + "px";
+e.style.left = ((windowWidth() -dlg_width) /2) + "px";
+if (printOptions != "" )
+{
+e.style.height = "300px";
+}
+else
+{
+e.style.height = "100px";
+}
+e.style.display  = "block";
+e.src = dialogURL;
+}
+function PreviewList( url )
+{
+var e = document.getElementById('PrintLDLG');
+e.style.display  = "block";
+
+                if (printOptions != null && printOptions.indexOf("Options.Export=1") >= 0)
+                {
+    e.style.height = "100px";
+                }
+                else
+                {
+    e.style.height = "300px";
+                }
+
+if
+(Printing)
+{
+e.src = url + "&SubStyle=ForPortal3&PrintOnly=true";
+}
+else
+{
+e.src = url + "&SubStyle=ForPortal3&EmailOnly=true";
+}
+}
+function PrintClose ()
+{
+
+printOptions = "";
+printExtent = "";
+
+var e = document.getElementById('PrintLDLG');
+e.style.height = "100px";
+e.style.display  = "none";
+e.src = "/blank.html";
+}
+
+function Print()
+{
+if (window.print)
+{
+window.print();
+}
+}
+
+
+
+
+
+jQuery.fn.ZonesIdleTimeout  = function(options){
+var defaults = {
+
+inactivity: 1800 * 1000,
+
+noconfirm: 20000, //in milliseconds
+redirect_url: "APS_ACCOUNT?Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Method=ZonesLogout&ResetFn=FlashIntro",
+logout_url: "APS_ZONES?fn=endsession&Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8"
+}
+var opts = $.extend(defaults, options);
+var liveTimeout, sessionTimeout, timer, refModal,timeLeft;
+var counting = false;
+var modal = "<div id='modal_pop'></div>";
+var modal_created = false;
+var clearTimeouts = function(){
+clearTimeout(liveTimeout);
+clearTimeout(timer);
+}
+var start_timeout = function(){
+if (modal_created) refModal.dialog("close");
+else clearTimeouts();
+timeLeft = opts.noconfirm / 1000; //in seconds
+liveTimeout = setTimeout(showOrCreateDialog, opts.inactivity);
+
+}
+var dialogReady = function(){
+$("#modal_pop span").html(timeLeft);
+if(!modal_created){
+modal_created = true;
+refModal = $(".ui-dialog #modal_pop");
+}
+countDown();
+}
+var showOrCreateDialog = function(){
+if (modal_created){
+refModal.dialog("open");
+dialogReady();
+}
+else{
+$(modal).load("APS_TIMEOUT?Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&BrowseAsHloc=",dialogReady).dialog({
+modal: true,
+width: "750px",
+close: clearTimeouts
+});
+}
+}
+var redirect = function(){
+  if(opts.logout_url){
+$.get(opts.logout_url);
+  }
+  window.location.href = opts.redirect_url;
+}
+var keepCounting = function(){
+$("#modal_pop span").html(timeLeft);
+if (timeLeft  > 0){
+timeLeft--;
+return true;
+}
+return false;
+}
+var countDown = function(){
+if (keepCounting())
+{
+timer = setTimeout(countDown, 1000);
+}else{
+clearTimeout(timer);
+redirect();
+}
+}
+//returns the instance of the the plugin
+return this.each(function() {
+obj = $(this);
+start_timeout();
+
+$(document).bind('click', start_timeout);
+$(document).bind('keydown', start_timeout);
+$(document).bind('mousemove', start_timeout);
+});
+}
+function Help( sUrl, sData ) {
+                var e = document.getElementById('HelpFrame');
+                e.src = sUrl+"?"+sData;
+                $('#HelpDLG').dialog('open');
+}
+
+            function PopupUrl( url ) {
+var e = document.getElementById('PopupFrame');
+e.src = url;
+$('#PopupDLG').dialog('open');
+}
+function PopupUrl2(url , oheight, width, title)
+{
+var popup = $('#PopupDLG');
+popup.dialog("option","title",title);
+if (navigator.userAgent.indexOf("Mozilla/5.0") > 0)
+popup.dialog("option","width",width);
+else
+popup.dialog("option","width",width+"px");
+$("iframe",popup).css({width:"99%",height: oheight+ "px",overflow:"auto"});
+PopupUrl(url);
+}
+function SummaryBookcoverLoaded(id)
+{
+if( $('#'+id).width() > 1)
+{
+$('#Bookcover_' + id).show();
+}
+}
+    $( function () {
+
+     //$('#buttonAdSearch').html("Chercher");
+     //$('#buttonQuickSearch').html("Chercher");
+
+     //$('#buttonAdSearchClr').html("<font color='Black'>Effacer</font>");
+//$('#buttonQuickSearchClr').html("<font color='Black'>Effacer</font>");
+     // $('.button').corner();
+
+     //$( 'body').css("background","aliceBlue");
+     //$( '#stuff').hide();
+//$('#buttonAdSearch').css("background","orange");
+var zonesTimeoutEnabled = true;
+
+
+
+zonesTimeoutEnabled = false;
+
+
+
+if(zonesTimeoutEnabled) $(document).ZonesIdleTimeout();
+$('.FacetHeader').click( function () {
+$(this).toggleClass('arrow_down').next().slideToggle('fast');
+var img = $('img',this);
+var src = img.attr("src");
+if ($(this).hasClass('arrow_down'))
+{
+img.attr("src","/Portal3/GBQ/Interface/fleche_bas_noir.gif");
+}
+else
+{
+img.attr("src","/Portal3/GBQ/Interface/fleche_top_noir.gif");
+}
+});
+$('#HelpDLG').dialog(
+{
+width: "750px",
+
+resizable: false,
+autoOpen: false
+}
+);
+
+                $('#PopupDLG').dialog(
+{
+width: "750px",
+resizable: false,
+autoOpen: false
+}
+);
+$('.limitToggle').toggle(
+function() {
+
+$(this).prev('.hiddenBlock_display').removeClass('hiddenBlock_display').addClass('hiddenBlock_hidden');
+$(this).attr('src','/Portal3/GBQ/Interface/fleche_bas_noir.gif');
+var newAlt = $(this).attr('data-open');
+$(this).attr('alt',newAlt);
+$(this).attr('title',newAlt);
+}, function() {
+
+$(this).prev('.hiddenBlock_hidden').removeClass('hiddenBlock_hidden').addClass('hiddenBlock_display');
+$(this).attr('src','/Portal3/GBQ/Interface/fleche_top_noir.gif');
+var newAlt = $(this).attr('data-close');
+$(this).attr('alt',newAlt);
+$(this).attr('title',newAlt);
+}
+);
+
+
+$('.SerialIssue').toggle(
+function() {
+
+$(this).next().removeClass('SerialIssueDetail_hidden').addClass('SerialIssueDetail');
+var img = $('img',this);
+img.attr("src","/Portal3/GBQ/Interface/fleche_top_noir2.gif");
+}, function () {
+
+$(this).next().removeClass('SerialIssueDetail').addClass('SerialIssueDetail_hidden');
+var img = $('img',this);
+img.attr("src","/Portal3/GBQ/Interface/fleche_bas_noir2.gif");
+}
+);
+
+$('#LanguageComboBox').change(function() {
+var sOption = $("#LanguageComboBox option:selected");
+var url = "Obj_1191791377722030?Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Lang=" + sOption.val();
+document.location.href = url;
+
+});
+
+
+
+
+
+     });
+function fnOpenMediaRef(strURL, strTitle, strMode) {
+                strMode = strMode.toLowerCase();
+
+                if (strMode == "popup") {
+                    PopupUrl(strUrl);
+                }
+                else if (strMode == "option") {
+                    window.location= ( unescape (strURL) + "&Lang=FRE" );
+                }
+                else if (strMode == "replace") {
+                    window.location = unescape (strURL);
+                }
+                else { // either new, include, embed, default
+                    var width = 1024;
+                    if (screen.width - 50 < width) {
+                        width = screen.width - 50;
+                    }
+                    var height = 768;
+                    if (screen.height -100 < height) {
+                        height = screen.height -100;
+                    }
+                    window.open ( unescape ( strURL ), '_blank', 'scrollbars=yes,resizable=yes,width='+width+ ',height='+height );
+                }
+
+                try{event.returnValue = false;}
+                catch(er){}
+            }
+
+            function gotoUrl(url)
+            {
+                //alert(url);
+                var t = url;
+                var isComplete = false;
+                if (t.indexOf("http:")==0)
+                {
+                   isComplete = true;
+                }
+                if (t.indexOf("https:")==0)
+                {
+                   isComplete = true;
+                }
+                if (t.indexOf("javascript:")==0)
+                {
+                   isComplete = true;
+                }
+                if (t.indexOf("jscript:")==0)
+                {
+                   isComplete = true;
+                }
+
+                if
+                    (!isComplete)
+                {
+                    var temp = "http://172.17.1.79/ALSWWW2.DLL/";
+                    temp +=t;
+                    t = temp;
+                    //alert("doctored url is "+t);
+                }
+                window.location.href= t;
+            }
+function OnLoadActions()
+{
+correctPNG();
+
+}
+function PortfolioBookCoverLoaded(isbn)
+{
+if(typeof(isbn) != "undefined")
+{
+if ( $('#SyndeticsBookCover_'+isbn).width() <= 1)
+{
+$.getJSON("/Syndetics/default.aspx" + "?section=mc&isbn="+isbn, function(data) {
+if(data.result == true) {
+$('#BookCover_'+data.isbn).attr("src",data.url);
+}
+});
+}
+}
+}
+$(document).ready(function() {
+$(".FacetsList").each(
+function() {
+if($(this).hasClass("FacetsSortMeAsc"))
+{
+$(".FacetLinkA",this).sort(
+function(a,b) {
+return(a.innerHTML > b.innerHTML) ? 1 : -1;
+}
+).appendTo( $(this) );
+}
+else if($(this).hasClass("FacetsSortMeDesc"))
+{
+$(".FacetLinkA",this).sort(
+function(a,b) {
+return(a.innerHTML < b.innerHTML) ? 1 : -1;
+}
+).appendTo( $(this) );
+}
+}
+);
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+
+    function Set_Cookie( name, value, expires, path, domain, secure )
+    {
+        // set time, it's in milliseconds
+        var today = new Date();
+        today.setTime( today.getTime() );
+
+        if ( expires )
+        {
+            expires = expires * 1000 * 60 * 60 ;
+        }
+        var expires_date = new Date( today.getTime() + (expires) );
+
+    document.cookie = name + "=" +escape( value ) +
+    ( ( expires ) ? ";expires=" + expires_date.toGMTString() : "" ) +
+    ( ( path ) ? ";path=" + path : "" ) +
+    ( ( domain ) ? ";domain=" + domain : "" ) +
+    ( ( secure ) ? ";secure" : "" );
+ }
+
+
+  Set_Cookie( "banq_lang_c", "fr", 24, "/", ".banq.qc.ca" );
+
+
+  Set_Cookie( "banq_from_c", "iris", null, "/", ".banq.qc.ca" );
+
+
+
+</script>
+
+<!-- Declaration du fichier JS pour Webtrends -->
+<script type="text/javascript" language="JavaScript" src="https://www.banq.qc.ca/webtrends/banq_wt_tag.js"></script>
+<meta name="WT.cg_n" content="Catalogue Iris">
+
+<meta name="WT.cg_s" content="Catalogue Iris francais">
+
+<!-- Fin du code WebTrends -->
+
+<!-- Fin du code affichage IPAD -->
+<script type="text/javascript">
+var ua = navigator.userAgent.toLowerCase();
+var isIpad = ua.indexOf("ipad") > -1;
+if(isIpad) {
+jQuery(function($){
+$("<link>", {rel:"stylesheet", href:"/smedia/css/ipad.css"}).appendTo("head")
+  })
+}
+</script>
+<!-- Fin du code affichage IPAD -->
+
+
+
+
+
+
+<script type="text/javascript" src="script/lib/jquery.form.js"></script>
+
+<script type="text/javascript">
+		function MakeSuggestion()
+		{
+
+
+					window.location="Obj_1191791377722030?Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Method=MakeBookSuggestion&Lang=FRE";
+
+
+		}
+
+
+		$( function () {
+
+			 $('#ConfirmRenewDLG').dialog(
+				{
+					width: "450px",
+					autoOpen: false,
+
+					close: function(event, ui)
+					{
+						if
+							(cancelHighlight != null)
+						{
+							cancelHighlight();
+						}
+					}
+				}
+			);
+
+			$('#CannotRenewDLG').dialog(
+				{
+					width: "450px",
+					autoOpen: false
+				}
+			);
+
+		    $('#LateRenewWarnDLG').dialog(
+				{
+					 width: "450px",
+					 autoOpen: false,
+					 modal: true
+				}
+		    );
+
+			$('#RenewalResultDLG').dialog(
+				{
+					width: "400px",
+					autoOpen: false
+				}
+			);
+
+			$('#SuggestionLimitDLG').dialog(
+				{
+					width: "450px",
+					autoOpen: false
+				}
+			);
+		}
+		);
+
+
+		function Highlight( item , state )
+		{
+			var classPrefix = "LoansBrowseItem"
+			var e = $("#item_"+item);
+
+			if
+				(state)
+			{
+				if (e.hasClass(classPrefix+"DetailsCell"))
+				{
+					e.addClass(classPrefix+"DetailsCellSelected");
+					e.removeClass(classPrefix+"DetailsCell");
+				}
+				else if
+					(e.hasClass(classPrefix+"DetailsCellStripe"))
+				{
+					e.addClass(classPrefix+"DetailsCellStripeSelected");
+					e.removeClass(classPrefix+"DetailsStripeCell");
+				}
+				else
+				{
+					//alert(e);
+				}
+			}
+			else
+			{
+				if (e.hasClass(classPrefix+"DetailsCellSelected"))
+				{
+					e.removeClass(classPrefix+"DetailsCellSelected");
+					e.addClass(classPrefix+"DetailsCell");
+				}
+				else if
+					(e.hasClass(classPrefix+"DetailsCellStripeSelected"))
+				{
+					e.removeClass(classPrefix+"DetailsCellStripeSelected");
+					e.addClass(classPrefix+"DetailsStripeCell");
+				}
+			}
+		}
+
+
+		function answerYesRenew() {
+			var item = selItem;
+			selItem = null;
+			$('#ConfirmRenewDLG').dialog('close');
+            window.setTimeout("PerformRenewItem('"+item+"', false)",1);
+		}
+
+		function cancelHighlight()
+		{
+			if (selItem != null)
+			{
+				Highlight(selItem, false);
+				selItem = null;
+			}
+		}
+
+		function answerNoRenew() {
+			if (selItem != null)
+			{
+				Highlight(selItem, false);
+			}
+			$('#ConfirmRenewDLG').dialog('close');
+
+		}
+
+		var selItem = null;
+
+		function ConfirmRenew( item )
+		{
+			// so we should highlight the selected item, and bring up a cancel dialog.
+
+			// If the user confirms we call CancelReservation, and if it succeeds we refresh the current page, by submitting the page
+			// change form - with luck the resevation will be gone ? - if not we could use the same trick as for search history items,
+			// and update the browse item to mark it as cancelled.
+			if (selItem != null)
+			{
+				Highlight(selItem, false);
+			}
+
+			Highlight(item, true);
+			selItem = item;
+			$('#ConfirmRenewDLG').dialog('open');
+
+		}
+
+		function RenewLoan( item, notifyLate )
+		{
+
+                    PerformRenewItem( item, notifyLate );
+
+		}
+
+          var isNotifyLate;
+
+		function PerformRenewItem( item, notifyLate )
+		{
+            isNotifyLate = notifyLate;
+			$.getJSON("Obj_1191791377722030?Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Method=Renew&Accepted=1", {"Item": item },
+			    function(data)
+				{
+
+					if
+						(data.success=="true")
+					{
+						// we will need to update the item to indicate that
+						// the renewal was successful.
+						$('#loanDate_'+item).html(data.newLoanDate);
+						$('#returnDate_'+item).html(data.newDueDate);
+						$('#renewButtonCell_'+item).html("");
+                        $('#LateLoan_'+item).hide();
+						Highlight( item , false);
+
+                        if(isNotifyLate==true)
+                        {
+                            $('#LateRenewWarnDLG').dialog('open');
+                        }
+
+					}
+					else
+					{
+						Highlight( item , false);
+
+						if (data.description)
+						{
+							alert(data.description);
+						}
+
+					}
+				}
+			);
+		}
+
+
+		function CannotRenewLoan( item, reason )
+		{
+			if
+				((reason == "") || (reason== null))
+			{
+				$('#CannotRenewReason').html( "Ce prêt ne peut pas être prolongé");
+			}
+			else
+			{
+				$('#CannotRenewReason').html( reason );
+			}
+
+			$('#CannotRenewDLG').dialog('open');
+
+		}
+
+	</script>
+
+
+<script>
+			function ChangePin()
+			{
+				$('#ChangePinForm').show();
+				$('#ChangePinLink').hide();
+
+			}
+			function cancelChangePin() {
+				$('#changePinResult').html("");
+				$('#ChangePinForm').hide().each( function () {
+					this.reset();
+				});
+				$('#ChangePinLink').show();
+
+			}
+			function ChangeContactDetails() {
+				$('#ChangeContactForm').show();
+				$('#ChangeContactLink').hide();
+			}
+
+			function cancelChangeContact() {
+
+				$('#changeContactResult').html("");
+				$('#ChangeContactForm').hide().each( function () {
+
+					//this.reset();
+				});
+				$('#ChangeContactLink').show();
+
+			}
+
+			var changePinOptions = {
+					    target:     '#changePinResult',
+					    url:        'Obj_1191791377722030',
+					    success:    function() {
+
+						},
+						beforeSubmit:  function (){
+							//alert('Before submit');
+						}
+			};
+
+
+			var changeContactOptions = {
+					    target:     '#changeContactResult',
+					    url:        'Obj_1191791377722030',
+					    success:    function() {
+					        $('#contactAddress1').html($('#NewAddress1').html());
+					      	$('#contactAddress2').html($('#NewAddress2').html());
+
+						},
+						beforeSubmit:  function (){
+
+						}
+			};
+
+			$( function () {
+
+				// pass options to ajaxForm
+
+				$('#ChangePinForm').ajaxForm(changePinOptions);
+				$('#ChangeContactForm').ajaxForm(changeContactOptions);
+
+				$('#ChangePinForm').submit(function() {
+				    // submit the form
+				    $(this).ajaxSubmit(changePinOptions);
+				    // return false to prevent normal browser submit and page navigation
+				    return false;
+				});
+
+				$('#ChangeContactForm').submit(function() {
+				    // submit the form
+				    $(this).ajaxSubmit(changeContactOptions);
+				    // return false to prevent normal browser submit and page navigation
+				    return false;
+				});
+
+
+				$('#lostCardDLG').dialog(
+					{
+						width: "400px",
+						autoOpen: false
+					}
+
+				);
+
+				$('#renewSubDLG').dialog(
+					{
+						width: "400px",
+						autoOpen: false
+					}
+				);
+
+				$('#payAdviceDLG').dialog(
+					{
+						width: "400px",
+						autoOpen: false
+					}
+				);
+
+			});
+
+			function submitChangePin()
+			{
+
+				$('#ChangePinForm').each( function () {
+
+					$('#changePinResult').html("Sauvegarde en cours");
+					$(this).ajaxSubmit(changePinOptions);
+				 }
+
+				);
+			}
+
+			function submitChangeContact()
+			{
+				$('#ChangeContactForm').each( function () {
+
+
+					$('#changeContactResult').html("Sauvegarde en cours");
+					$(this).ajaxSubmit(changeContactOptions);
+				 }
+
+				);
+			}
+
+			function LostCard() {
+				$('#lostCardDLG').dialog( 'open' );
+			}
+			function RenewSubscriptionAdvice() {
+				$('#renewSubDLG').dialog( 'open' );
+			}
+
+			function PayAdvice() {
+				$('#payAdviceDLG').dialog( 'open' );
+			}
+
+
+			function Pay()
+			{
+
+
+					var url = "https://www.banq.qc.ca/pel/accueil";
+                    url = url.replace("&amp;","&");
+
+				document.location.replace(url);
+			}
+
+
+
+
+		</script>
+
+
+
+
+
+
+
+
+
+
+
+<link href="/Portal3/CSS/Biblio/Iris09-v2.css" rel="stylesheet" type="text/css" />
+<!--[if lte IE 6]><link href="/Portal3/CSS/Biblio/Iris09-IE6.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if IE 7]><link href="/Portal3/CSS/Biblio/Iris09-IE7.css" rel="stylesheet" type="text/css" /><![endif]-->
+
+<script type="text/javascript" language="javascript">
+var reso=screen.width
+	if(reso < 900) {
+document.write ('<link href="/Portal3/CSS/Biblio/Iris09-800.css" rel="stylesheet" type="text/css" />');
+	}
+</script>
+
+
+
+<script type="text/javascript" language="JavaScript" src="/Portal3/CSS/Biblio/Iris.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body class="Iris" onload="OnLoadActions();">
+
+<div id="Global" class="LargeD">
+
+<div class="Invisible">
+    <a href="#Contenu1" title="lien permettant de passer directement au contenu.">Aller directement au contenu</a>
+</div>
+
+<a name="haut"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="v2_Entete" >
+
+
+
+
+
+    <a href="http://www.banq.qc.ca/accueil/"
+
+       target="_top"
+
+            >
+        <img border=0 src="/Portal3/IMG/IRIS/logo_banq.jpg" width="140" height="69" class="logo" alt="Biblioth&egrave;que et Archives nationales du Qu&eacute;bec"  /></a>
+
+
+
+
+
+
+    <div id="v2_ZoneRecherche">
+
+
+
+
+        <form  name="rms" id="rms" action="http://www.banq.qc.ca/techno/recherche/rms.html" method="get"  target="_top" >
+
+            <label class="Invisible" for="motcle">Chercher dans le portail :</label>
+
+            <input type="text" name="keyword" id="motcle"  title="Entrez ici le(s) terme(s) de votre recherche. Touche d'acc&egrave;s clavier=4."   accesskey="4"  />
+
+
+            <input name="RechercheSite" type="image" class="ImgSubmit" value=""   src="/Portal3/GBQ/Interface/bt-recherche.gif" alt="Chercher."  />
+
+
+
+
+
+
+            <input name="fonction" type="hidden" value="chercher"/>
+            <input name="afficherPortail" type="hidden" value="checked"/>
+            <input name="afficherIris" type="hidden" value="checked"/>
+            <input name="afficherPistard" type="hidden" value="checked"/>
+            <input name="afficherColNum" type="hidden" value="checked"/>
+            <input name="afficherBdExterne" type="hidden" value="checked"/>
+
+        </form>
+
+
+        <div id="v2_ZoneMenuEntete">
+
+
+
+
+
+
+
+
+
+            <a   href="http://www.banq.qc.ca/a_propos_banq/index.html?language_id=3"  target="_top"   title="" >&Agrave; propos de BAnQ</a>
+
+
+
+
+
+
+
+
+
+
+
+            <a   href="http://www.banq.qc.ca/a_propos_banq/nous_joindre/index.html?language_id=3"  target="_top"   title="" >Pour nous joindre</a>
+
+
+
+
+
+
+
+
+
+
+
+            <a   href="http://www.banq.qc.ca/aide/index.html?language_id=3"  target="_top"   title="" >Aide</a>
+
+
+
+
+
+
+
+
+
+
+
+            <a   href="http://www.gouv.qc.ca/portail/quebec/pgs/commun/?lang=fr"  target="_top"   title="" >Portail Qu&eacute;bec</a>
+
+
+
+
+            &nbsp;&nbsp;
+
+
+
+
+
+
+
+            <a href="Obj_1191791377722030?Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Lang=ENG" title="Go to the page in English">English</a>
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+
+
+    <img src="/Portal3/IMG/IRIS/Ban_Iris_f.gif" alt="Catalogue Iris - Biblioth&egrave;que et Archives nationales du Qu&eacute;bec" width="940" height="69" />
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="ZoneMenu">
+    <ul>
+
+
+
+
+
+
+
+
+
+        <li>
+            <a href="http://www.banq.qc.ca/accueil/index.html" class="MenuAccueil" target="_top">
+
+                <img src="http://www.banq.qc.ca/images/interface09/icones/icone_accueil.png" alt="Portail de BAnQ"/>
+
+            </a>
+        </li>
+
+
+        <li  >
+            <a href="APS_ZONES?fn=QuickSearch&Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8" class="MenuQuickSearch" id="fnQuickSearch" title="Acc&eacute;der &agrave; la recherche simple">Recherche simple</a>
+        </li>
+
+
+        <li >
+            <a href="APS_ZONES?fn=AdvancedSearch&Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8" class="MenuAdvancedSearch" id="fnAdvancedSearch" title="Acc&eacute;der &agrave; la recherche avancée">Recherche avancée</a>
+        </li>
+
+
+        <li >
+            <a href="APS_ZONES?fn=AlphabeticSearch&Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8" class="MenuAlphabeticSearch" id="fnAlphabeticSearch" title="Acc&eacute;der &agrave; la recherche alphabétique">Recherche alphabétique</a>
+        </li>
+
+
+        <li >
+            <a href="APS_ZONES?fn=SearchHistory&Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8" class="MenuSearchHistory" id="fnSearchHistory" title="Acc&eacute;der &agrave; votre historique de recherche.">Historique de recherche</a>
+        </li>
+
+
+        <li >
+            <a href="APS_ZONES?fn=ViewNotepad&Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8" class="MenuViewNotepad" id="fnViewNotepad" title="Acc&eacute;der &agrave; mon panier">Mon panier</a>
+        </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <li class="LiDossier0" style="float:right;">
+            <div style="margin:0px; padding-top:1em; padding-left:5px;">
+                <a style="margin:0px; padding:0px; height:auto;" href="APS_ZONES?fn=MyZone&Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8" title="Acc&eacute;der &agrave; mon dossier">Mon dossier</a>
+                <div style="height:8px;">&nbsp;</div>
+
+                <a style="color:red; font-decoration: underline; margin:0px; padding:0px; height:auto;" title="Se déconnecter" href="/login/logout.aspx?a=b&Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8">Se déconnecter</a>
+
+
+
+            </div>
+
+        </li>
+    </ul>
+</div>
+
+
+
+
+
+
+
+<div id="Contenu">
+
+
+<!-- MODULE CONSULTEZ SI PAGE ACCUEIL -->
+
+<table border=0>
+<tr>
+
+
+
+
+
+
+
+
+<td valign="top">
+    <div id="leftMenuContainer" >
+
+        <ul id="navigation" class="MyZonePageLeftMenuList">
+            <li class="MyZonePageLeftMenuItem">
+                <a class=" AccountMenuLinkSelected " href='APS_ZONES?fn=MyZone&Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8' title="Aller à la section Prêts et renouvellements">
+                    Prêts et renouvellements
+                </a>
+            </li>
+
+
+            <li class="MyZonePageLeftMenuItem">
+                <a class=" AccountMenuLink "
+                   href='APS_ZONES?fn=MyReservations&PageSize=15&Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8'
+                   title="Aller &agrave; la section R&eacute;servations.">
+                    R&eacute;servations
+                </a>
+            </li>
+
+
+
+
+            <li class="MyZonePageLeftMenuItem">
+                <a class=" AccountMenuLink " href='APS_ZONES?fn=MyMessages&Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8' title="Aller &agrave; la section Messages.">
+                    Messages
+                </a>
+            </li>
+
+
+
+
+
+            <li class="MyZonePageLeftMenuItem">
+                <a class=" AccountMenuLink " href='APS_ZONES?fn=MyAccountHistory&Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8' title="Aller &agrave; la section Frais au dossier">
+                    Frais au dossier
+                </a>
+            </li>
+
+
+            <li class="MyZonePageLeftMenuItem">
+                <a class=" AccountMenuLink "
+                   href='APS_ZONES?fn=MyContactDetails&Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Parent=Obj_1191791377722030%3FStyle%3DPortal3%26SubStyle%3D%26Lang%3DFRE%26ResponseEncoding%3Dutf-8' title="Aller à la section Renseignements personnels.">
+                    Renseignements personnels
+                </a>
+            </li>
+
+
+
+
+
+
+            <li class="MyZonePageLeftMenuItem">
+                <a class=" AccountMenuLink " href='APS_ZONES?fn=MyLoansHistory&Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8' title="Aller &agrave; la section Historique des pr&ecirc;ts.">
+                    Historique des pr&ecirc;ts
+                </a>
+            </li>
+
+
+
+
+
+
+
+        </ul>
+        &nbsp;
+        &nbsp;
+
+    </div>
+</td>
+
+
+<td valign="top" width="100%">
+<div id="ColCentre" style="">
+<a name="Contenu1" title="Début du Contenu de la page"></a>
+
+
+<div id="titleContainer2">
+    <div id="Aide">
+
+        <a title="Aide" href="javascript:Help('/IrisHelp/HelpFRE.aspx','helpcontext=Toolbar,MyZoneHome')">
+            <img src="/Portal3/GBQ/Icone/gr_question.gif" alt="Aide" width="15" height="17" />
+            Aide
+        </a>
+        &nbsp;&nbsp;&nbsp;
+
+
+        <a href="https://www.banq.qc.ca/formulaires/formulaire_reference/?language_id=3" title="Poser une question"><img src="/Portal3/GBQ/Icone/gr_comment.gif" alt="Poser une question" width="22" height="17" /></a>
+
+
+
+
+
+
+
+        <a   href="https://www.banq.qc.ca/formulaires/formulaire_reference/?language_id=3"  target="_top"   title="Poser une question" >Poser une question</a>
+
+
+
+
+    </div>
+
+
+    <div id="fildariane">
+
+        <span class="MyZoneHeaderSection">Mon dossier</span>
+
+
+        <span class="MyZoneHeaderSectionSep">&gt;</span>
+        <span class="MyZoneHeaderSection">Prêts et renouvellements</span>
+
+    </div>
+
+
+
+
+</div>
+
+<div class="floatClear"></div>
+<div id="pageContent">
+
+
+
+<div class="title"><h2 class="MyZonetitleText">
+    Dahanne Isabelle
+
+
+</h2>
+</div>
+
+
+<div style="clear:both;">
+
+
+
+
+
+
+
+
+
+<div class=AccountTrapWarningContainer>
+
+    <b>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <BR>Vous avez 1 document(s) en retard.<br>
+
+
+
+    </b>
+
+
+</div>
+
+
+
+<table style="width:100%;" cellspacing="0" cellpadding="0" >
+    <thead>
+    <tr>
+        <td colspan="3" class="AccountSummaryHeaderCell">Prêts et renouvellements</td>
+    </tr>
+    </thead>
+    <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr>
+        <td class="AccountSummaryCounterNameCellStripe">
+
+            <a class="AccountSummaryCounterLink" href="Obj_1191791377722030?Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8?Method=ShowLoans" title="Consulter vos pr&ecirc;ts en cours">Pr&ecirc;ts en cours</a>
+
+        </td>
+        <td class="AccountSummaryCounterValueCellStripe">3</td>
+        <td class="AccountSummaryActionCellStripe"></td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr>
+        <td class="AccountSummaryCounterNameCell">
+
+            <a class="AccountSummaryCounterLink" href="APS_ZONES?fn=MyReservations&PageSize=15&Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8" title="Consulter vos réservations">Réservations</a>
+
+        </td>
+        <td class="AccountSummaryCounterValueCell">0</td>
+        <td class="AccountSummaryActionCell"></td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr>
+        <td class="AccountSummaryCounterNameCellStripe">
+
+            <a class="AccountSummaryCounterLink" href="Obj_1191791377722030?Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Method=ShowMessages" title="Visualiser vos messages">Messages</a>
+
+        </td>
+        <td class="AccountSummaryCounterValueCellStripe">0</td>
+        <td class="AccountSummaryActionCellStripe"></td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr>
+        <td class="AccountSummaryCounterNameCell">
+
+            <a class="AccountSummaryCounterLink" href="Obj_1191791377722030?Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Method=ShowAccount" title="Consulter vos frais au dossier">Frais au dossier</a>
+
+        </td>
+        <td class="AccountSummaryCounterValueCell">    3,00 $</td>
+        <td class="AccountSummaryActionCell">
+            <div style="width:90x; float:left;">
+
+
+
+
+
+
+
+
+
+
+
+
+                <a id="buttonAccountPay" title="Cliquer pour payer"
+                   target = '_top'
+                   tabindex=""
+                   class="button"
+                   href="https://www.banq.qc.ca/pel/accueil"><span>Payer</span></a>
+
+
+
+
+
+
+
+            </div>
+
+            <div style="float:left; ">
+
+                <img style="vertical-align:text-top;" class="PayImage" src="/Portal3/IMG/pay/visa.png" alt="Visa"/>
+                <img style="vertical-align:text-top;" class="PayImage" src="/Portal3/IMG/pay/master.png" alt="Mastercard"/>
+
+
+                <a href="javascript:PayAdvice()" title="Aide pour le Paiement en ligne" style="text-align:top; padding-top:2px;">? Aide</a>
+
+            </div>
+
+            <div style="clear:both;"></div>
+
+        </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+    <tr>
+        <td class="AccountSummaryCounterNameCellStripe">
+
+            <a class="AccountSummaryCounterLink" href="Obj_1191791377722030?Style=Portal3&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Method=ShowLoans" title="Consulter vos frais de retard estimés">Frais de retard estimés</a>
+
+        </td>
+        <td class="AccountSummaryCounterValueCellStripe">    1,00 $</td>
+        <td class="AccountSummaryActionCellStripe">
+        </td>
+    </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </tbody>
+</table>
+
+
+<div class="InlineCurrentLoans">
+<br>
+<br>
+<table>
+<thead>
+<tr>
+    <td colspan="3" class="AccountDetailsHeaderCell">Pr&ecirc;ts et renouvellements</td>
+</tr>
+</thead>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+    <td valign=top class="LoansBrowseHitNumber">1</td>
+    <td valign=top id="item_P1" class="LoansBrowseItemDetailsCell">
+        <table style="width:100%">
+            <tr>
+                <td class="LoanBrowseFieldNameCell">Titre</td>
+                <td class="LoanBrowseFieldDataCell">
+                    <b>Caillou. Le meilleur de Caillou [enregistrement vidéo].
+                        - vol. v.2   </b>
+                </td>
+            </tr>
+            <tr>
+                <td class="LoanBrowseFieldNameCell">No de document</td>
+                <td class="LoanBrowseFieldDataCell">32002519042087</td>
+            </tr>
+
+            <tr>
+                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; &agrave;</td>
+                <td class="LoanBrowseFieldDataCell">Grande Bibliothèque</td>
+            </tr>
+
+            <tr>
+                <td class="LoanBrowseFieldNameCell" >Emprunt&eacute; le</td>
+                <td class="LoanBrowseFieldDataCell" id="loanDate_P1" >02/08/2013</td>
+            </tr>
+            <tr>
+                <td class="LoanBrowseFieldNameCell">Doit &ecirc;tre remis le</td>
+                <td class="LoanBrowseFieldDataCell" id="returnDate_P1">
+                    <div class="LoanDate">
+                        <b>23/08/2013</b>
+                    </div>
+
+
+                    <div id="LateLoan_P1" class="LateLoan">
+                        <span class="LateLoanLabel">Retard</span>
+                    </div>
+
+
+
+
+                    <div style="width:120px; height:30px; padding-top:5px; display:inline;">
+
+
+
+
+
+
+
+
+
+                        <a id="buttonRenewLoan" title="Cliquer pour renouveler"
+                           target = ''
+                           tabindex=""
+                           class="button"
+                           href="javascript:RenewLoan('P1', false)"><span>Renouveler</span></a>
+
+
+
+
+
+
+
+                    </div>
+
+
+
+                </td>
+            </tr>
+
+            <tr>
+                <td class="LoanBrowseFieldNameCell" >Frais à ce jour</td>
+                <td class="LoanBrowseFieldDataCell" >
+                    1,00 $
+                </td>
+            </tr>
+
+
+
+        </table>
+    </td>
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+    <td valign=top class="LoansBrowseHitNumberStripe">2</td>
+    <td valign=top id="item_P2" class="LoansBrowseItemDetailsCellStripe">
+        <table style="width:100%">
+            <tr>
+                <td class="LoanBrowseFieldNameCell">Titre</td>
+                <td class="LoanBrowseFieldDataCell">
+                    <b>Mort sur le Nil
+                    </b>
+                    / Christie, Agatha, 1890-1976 </td>
+            </tr>
+            <tr>
+                <td class="LoanBrowseFieldNameCell">No de document</td>
+                <td class="LoanBrowseFieldDataCell">32002515176723</td>
+            </tr>
+
+            <tr>
+                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; &agrave;</td>
+                <td class="LoanBrowseFieldDataCell">Grande Bibliothèque</td>
+            </tr>
+
+            <tr>
+                <td class="LoanBrowseFieldNameCell" >Emprunt&eacute; le</td>
+                <td class="LoanBrowseFieldDataCell" id="loanDate_P2" >15/08/2013</td>
+            </tr>
+            <tr>
+                <td class="LoanBrowseFieldNameCell">Doit &ecirc;tre remis le</td>
+                <td class="LoanBrowseFieldDataCell" id="returnDate_P2">
+                    <div class="LoanDate">
+                        <b>05/09/2013</b>
+                    </div>
+
+
+                    <div class="LateLoan">
+
+                    </div>
+
+
+
+
+                    <div style="width:120px; height:30px; padding-top:5px; display:inline;">
+
+
+
+
+
+
+
+
+
+                        <a id="buttonRenewLoan" title="Cliquer pour renouveler"
+                           target = ''
+                           tabindex=""
+                           class="button"
+                           href="javascript:RenewLoan('P2', false)"><span>Renouveler</span></a>
+
+
+
+
+
+
+
+                    </div>
+
+
+
+                </td>
+            </tr>
+
+
+        </table>
+    </td>
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+    <td valign=top class="LoansBrowseHitNumber">3</td>
+    <td valign=top id="item_P3" class="LoansBrowseItemDetailsCell">
+        <table style="width:100%">
+            <tr>
+                <td class="LoanBrowseFieldNameCell">Titre</td>
+                <td class="LoanBrowseFieldDataCell">
+                    <b>Prêt pour la lecture
+                    </b>
+                    / Owen, Ruth, 1967- </td>
+            </tr>
+            <tr>
+                <td class="LoanBrowseFieldNameCell">No de document</td>
+                <td class="LoanBrowseFieldDataCell">32002514963683</td>
+            </tr>
+
+            <tr>
+                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; &agrave;</td>
+                <td class="LoanBrowseFieldDataCell">Grande Bibliothèque</td>
+            </tr>
+
+            <tr>
+                <td class="LoanBrowseFieldNameCell" >Emprunt&eacute; le</td>
+                <td class="LoanBrowseFieldDataCell" id="loanDate_P3" >21/08/2013</td>
+            </tr>
+            <tr>
+                <td class="LoanBrowseFieldNameCell">Doit &ecirc;tre remis le</td>
+                <td class="LoanBrowseFieldDataCell" id="returnDate_P3">
+                    <div class="LoanDate">
+                        <b>11/09/2013</b>
+                    </div>
+
+
+                    <div class="LateLoan">
+
+                    </div>
+
+
+
+
+                    <div style="width:120px; height:30px; padding-top:5px; display:inline;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <a id="buttonCannotRenewLoan" title="Le renouvellement n'est pas possible parce que vous avez atteint le nombre maximum de renouvellements."
+                           target = ''
+                           tabindex=""
+                           class="button_gray_disabled"
+                           href="#"><span>Renouveler</span></a>
+
+
+
+
+
+
+
+                        &nbsp;&nbsp;
+                        <a class="CannotRenewLink" href="javascript:CannotRenewLoan('P3','vous avez atteint le nombre maximum de renouvellements.','M48_MAX_EXT_SUB') " title="Cliquer pour obtenir informations.">?</a>
+
+                    </div>
+
+
+
+                </td>
+            </tr>
+
+
+        </table>
+    </td>
+</tr>
+
+
+
+
+</table>
+</div>
+<div id="ConfirmRenewDLG" title="Demande de renouvellement" style="display:none;">
+    <TABLE width="100%" style="height:65px">
+        <TR>
+            <TD align=left colspan=4>
+                Voulez-vous vraiment renouveler cet emprunt?<br/><br/>Si votre document est en retard, des frais seront ajoutés à votre dossier.
+            </TD>
+        </TR>
+        <TR>
+            <TD nowrap align=right>
+                <table>
+                    <tr>
+                        <td>
+
+
+
+
+
+                            <a id="buttonYes" title="Prolonger le prêt du document."
+                               target = ''
+                               tabindex=""
+                               class="button"
+                               href="javascript:answerYesRenew()"><span>Oui</span></a>
+
+
+
+
+
+
+
+                        </td>
+                        <td>
+
+
+
+
+
+                            <a id="buttonNo" title="Ne pas prolonger le prêt du document."
+                               target = ''
+                               tabindex=""
+                               class="button"
+                               href="javascript:answerNoRenew()"><span>Non</span></a>
+
+
+
+
+
+
+
+                        </td>
+                    </tr>
+                </table>
+            </TD>
+
+        </TR>
+    </TABLE>
+</div>
+
+<div id="LateRenewWarnDLG" title="Prêt en retard" style="display:none;">
+    <div>
+        Des frais de retard ont été ajoutés à votre dossier
+    </div>
+</div>
+
+<div id="CannotRenewDLG" title="Le renouvellement n'est pas possible parce que " >
+    <TABLE width="100%" style="height:65px">
+        <TR>
+            <TD align=left colspan=4>
+
+                <div id="CannotRenewReason">
+            </TD>
+        </TR>
+
+
+    </TABLE>
+</div>
+
+<div id="RenewalResultDLG" title="Détails sur la demande de renouvellement" style="display:none">
+    <div id="RenewalResultSuccess" style="display:none;">
+
+    </div>
+    <div id="RenewalResultLateWarning" style="display:none;">
+        Des frais de retard ont été ajoutés à votre dossier
+    </div>
+    <div id="RenewalResultFailure" style="display:none;">
+        Votre demande de renouvellement a été refusée.
+    </div>
+    <div id="RenewalResultFailureDetails" style="display:none;">
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<DIV class="redmond" id="renewSubDLG" title="Renouveler votre abonnement" style="display:none;">
+    Il suffit de vous présenter dans un des édifices de BAnQ (par exemple, au comptoir d’abonnement de la Grande Bibliothèque) avec votre carte d’abonné, une pièce d’identité et une preuve de résidence valides. Tous les frais inscrits à votre dossier doivent être réglés.
+</DIV>
+
+<DIV class="redmond" id="lostCardDLG" title="Signaler la perte de votre carte" style="display:none;">
+    Vous devez aviser immédiatement BAnQ à un comptoir de service ou par téléphone au 514 873-1100. Veuillez noter que vous êtes responsable de votre carte et de l’usage qui en est fait. Pour la faire remplacer, vous devez présenter une pièce d’identité valide et payer des frais de 2 $ pour une carte de jeune et de 3 $ pour une carte d’adulte.
+</DIV>
+
+<DIV class="redmond" id="payAdviceDLG" title="Paiement en ligne" style="display:none;">
+    Bibliothèque et Archives nationales du Québec vous offre la possibilité d'effectuer sur-le-champ, par carte de crédit Visa ou Mastercard, le paiement des frais inscrits à votre dossier. Ce service vous garantit sécurité, fiabilité et efficacité. <p> Le montant minimum requis pour accéder au service de paiement en ligne est de 5 $.
+    Le paiement en ligne sur le portail de BAnQ permet de payer les frais au dossier, mais pas les frais de retard estimés. Les frais au dossier sont les frais déjà inscrits à votre dossier parce que vous avez remis un document en retard, l'avez perdu ou endommagé, ou encore parce que vous n'avez pas récupéré dans le délai prévu un document que vous aviez réservé. Quant aux frais de retard estimés, ils correspondent à des frais pour des documents en retard que vous n'avez pas encore remis, qui seraient exigés et inscrits à votre dossier si le document était remis sur-le-champ. Ces frais s'accumulent jusqu'au retour des documents.
+    <p> Vous trouverez de l’information additionnelle en accédant au service de paiement en ligne.
+</DIV>
+
+
+
+</div>
+</div>
+</td>
+</tr>
+</table>
+
+</div><!--FIN DIV COL CENTRE -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="PdP">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="customFooter">
+        <div id="PdP2">
+            <div class="pdp1">
+                <p>Une question? <a href="http://www.banq.qc.ca/formulaires/formulaire_reference/index.html" class="LienQuestion" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PDP FR - Demandes Bibliothecaire']);">Demandez à un bibliothécaire ou à un archiviste</a> |
+                    <a href="http://www.banq.qc.ca/a_propos_banq/nous_joindre/index.html" class="LienQuestion" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'FR - Pour nous joindre']);">Pour nous joindre</a></p>
+            </div>
+
+            <div class="pdp2">
+                <div><h1>Activités</h1>
+                    <ul>
+                        <li><a href="http://www.banq.qc.ca//activites/calendrier/index.html?showExpo=false&calId=41" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Activites - Activites culturelles']);">Activités culturelles</a></li>
+                        <li><a href="http://www.banq.qc.ca/activites/expositions/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Activites - Expositions']);">Expositions</a></li>
+                        <li><a href="http://www.banq.qc.ca/activites/calendrier/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Activites - Billetterie']);">Billetterie</a></li>
+                        <li><a href="http://www.banq.qc.ca/ressources_en_ligne/baladodiffusion/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Activites - Balado']);">Baladodiffusion</a></li>
+                        <li><a href="http://www.banq.qc.ca/activites/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Activites - Toutes les activites']);">Toutes les activités</a></li>
+                    </ul>
+                    <a href="http://www.banq.qc.ca/" class="logoPdp" target="_top"><img src="http://www.banq.qc.ca/images/interface09/icones/logo_BAnQ_GouvQC.png" alt="Logo de Bibliothèque et Archives nationales du Québec."></a>
+                </div>
+                <div><h1>Collections</h1>
+                    <ul>
+                        <li><a href="http://iris.banq.qc.ca/iris.aspx" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Collections - Catalogue']);">Catalogue</a></li>
+                        <li><a href="http://www.banq.qc.ca/ressources_en_ligne/liste_nouveautes/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Collections - Nouveautes']);">Nouveautés</a></li>
+                        <li><a href="http://www.banq.qc.ca/ressources_en_ligne/livres-numeriques/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Collections - Livres numeriques']);">Livres numériques</a></li>
+                        <li><a href="http://www.banq.qc.ca/ressources_en_ligne/bd_revues_journaux/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Collections - Bases de donnees']);">Bases de données</a></li>
+                        <li><a href="http://www.banq.qc.ca/collections/collection_numerique/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Collections - Collections numeriques']);">Collection numérique</a></li>
+                        <li><a href="http://www.banq.qc.ca/collections/fonds_archives/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Collections - Archives']);">Archives</a> et <a href="http://www.banq.qc.ca/collections/genealogie/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'Collections - Genealogie']);">généalogie</a></li>
+                        <li><a href="http://www.banq.qc.ca/collections/revues_journaux/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Collections - Revues et journaux']);">Revues et journaux</a></li>
+                        <li><a href="http://www.banq.qc.ca/collections/cartes_plans/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Collections - Cartes et plans']);">Cartes et plans</a></li>
+                        <li><a href="http://www.banq.qc.ca/collections/images/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Collections - Images']);">Images</a></li>
+                    </ul>
+                </div>
+                <div><h1>Services</h1>
+                    <ul>
+                        <li><a href="http://www.banq.qc.ca/services/abonnement/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Services - Abonnement']);">Abonnement</a></li>
+                        <li><a href="http://www.banq.qc.ca/services/pret/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Services - Prêt']);">Prêt</a></li>
+                        <li><a href="http://www.banq.qc.ca/services/reservation_postes_multimedias/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Services - Réservation de postes']);">Réservation de postes</a></li>
+                        <li><a href="http://www.banq.qc.ca/services/reference/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Services - Information et référence']);">Information et référence</a></li>
+                        <li><a href="http://www.banq.qc.ca/services/services_professionnels/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Services - Espace professionnel']);">Espace professionnel</a></li>
+                        <li><a href="http://www.banq.qc.ca/services/services_specialises/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Services - Services spécialisés']);">Services spécialisés</a></li>
+                        <li><a href="http://www.banq.qc.ca/services/services_specialises/milieu_education/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Services - Milieu de l’éducation']);">Milieu de l’éducation</a></li>
+                        <li><a href="http://www.banq.qc.ca/services/location_salles/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Services - Location de salles']);">Location de salles</a></li>
+                        <li><a href="http://www.banq.qc.ca/formulaires/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Services - Formulaires']);">Formulaires</a></li>
+                        <li><a href="http://www.banq.qc.ca/services/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Services - Tous les services']);">Tous les services</a></li>
+                    </ul>
+                </div>
+                <div><h1>Renseignements</h1>
+                    <ul>
+                        <li><a href="http://www.banq.qc.ca/a_propos_banq/informations_pratiques/grande_bibliotheque/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Renseignements - Heures ouverture']);">Heures d'ouverture</a></li>
+                        <li><a href="http://www.banq.qc.ca/a_propos_banq/salle_de_presse/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Renseignements - Salle de presse']);">Salle de presse</a></li>
+                        <li><a href="http://www.banq.qc.ca/a_propos_banq/publications/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Renseignements - Publications']);">Publications</a></li>
+                        <li><a href="http://www.banq.qc.ca/outils/droit_auteur_avis_integrite/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Renseignements - Droit d’auteur']);">Droit d’auteur</a></li>
+                        <li><a href="http://www.banq.qc.ca/a_propos_banq/mission_lois_reglements/lois_reglements_politiques/politiques_procedures/politique_confidentialite/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Renseignements - Confidentialite']);">Confidentialité</a></li>
+                        <li><a href="http://www.banq.qc.ca/a_propos_banq/mission_lois_reglements/declaration_services/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Renseignements - Declaration de services aux citoyens']);">Déclaration de services aux citoyens</a></li>
+                        <li><a href="http://www.banq.qc.ca/a_propos_banq/acces_a_linfo/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Renseignements - Acces information']);">Accès à l'information</a></li>
+                        <li><a href="http://www.banq.qc.ca/a_propos_banq/pour_nous_ecrire/protecteur/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Renseignements - Protecteur des usagers']);">Protecteur des usagers</a></li>
+                        <li><a href="http://www.banq.qc.ca/outils/plan_site/index.html" accesskey="3" title="Plan du site: Touche d'accès clavier=3." target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Renseignements - Plan du site']);">Plan du site</a></li>
+                    </ul>
+                </div>
+                <div><h1>Accessibilité</h1>
+                    <ul>
+                        <li><a href="http://www.banq.qc.ca/sqla/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Accessibilite - SQLA']);">SQLA</a></li>
+                        <li><a href="http://www.banq.qc.ca/services/services_specialises/services_adaptes/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Accessibilite - Services adaptés']);">Services adaptés</a></li>
+                        <li><a href="http://www.banq.qc.ca/outils/accessibilite/index.html" accesskey="0" title="Accessibilité: Touche d'accès clavier=0." target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Accessibilite - Accessibilité du portail']);">Accessibilité du portail</a></li>
+                    </ul>
+                    <ul class="ListePlus">
+                        <li><a href="http://www.banq.qc.ca/mon_dossier/mon_dossier.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Liste+ - Mon dossier']);">Mon dossier</a></li>
+                        <li><a href="http://www.banq.qc.ca/mobile/" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Liste+ - Mobile']);">Mobile</a></li>
+                        <li><a href="http://lebloguedebanq.wordpress.com/" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Liste+ - Blogue']);">Blogue</a></li>
+                        <li><a href="http://www.banq.qc.ca/a_propos_banq/publications/infolettre/" target="_top" onclick="_gaq.push(['_trackEvent', 'Fatfooter', 'Click', 'PdP FR Liste+ - Infolettre']);">Infolettre</a></li>
+                    </ul>
+                    <div id="iconesPdp">
+                        <a href="http://www.facebook.com/pages/Bibliotheque-et-Archives-nationales-du-Quebec-Grande-Bibliotheque/239106374115" target="_top" onclick="_gaq.push(['_trackEvent', 'Icônes 2.0', 'Click', 'PdP FR - Facebook']);"><img src="http://www.banq.qc.ca/images/interface09/icones/ic_facebook.gif" alt="Facebook."></a>
+                        <a href="http://twitter.com/_BAnQ" target="_top" onclick="_gaq.push(['_trackEvent', 'Icônes 2.0', 'Click', 'PdP FR - Twitter']);"><img src="http://www.banq.qc.ca/images/interface09/icones/ic_twitter.gif" alt="Twitter."></a>
+                        <a href="http://www.banq.qc.ca/aide/RSS/index.html" target="_top" onclick="_gaq.push(['_trackEvent', 'Icônes 2.0', 'Click', 'PdP FR - RSS']);"><img src="http://www.banq.qc.ca/images/interface09/icones/ic_rss.gif" alt="Fils RSS."></a>
+                        <a href="http://www.youtube.com/user/BAnQweb20" target="_top" onclick="_gaq.push(['_trackEvent', 'Icônes 2.0', 'Click', 'PdP FR - YouTube']);"><img src="http://www.banq.qc.ca/images/interface09/icones/ic_youtube.gif" alt="You Tube."></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="pdp3">
+            <p>© Bibliothèque et Archives nationales du Québec </p>
+        </div>
+    </div>
+
+
+
+    <p class="pdp2">
+
+
+
+
+
+
+
+
+
+        <a   href="http://www.banq.qc.ca/techno/plan_site.html?language_id=3"  target="_top"   title="" >Plan du site</a>
+
+
+
+
+
+
+
+
+
+
+
+        <a   href="http://www.banq.qc.ca/a_propos_banq/renseignements_generaux/droit_auteur_avis_integrite/index.html?language_id=3"  target="_top"   title="" >Droits d'auteur</a>
+
+
+
+
+
+
+
+
+
+
+
+        <a   href="http://www.banq.qc.ca/a_propos_banq/renseignements_generaux/confidentialite/index.html?language_id=3"  target="_top"   title="" >Confidentialit&eacute;</a>
+
+
+
+
+
+
+
+
+
+
+
+        <a   href="http://www.banq.qc.ca/a_propos_banq/renseignements_generaux/declaration_services/index.html?language_id=3"  target="_top"   title="" >D&eacute;claration de services aux citoyens</a>
+
+
+
+
+
+
+
+        <br>
+
+
+
+
+
+
+
+
+        <span>© Biblioth&egrave;que et Archives nationales du Qu&eacute;bec</span>
+
+
+
+
+
+        <span>Zones.2.2.45.12</span>
+
+
+
+</div>
+
+</div> <!-- FIN DIV PRINCIPAL -->
+
+
+
+
+
+
+
+
+<div id="HelpDLG" title="Aide" style="display:none; padding-right:0;">
+    <iframe title="HelpDialog" id="HelpFrame" src="/blank.html" frameborder=0 style="margin-left:2px;width:730px;height:400px;overflow:auto;"></iframe>
+</div>
+
+<div id="PopupDLG" title="Lien externe" style="display:none; padding-right:0;">
+    <iframe title="PopupDialog" id="PopupFrame" src="/blank.html" frameborder=0 style="margin-left:2px;width:730px;height:400px;overflow:auto;"></iframe>
+</div>
+<script type="text/javascript">
+        function resizePrintDLG(height,width)
+        {
+            var oPrintDLG = document.getElementById("PrintLDLG");
+            if(oPrintDLG != null)
+            {
+                oPrintDLG.height=height;
+                oPrintDLG.width=width;
+                oPrintDLG.style.width = width + "px";
+                oPrintDLG.style.height = height + "px";
+            }
+        }
+    </script>
+
+<iframe title="PrintDLG" src="/blank.html"  style="background:white; position:absolute; top:360px; left:100px; display:none; margin:0; padding:0" id="PrintLDLG" frameborder="0" scrolling="no" width="470" height="400">
+</iframe>
+
+
+<!-- Début du code d'appel de WebTrends -->
+<SCRIPT TYPE="text/javascript">
+try {
+dcsVar();
+dcsMeta();
+dcsFunc("dcsAdv");
+dcsTag();
+} catch (err)
+{
+  //do nothing
+}
+</SCRIPT>
+<NOSCRIPT>
+    <div><img alt="DCSIMG" id="DCSIMG" width="1" height="1" src="http://statse.webtrendslive.com/dcslry9qi10000kvxqywnefg9_4i5g/njs.gif?dcsuri=/nojavascript&WT.js=No&WT.tv=8.6.2"/></div>
+</NOSCRIPT>
+<!-- Fin du code d'appel de WebTrends -->
+
+<!-- Début du code d'appel de Analytics -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-12469043-4");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- Fin du code d'appel de Analytics -->
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+
+
+
+
+
