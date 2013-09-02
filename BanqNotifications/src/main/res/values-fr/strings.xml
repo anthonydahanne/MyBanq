@@ -9,6 +9,7 @@
     <string name="loggedAs">Connecté en tant que</string>
     <string name="unexpectedError">Erreur</string>
     <string name="renew">Renouveler</string>
+    <string name="item_to_return_to_banq">Articles à retourner à la BANQ</string>
     <string name="retrieving_your_informations">Chargement de votre dossier</string>
     <string name="invalid_session">La session est invalide. Essayez de re saisir vos identifiants svp.</string>
     <string name="renewal_successful">Vous avez renouvelé votre emprunt avec succès !</string>

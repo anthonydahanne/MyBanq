@@ -75,6 +75,14 @@ public class BorrowedItem {
     }
 
     public long getRemainingDays() {
-        return Math.round((toBeReturnedBefore.getTime() - Calendar.getInstance().getTimeInMillis()) / (1000l * 60l * 60l * 24l));
+        Calendar instance = Calendar.getInstance();
+        // to make sure we have the same number of remaining days when the user opens the app
+        // several times the same day
+        instance.set(Calendar.MILLISECOND,0);
+        instance.set(Calendar.SECOND,0);
+        instance.set(Calendar.MINUTE,0);
+        instance.set(Calendar.HOUR_OF_DAY,0);
+
+        return Math.round((toBeReturnedBefore.getTime() - instance.getTimeInMillis()   ) / (1000l * 60l * 60l * 24l));
     }
 }

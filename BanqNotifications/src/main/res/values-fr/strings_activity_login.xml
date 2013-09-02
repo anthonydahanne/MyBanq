@@ -8,8 +8,9 @@
     <string name="action_sign_in_register"><b>S\'identifier</b></string>
     <string name="action_sign_in_short">S\'identifier</string>
 
-
     <string name="login_progress_signing_in">En cours d\'identification&#8230;</string>
 
+    <string name="error_invalid_email">Ce numéro de client est invalide</string>
+    <string name="error_invalid_password">Ce mot de apsse est trop court</string>
     <string name="error_field_required">Ce champ est requis</string>
 </resources>

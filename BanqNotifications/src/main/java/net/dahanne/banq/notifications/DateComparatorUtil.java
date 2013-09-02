@@ -9,11 +9,12 @@ import android.view.View;
  */
 public class DateComparatorUtil {
 
+    public static final String BLUE_BANQ = "#006b9c";
     private static long _1_week = 1000l * 60l * 60l * 24l * 7l;
 
     public static int getExpirationColor(long remainingDays) {
         if (remainingDays >= 30) {
-            return Color.GREEN;
+            return Color.parseColor(BLUE_BANQ);
         } else if (remainingDays >= 7) {
             return Color.YELLOW;
         } else {
