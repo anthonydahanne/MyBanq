@@ -9,14 +9,16 @@ import android.view.View;
  */
 public class DateComparatorUtil {
 
-    public static final String BLUE_BANQ = "#006b9c";
+    static final int BLUE_BANQ = Color.parseColor("#006b9c");
+    static final int GREEN_BANQ = Color.parseColor("#31aea4");
+
     private static long _1_week = 1000l * 60l * 60l * 24l * 7l;
 
     public static int getExpirationColor(long remainingDays) {
         if (remainingDays >= 30) {
-            return Color.parseColor(BLUE_BANQ);
+            return BLUE_BANQ;
         } else if (remainingDays >= 7) {
-            return Color.YELLOW;
+            return GREEN_BANQ;
         } else {
             return Color.RED;
         }
@@ -24,9 +26,9 @@ public class DateComparatorUtil {
 
     public static int getBorrowColor(long dayRemaining) {
         if (dayRemaining >= 7) {
-            return Color.GREEN;
+            return BLUE_BANQ;
         } else if (dayRemaining >= 3) {
-            return Color.YELLOW;
+            return GREEN_BANQ;
         } else {
             return Color.RED;
         }

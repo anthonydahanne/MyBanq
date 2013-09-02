@@ -1,4 +1,7 @@
 apply plugin: 'java'
+// this is needed to avoid the bad class file magic (cafebabe) or version (0033.0000) error
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
 
 test { systemProperties = System.properties }
 

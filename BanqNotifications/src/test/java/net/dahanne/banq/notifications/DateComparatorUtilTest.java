@@ -10,6 +10,8 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static net.dahanne.banq.notifications.DateComparatorUtil.BLUE_BANQ;
+import static net.dahanne.banq.notifications.DateComparatorUtil.GREEN_BANQ;
 
 import org.robolectric.Robolectric;
 
@@ -21,14 +23,14 @@ public class DateComparatorUtilTest {
 
     @Test
     public void testGetExpirationColor() {
-        assertEquals(Color.GREEN, DateComparatorUtil.getExpirationColor(40));
-        assertEquals(Color.GREEN, DateComparatorUtil.getExpirationColor(35));
-        assertEquals(Color.GREEN, DateComparatorUtil.getExpirationColor(30));
-        assertEquals(Color.YELLOW, DateComparatorUtil.getExpirationColor(25));
-        assertEquals(Color.YELLOW, DateComparatorUtil.getExpirationColor(20));
-        assertEquals(Color.YELLOW, DateComparatorUtil.getExpirationColor(15));
-        assertEquals(Color.YELLOW, DateComparatorUtil.getExpirationColor(10));
-        assertEquals(Color.YELLOW, DateComparatorUtil.getExpirationColor(7));
+        assertEquals(BLUE_BANQ, DateComparatorUtil.getExpirationColor(40));
+        assertEquals(BLUE_BANQ, DateComparatorUtil.getExpirationColor(35));
+        assertEquals(BLUE_BANQ, DateComparatorUtil.getExpirationColor(30));
+        assertEquals(GREEN_BANQ, DateComparatorUtil.getExpirationColor(25));
+        assertEquals(GREEN_BANQ, DateComparatorUtil.getExpirationColor(20));
+        assertEquals(GREEN_BANQ, DateComparatorUtil.getExpirationColor(15));
+        assertEquals(GREEN_BANQ, DateComparatorUtil.getExpirationColor(10));
+        assertEquals(GREEN_BANQ, DateComparatorUtil.getExpirationColor(7));
         assertEquals(Color.RED, DateComparatorUtil.getExpirationColor(6));
         assertEquals(Color.RED, DateComparatorUtil.getExpirationColor(5));
         assertEquals(Color.RED, DateComparatorUtil.getExpirationColor(1));
@@ -39,13 +41,13 @@ public class DateComparatorUtilTest {
 
     @Test
     public void testGetBorrowColor() {
-        assertEquals(Color.GREEN, DateComparatorUtil.getBorrowColor(10));
-        assertEquals(Color.GREEN, DateComparatorUtil.getBorrowColor(8));
-        assertEquals(Color.GREEN, DateComparatorUtil.getBorrowColor(7));
-        assertEquals(Color.YELLOW, DateComparatorUtil.getBorrowColor(6));
-        assertEquals(Color.YELLOW, DateComparatorUtil.getBorrowColor(5));
-        assertEquals(Color.YELLOW, DateComparatorUtil.getBorrowColor(4));
-        assertEquals(Color.YELLOW, DateComparatorUtil.getBorrowColor(3));
+        assertEquals(BLUE_BANQ, DateComparatorUtil.getBorrowColor(10));
+        assertEquals(BLUE_BANQ, DateComparatorUtil.getBorrowColor(8));
+        assertEquals(BLUE_BANQ, DateComparatorUtil.getBorrowColor(7));
+        assertEquals(GREEN_BANQ, DateComparatorUtil.getBorrowColor(6));
+        assertEquals(GREEN_BANQ, DateComparatorUtil.getBorrowColor(5));
+        assertEquals(GREEN_BANQ, DateComparatorUtil.getBorrowColor(4));
+        assertEquals(GREEN_BANQ, DateComparatorUtil.getBorrowColor(3));
         assertEquals(Color.RED, DateComparatorUtil.getBorrowColor(2));
         assertEquals(Color.RED, DateComparatorUtil.getBorrowColor(1));
         assertEquals(Color.RED, DateComparatorUtil.getBorrowColor(0));
