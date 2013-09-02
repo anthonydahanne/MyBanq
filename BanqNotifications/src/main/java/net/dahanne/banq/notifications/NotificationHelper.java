@@ -6,8 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import net.dahanne.banq.model.BorrowedItem;
-
 /**
  * Created by guilhem.demiollis on 13-08-16.
  */

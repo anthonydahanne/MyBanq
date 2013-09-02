@@ -6,14 +6,13 @@ import android.view.View;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 
+import static net.dahanne.banq.notifications.DateComparatorUtil.BLUE_BANQ;
+import static net.dahanne.banq.notifications.DateComparatorUtil.GREEN_BANQ;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static net.dahanne.banq.notifications.DateComparatorUtil.BLUE_BANQ;
-import static net.dahanne.banq.notifications.DateComparatorUtil.GREEN_BANQ;
-
-import org.robolectric.Robolectric;
 
 /**
  * Created by guilhem.demiollis on 13-08-20.

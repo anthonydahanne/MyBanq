@@ -29,9 +29,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import net.dahanne.banq.BanqClient;
-import net.dahanne.banq.exceptions.InvalidCredentialsException;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
