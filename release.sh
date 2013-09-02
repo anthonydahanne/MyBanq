@@ -1,3 +1,4 @@
+# downloaded from https://gist.github.com/jpeddicord/5710705
 #!/bin/bash
  
 if [[ $# -ne 1 ]]; then
