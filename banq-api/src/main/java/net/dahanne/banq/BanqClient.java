@@ -255,7 +255,7 @@ public class BanqClient {
 
     static Date toDate(String substring) throws ParseException {
         substring = substring + " EDT";
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH:mm zzz");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH:mm 'EDT'");
         return formatter.parse(substring);
     }
 
