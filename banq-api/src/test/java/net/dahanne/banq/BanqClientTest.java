@@ -5,6 +5,9 @@ import net.dahanne.banq.exceptions.InvalidCredentialsException;
 import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
 
+import org.hamcrest.core.IsNull;
+import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -25,6 +28,16 @@ public class BanqClientTest {
 
     private static final String USERNAME = System.getProperty("username");
     private static final String PASSWORD = System.getProperty("password");
+
+
+    @BeforeClass
+    public static void checkVMArgumentsAreProvided() throws IOException {
+        if(USERNAME==null || PASSWORD ==null) {
+            System.err.println("You did not specify USERNAME or PASSWORD vm arguments, integration tests can't be run");
+        }
+        Assume.assumeThat(USERNAME,IsNull.notNullValue());
+        Assume.assumeThat(PASSWORD,IsNull.notNullValue());
+    }
 
     @Test
     public void toDateTest() throws ParseException {

@@ -152,7 +152,7 @@ public class BanqClient {
         for (int i = 1; (headerName = connect.getHeaderFieldKey(i)) != null; i++) {
             if (headerName.equals("Set-Cookie")) {
                 String cookie = connect.getHeaderField(i);
-                System.out.println("COOKIE : " + cookie);
+//                System.out.println("COOKIE : " + cookie);
                 cookies.add(cookie);
             }
         }
