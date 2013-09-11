@@ -4,6 +4,7 @@ import net.dahanne.banq.exceptions.FailedToRenewException;
 import net.dahanne.banq.exceptions.InvalidCredentialsException;
 import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
+import net.dahanne.banq.model.ItemType;
 
 import org.hamcrest.core.IsNull;
 import org.junit.Assume;
@@ -49,7 +50,7 @@ public class BanqClientTest {
 
     @Test
     public void parseDetailsTest() throws IOException, ParseException {
-        InputStream resource = BanqClientTest.class.getClassLoader().getResourceAsStream("sampleDetails.html");
+        InputStream resource = BanqClientTest.class.getClassLoader().getResourceAsStream("sampleDetails-mobile.html");
         String sampleDetailsPage =  HttpBuilder.toString(resource);
 
         BanqClient bc = new BanqClient();
@@ -59,8 +60,8 @@ public class BanqClientTest {
         assertEquals("9.50$",details.getCurrentDebt());
         assertEquals("02002005631076",details.getUserID());
 
-        BorrowedItem expectedMaisy =  new BorrowedItem("Maisy's colors / Lucy Cousins.","COU", getDate(2013,7,13,23,27),getDate(2013,8,3,23,59), "32002500975246","02002005631076" );
-        assertEquals(expectedMaisy,details.getBorrowedItems().get(2));
+        BorrowedItem expectedMaisy =  new BorrowedItem("Maisy's colors / Lucy Cousins.","COU", getDate(2013,8,1,11,29),getDate(2013,8,22,23,59), "32002500975246","02002005631076", ItemType.REGULAR_BORROWED_ITEM );
+        assertEquals(expectedMaisy,details.getBorrowedItems().get(0));
     }
 
     @Test

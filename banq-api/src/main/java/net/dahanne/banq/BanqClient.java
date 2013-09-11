@@ -5,6 +5,7 @@ import net.dahanne.banq.exceptions.InvalidCredentialsException;
 import net.dahanne.banq.exceptions.InvalidSessionException;
 import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
+import net.dahanne.banq.model.ItemType;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -231,20 +232,26 @@ public class BanqClient {
 
                     String title = borrowedItemProperties.get(0).toString();
 
-                    String shelfMarkText = borrowedItemProperties.get(2).toString();
-                    String shelfMark = shelfMarkText.substring(shelfMarkText.indexOf(":") + 2).trim();
+                    if(title.startsWith("(")) {
+                        // reservation
+                        Date borrowedDateAsDate = toDate(title.substring(title.indexOf("(") + 1, title.indexOf(")") - 1));
+                        title = "Reservation : " + title.substring(title.indexOf(")") + 1);
+                        borrowedItemsList.add(new BorrowedItem(title, null, borrowedDateAsDate, null, null, userIdValue, ItemType.RESERVATION));
+                    } else {
+                       // regular borrowed item
+                        String shelfMarkText = borrowedItemProperties.get(2).toString();
+                        String shelfMark = shelfMarkText.substring(shelfMarkText.indexOf(":") + 2).trim();
 
-                    String borrowedDate = borrowedItemProperties.get(4).toString();
-                    Date borrowedDateAsDate = toDate(borrowedDate.substring(borrowedDate.indexOf(":") + 2));
+                        String borrowedDate = borrowedItemProperties.get(4).toString();
+                        Date borrowedDateAsDate = toDate(borrowedDate.substring(borrowedDate.indexOf(":") + 2));
 
-                    String toBeReturnedBefore = borrowedItemProperties.get(6).toString();
-                    Date toBeReturnedBeforeAsDate = toDate(toBeReturnedBefore.substring(toBeReturnedBefore.indexOf(":") + 2));
+                        String toBeReturnedBefore = borrowedItemProperties.get(6).toString();
+                        Date toBeReturnedBeforeAsDate = toDate(toBeReturnedBefore.substring(toBeReturnedBefore.indexOf(":") + 2));
 
-                    Element docNoElement = borrowedItem.getElementsByAttributeValue("name", "docNo").first();
-                    String docNoValue = docNoElement.attr("value");
-
-                    borrowedItemsList.add(new BorrowedItem(title, shelfMark, borrowedDateAsDate, toBeReturnedBeforeAsDate, docNoValue, userIdValue));
-
+                        Element docNoElement = borrowedItem.getElementsByAttributeValue("name", "docNo").first();
+                        String docNoValue = docNoElement.attr("value");
+                        borrowedItemsList.add(new BorrowedItem(title, shelfMark, borrowedDateAsDate, toBeReturnedBeforeAsDate, docNoValue, userIdValue, ItemType.REGULAR_BORROWED_ITEM));
+                    }
                 }
                 details = new Details(name, expirationDateAsDate, currentDebt, userIdValue, borrowedItemsList);
             }

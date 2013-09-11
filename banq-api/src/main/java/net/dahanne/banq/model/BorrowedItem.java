@@ -14,14 +14,16 @@ public class BorrowedItem {
     private final Date toBeReturnedBefore;
     private final String docNo;
     private final String userID;
+    private final ItemType itemType;
 
-    public BorrowedItem(String title, String shelfMark, Date borrowedDate, Date toBeReturnedBefore, String docNo, String userID) {
+    public BorrowedItem(String title, String shelfMark, Date borrowedDate, Date toBeReturnedBefore, String docNo, String userID, ItemType itemType) {
         this.title = title;
         this.shelfMark = shelfMark;
         this.borrowedDate = borrowedDate;
         this.toBeReturnedBefore = toBeReturnedBefore;
         this.docNo = docNo;
         this.userID = userID;
+        this.itemType = itemType;
     }
 
     public String getUserID() {
@@ -46,6 +48,10 @@ public class BorrowedItem {
 
     public String getDocNo() {
         return docNo;
+    }
+
+    public ItemType getItemType() {
+        return itemType;
     }
 
     @Override
@@ -75,6 +81,11 @@ public class BorrowedItem {
     }
 
     public long getRemainingDays() {
+        // not a regular borrowed item
+        if(toBeReturnedBefore ==  null) {
+            return -1;
+        }
+
         Calendar instance = Calendar.getInstance();
         // to make sure we have the same number of remaining days when the user opens the app
         // several times the same day
@@ -84,5 +95,18 @@ public class BorrowedItem {
         instance.set(Calendar.HOUR_OF_DAY,0);
 
         return Math.round((toBeReturnedBefore.getTime() - instance.getTimeInMillis()   ) / (1000l * 60l * 60l * 24l));
+    }
+
+    @Override
+    public String toString() {
+        return "BorrowedItem{" +
+                "title='" + title + '\'' +
+                ", shelfMark='" + shelfMark + '\'' +
+                ", borrowedDate=" + borrowedDate +
+                ", toBeReturnedBefore=" + toBeReturnedBefore +
+                ", docNo='" + docNo + '\'' +
+                ", userID='" + userID + '\'' +
+                ", itemType='" + itemType + '\'' +
+                '}';
     }
 }

@@ -21,7 +21,9 @@ import net.dahanne.banq.BanqClient;
 import net.dahanne.banq.exceptions.FailedToRenewException;
 import net.dahanne.banq.exceptions.InvalidSessionException;
 import net.dahanne.banq.model.BorrowedItem;
+import net.dahanne.banq.model.ItemType;
 
+import java.text.DateFormat;
 import java.util.List;
 import java.util.Set;
 
@@ -51,18 +53,22 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
         final BorrowedItem item = getItem(position);
         Spanned titleFromHtml = Html.fromHtml(item.getTitle());
         holder.name.setText(titleFromHtml.toString(), TextView.BufferType.SPANNABLE);
-        Spannable daysRemaining = new SpannableString(String.format(getContext().getString(R.string.daysRemaining), item.getRemainingDays()));
-        daysRemaining.setSpan(new ForegroundColorSpan(DateComparatorUtil.getBorrowColor(item.getRemainingDays())), 0, daysRemaining.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.remainingDays.setText(daysRemaining);
-        holder.renewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new RenewAsyncTask(getContext()).execute(item.getUserID(), item.getDocNo());
-            }
-        });
-        int renewVisibility = DateComparatorUtil.getRenewVisibility(getContext(), item.getRemainingDays());
-        holder.renewButton.setVisibility(renewVisibility);
-        holder.separator.setVisibility(renewVisibility);
+        if(item.getItemType() == ItemType.REGULAR_BORROWED_ITEM) {
+            Spannable daysRemaining = new SpannableString(String.format(getContext().getString(R.string.daysRemaining), item.getRemainingDays()));
+            daysRemaining.setSpan(new ForegroundColorSpan(DateComparatorUtil.getBorrowColor(item.getRemainingDays())), 0, daysRemaining.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            holder.remainingDays.setText(daysRemaining);
+            holder.renewButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new RenewAsyncTask(getContext()).execute(item.getUserID(), item.getDocNo());
+                }
+            });
+            int renewVisibility = DateComparatorUtil.getRenewVisibility(getContext(), item.getRemainingDays());
+            holder.renewButton.setVisibility(renewVisibility);
+            holder.separator.setVisibility(renewVisibility);
+        } else if(item.getItemType() == ItemType.RESERVATION) {
+            holder.remainingDays.setText(DateFormat.getDateInstance().format(item.getBorrowedDate()));
+        }
         return convertView;
     }
 

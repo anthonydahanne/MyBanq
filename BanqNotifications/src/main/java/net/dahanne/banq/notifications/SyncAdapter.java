@@ -28,6 +28,7 @@ import net.dahanne.banq.BanqClient;
 import net.dahanne.banq.exceptions.InvalidSessionException;
 import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
+import net.dahanne.banq.model.ItemType;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             Log.i(getClass().getSimpleName(), "Detail retrieved");
             List<BorrowedItem> itemsToReturnSoon =  new ArrayList<BorrowedItem>();
             for (BorrowedItem borrowedItem : details.getBorrowedItems()) {
-                if(DateComparatorUtil.shouldPopNotification(mContext, borrowedItem.getRemainingDays())) {
+                if(borrowedItem.getItemType() == ItemType.REGULAR_BORROWED_ITEM && DateComparatorUtil.shouldPopNotification(mContext, borrowedItem.getRemainingDays())) {
 //                    NotificationHelper.launchNotification(mContext, borrowedItem);
                     itemsToReturnSoon.add(borrowedItem);
                 }
