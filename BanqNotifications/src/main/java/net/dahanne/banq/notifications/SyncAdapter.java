@@ -57,7 +57,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             Context context,
             boolean autoInitialize,
             boolean allowParallelSyncs) {
-        super(context, autoInitialize, allowParallelSyncs);
+        super(context, autoInitialize);
         mContext = context;
     }
 

@@ -15,7 +15,7 @@ android {
     buildToolsVersion "18.0.1"
 
     defaultConfig {
-        minSdkVersion 11
+        minSdkVersion 7
         targetSdkVersion 16
     }
 }
@@ -27,6 +27,7 @@ dependencies {
     testCompile 'com.squareup:fest-android:1.0.+'
 
     compile 'com.android.support:support-v4:13.0.0'
+    compile 'com.android.support:appcompat-v7:18.0.+'
     compile project(':banq-api')
 
 }
