@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 
 /**
  * Created by guilhem.demiollis on 13-08-16.
@@ -16,7 +17,7 @@ public class NotificationHelper {
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
-        Notification noti = new Notification.Builder(context)
+        Notification noti = new NotificationCompat.Builder(context)
                 .setContentTitle(context.getString(R.string.item_to_return_to_banq))
                 .setContentText(contentText)
                 .setSubText(String.format(context.getString(R.string.daysRemaining),remainingDays))

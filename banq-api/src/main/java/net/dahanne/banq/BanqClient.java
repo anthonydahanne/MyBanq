@@ -163,7 +163,7 @@ public class BanqClient {
         String headerName;
         String location = null;
         for (int i = 1; (headerName = connect.getHeaderFieldKey(i)) != null; i++) {
-            if (headerName.equals("Location")) {
+            if (headerName.equalsIgnoreCase("Location")) {
                 location = connect.getHeaderField(i);
             }
         }
