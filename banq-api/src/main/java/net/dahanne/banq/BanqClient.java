@@ -6,6 +6,7 @@ import net.dahanne.banq.exceptions.InvalidSessionException;
 import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
 import net.dahanne.banq.model.ItemType;
+import net.dahanne.banq.model.Reservation;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -33,7 +34,7 @@ public class BanqClient {
     public Set<String> authenticate(String username, String password) throws IOException, InterruptedException, InvalidCredentialsException {
         Set<String> cookies = new HashSet<String>();
 
-        if(username.length() != 8) {
+        if (username.length() != 8) {
             throw new InvalidCredentialsException();
         }
 
@@ -111,8 +112,8 @@ public class BanqClient {
 
             Document parse = Jsoup.parse(responseMessage);
 
-            Elements echec =  parse.getElementsByAttributeValue("class","echec");
-            if(!echec.isEmpty()) {
+            Elements echec = parse.getElementsByAttributeValue("class", "echec");
+            if (!echec.isEmpty()) {
                 throw new InvalidCredentialsException();
             }
 
@@ -206,20 +207,61 @@ public class BanqClient {
     String getDetailsPage(Set<String> cookies) throws IOException, ParseException, InvalidSessionException {
         HttpURLConnection connect = null;
         try {
-            connect = new HttpBuilder("https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyZone&Style=Mobile&Lang=FRE").cookie(cookies).connect();
+            connect = new HttpBuilder("https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyZone&Style=Mobile&Lang=FRE&ResponseEncoding=utf-8").cookie(cookies).connect();
             if (connect.getResponseCode() == 302) {
                 // the session is not usable, we should re authenticate from there.
                 throw new InvalidSessionException();
             }
 
             InputStream inputStream = connect.getInputStream();
-            return HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
+            return HttpBuilder.toString(inputStream, "UTF-8");
         } finally {
             if (connect != null) {
                 connect.disconnect();
             }
         }
     }
+
+    String getReservationsPage(Set<String> cookies) throws IOException, ParseException, InvalidSessionException {
+        HttpURLConnection connect = null;
+        try {
+            connect = new HttpBuilder("https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyReservations&PageSize=100&Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8").cookie(cookies).connect();
+            if (connect.getResponseCode() == 302) {
+                // the session is not usable, we should re authenticate from there.
+                throw new InvalidSessionException();
+            }
+
+            InputStream inputStream = connect.getInputStream();
+            return HttpBuilder.toString(inputStream, "UTF-8");
+        } finally {
+            if (connect != null) {
+                connect.disconnect();
+            }
+        }
+    }
+
+
+    List<Reservation> parseReservations(String responseMessage) throws ParseException {
+        List<Reservation> reservations = new ArrayList<Reservation>();
+        Document parse = Jsoup.parse(responseMessage);
+
+        Element browseList = parse.getElementById("BrowseList");
+        if (browseList != null) {
+            Elements reservationBrowseTable = browseList.getElementsByClass("ReservationBrowseTable");
+            for (Element element : reservationBrowseTable) {
+                Elements reservationBrowseFieldDataCell = element.getElementsByClass("ReservationBrowseFieldDataCell");
+                String title = reservationBrowseFieldDataCell.get(0).child(0).text().trim();
+                Date bookedSince = toDate(reservationBrowseFieldDataCell.get(1).text().trim());
+                String status = reservationBrowseFieldDataCell.get(2).text().trim();
+                int rank = Integer.valueOf(reservationBrowseFieldDataCell.get(3).text().trim());
+                String linkId = reservationBrowseFieldDataCell.get(4).getElementsByTag("a").first().id();
+                int id = Integer.valueOf(linkId.substring(linkId.indexOf("_") + 1));
+                reservations.add(new Reservation(id, title, bookedSince, status, rank));
+            }
+        }
+        return reservations;
+    }
+
 
     Details parseDetails(String responseMessage) throws ParseException {
         Document parse = Jsoup.parse(responseMessage);
@@ -329,6 +371,8 @@ public class BanqClient {
     public Details getDetails(Set<String> cookies) throws ParseException, InvalidSessionException, IOException {
         String detailsPage = this.getDetailsPage(cookies);
         Details details = this.parseDetails(detailsPage);
+        String reservationsPage;
+//        List<Reservation> reservations = this.parseReservations(reservationsPage);
         return details;
     }
 

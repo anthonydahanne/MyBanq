@@ -4,6 +4,7 @@ import net.dahanne.banq.exceptions.InvalidCredentialsException;
 import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.Details;
 import net.dahanne.banq.model.ItemType;
+import net.dahanne.banq.model.Reservation;
 
 import org.hamcrest.core.IsNull;
 import org.junit.Assume;
@@ -15,6 +16,7 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -63,14 +65,39 @@ public class BanqClientTest {
         assertEquals(expectedMaisy, details.getBorrowedItems().get(2));
     }
 
+
+    @Test
+    public void parseReservationsTest() throws IOException, ParseException {
+        InputStream resource = BanqClientTest.class.getClassLoader().getResourceAsStream("reservations-mobile.html");
+        String reservationsPage = HttpBuilder.toString(resource, "UTF-8");
+
+        BanqClient bc = new BanqClient();
+        List<Reservation> reservations = bc.parseReservations(reservationsPage);
+        Reservation expectedMaisy = new Reservation(59280, "Les 4 soldats = The 4 soldiers [enregistrement vidéo]", getDate(2013, 11, 12), "Le document n'est pas encore disponible.", 5);
+        assertEquals(expectedMaisy, reservations.get(1));
+    }
+
+
     @Test
     public void sampleRunTest() throws Exception {
         BanqClient bc = new BanqClient();
         Set<String> cookies = bc.authenticate(USERNAME, PASSWORD);
         String detailsPage = bc.getDetailsPage(cookies);
-        Details details = bc.parseDetails(detailsPage);
+        String reservationsPage = bc.getReservationsPage(cookies);
 
+        Details details = bc.parseDetails(detailsPage);
+        List<Reservation> reservations = bc.parseReservations(reservationsPage);
         System.out.println("Borrower name  : " + details.getName());
+        System.out.println("Current debt  : " + details.getCurrentDebt());
+
+        for (BorrowedItem item : details.getBorrowedItems()) {
+            System.out.println(item);
+        }
+
+        for (Reservation reservation : reservations) {
+            System.out.println(reservation);
+        }
+
 //        System.out.println("Current debt  : " + details.getCurrentDebt());
 //        System.out.println("Subscription expiration date : " + details.getExpirationDate());
 
