@@ -42,11 +42,13 @@ public class BanqClient {
         InputStream inputStream = null;
         String responseMessage = null;
         try {
-            connect = new HttpBuilder("http://www.banq.qc.ca/mobile2/mon_dossier/detail.jsp").cookie(cookies).connect();
+//            connect = new HttpBuilder("http://www.banq.qc.ca/mobile2/mon_dossier/detail.jsp").cookie(cookies).connect();
+            connect = new HttpBuilder("https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyZone&Style=Mobile&Lang=FRE").cookie(cookies).connect();
+
             location = getLocationHeader(connect);
             enrichCookies(connect, cookies);
             inputStream = connect.getInputStream();
-            responseMessage = HttpBuilder.toString(inputStream);
+            responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
         } finally {
             if (connect != null) {
                 connect.disconnect();
@@ -54,11 +56,13 @@ public class BanqClient {
         }
 
         try {
-            connect = new HttpBuilder(location).connect();
+//            connect = new HttpBuilder(location).connect();
+            connect = new HttpBuilder("https://iris.banq.qc.ca/login/login.aspx?Lang=FRE&retObj=APS_ZONES%3Ffn%3DMyZoneHomePage%26Style%3DMobile%26SubStyle%3D%26Lang%3DFRE%26ResponseEncoding%3Dutf-8&retPage=").connect();
+
             location = getLocationHeader(connect);
             enrichCookies(connect, cookies);
             inputStream = connect.getInputStream();
-            responseMessage = HttpBuilder.toString(inputStream);
+            responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
         } finally {
             if (connect != null) {
                 connect.disconnect();
@@ -71,12 +75,26 @@ public class BanqClient {
             location = getLocationHeader(connect);
             enrichCookies(connect, cookies);
             inputStream = connect.getInputStream();
-            responseMessage = HttpBuilder.toString(inputStream);
+            responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
         } finally {
             if (connect != null) {
                 connect.disconnect();
             }
         }
+
+
+        try {
+            connect = new HttpBuilder(location).cookie(cookies).connect();
+            location = getLocationHeader(connect);
+            enrichCookies(connect, cookies);
+            inputStream = connect.getInputStream();
+            responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
+        } finally {
+            if (connect != null) {
+                connect.disconnect();
+            }
+        }
+
 
         String relayState = null;
         String SAMLResponse = null;
@@ -89,7 +107,7 @@ public class BanqClient {
             location = getLocationHeader(connect);
             enrichCookies(connect, cookies);
             inputStream = connect.getInputStream();
-            responseMessage = HttpBuilder.toString(inputStream);
+            responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
 
             Document parse = Jsoup.parse(responseMessage);
 
@@ -121,13 +139,13 @@ public class BanqClient {
             data.put("RelayState", relayState);
             data.put("SAMLResponse", SAMLResponse);
 
-            connect = new HttpBuilder(HttpBuilder.HttpMethod.POST, "https://www.banq.qc.ca/Shibboleth.sso/SAML2/POST").data(data).cookie(cookies).connect();
+            connect = new HttpBuilder(HttpBuilder.HttpMethod.POST, "https://iris.banq.qc.ca/Shibboleth.sso/SAML2/POST").data(data).cookie(cookies).connect();
 
             location = getLocationHeader(connect);
             enrichCookies(connect, cookies);
 
             inputStream = connect.getInputStream();
-            responseMessage = HttpBuilder.toString(inputStream);
+            responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
         } finally {
             if (connect != null) {
                 connect.disconnect();
@@ -188,14 +206,14 @@ public class BanqClient {
     String getDetailsPage(Set<String> cookies) throws IOException, ParseException, InvalidSessionException {
         HttpURLConnection connect = null;
         try {
-            connect = new HttpBuilder("http://www.banq.qc.ca/mobile2/mon_dossier/detail.jsp").cookie(cookies).connect();
+            connect = new HttpBuilder("https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyZone&Style=Mobile&Lang=FRE").cookie(cookies).connect();
             if (connect.getResponseCode() == 302) {
                 // the session is not usable, we should re authenticate from there.
                 throw new InvalidSessionException();
             }
 
             InputStream inputStream = connect.getInputStream();
-            return HttpBuilder.toString(inputStream);
+            return HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
         } finally {
             if (connect != null) {
                 connect.disconnect();
@@ -205,56 +223,98 @@ public class BanqClient {
 
     Details parseDetails(String responseMessage) throws ParseException {
         Document parse = Jsoup.parse(responseMessage);
-        Element contenu = parse.getElementById("Contenu");
+        Element contenu = parse.getElementById("pageContent");
         Details details = null;
         if (contenu != null) {
 
-            Element detailsElement = contenu.getElementsByTag("p").first();
-            List<Node> nodes = detailsElement.childNodes();
-            String name = nodes.get(2).toString().trim();
-            String expirationDate = nodes.get(4).toString();
-            Date expirationDateAsDate = toDate(expirationDate.substring(expirationDate.indexOf(":") + 2) + "-00:00");
+            Element userIdElement = contenu.getElementsByClass("MyZonetitleText").first();
+            String name = userIdElement.text().trim();
 
-            Element userIdElement = contenu.getElementsByAttributeValue("name", "userID").first();
 
-            String currentDebtText = nodes.get(6).toString();
-            String currentDebt = currentDebtText.substring(currentDebtText.indexOf(":") + 2).trim();
+            Element summaryDetailsTable = contenu.getElementsByClass("SummaryDetailsTable").first();
+            Elements accountSummaryCounterValueCells = summaryDetailsTable.getElementsByAttributeValueStarting("class", "AccountSummaryCounterValueCell");
+            String currentLoansNumber = accountSummaryCounterValueCells.get(0).toString().trim();
+            String currentReservations = accountSummaryCounterValueCells.get(1).toString().trim();
+            String messages = accountSummaryCounterValueCells.get(2).toString().trim();
+            String debtText = accountSummaryCounterValueCells.get(3).text();
+            String currentDebt = debtText.substring(0, debtText.indexOf("$") + 1).trim();
 
-            if (userIdElement == null) {
-                details = new Details(name, expirationDateAsDate, currentDebt);
+            Element inlineCurrentLoans = contenu.getElementsByClass("InlineCurrentLoans").first();
+            Elements loanBrowseTables = inlineCurrentLoans.getElementsByClass("LoanBrowseTable");
+
+            if (loanBrowseTables == null) {
+                details = new Details(name, null, currentDebt);
             } else {
                 List<BorrowedItem> borrowedItemsList = new ArrayList<BorrowedItem>();
-                String userIdValue = userIdElement.attr("value");
 
-                Elements borrowedItems = contenu.getElementsByTag("li");
-                for (Element borrowedItem : borrowedItems) {
-                    List<Node> borrowedItemProperties = borrowedItem.childNodes();
+                for (Element loanBrowseTable : loanBrowseTables) {
 
-                    String title = borrowedItemProperties.get(0).toString();
-
-                    if(title.startsWith("(")) {
-                        // reservation
-                        Date borrowedDateAsDate = toDate(title.substring(title.indexOf("(") + 1, title.indexOf(")") - 1));
-                        title = "Reservation : " + title.substring(title.indexOf(")") + 1);
-                        borrowedItemsList.add(new BorrowedItem(title, null, borrowedDateAsDate, null, null, userIdValue, ItemType.RESERVATION));
-                    } else {
-                       // regular borrowed item
-                        String shelfMarkText = borrowedItemProperties.get(2).toString();
-                        String shelfMark = shelfMarkText.substring(shelfMarkText.indexOf(":") + 2).trim();
-
-                        String borrowedDate = borrowedItemProperties.get(4).toString();
-                        Date borrowedDateAsDate = toDate(borrowedDate.substring(borrowedDate.indexOf(":") + 2));
-
-                        String toBeReturnedBefore = borrowedItemProperties.get(6).toString();
-                        Date toBeReturnedBeforeAsDate = toDate(toBeReturnedBefore.substring(toBeReturnedBefore.indexOf(":") + 2));
-
-                        Element docNoElement = borrowedItem.getElementsByAttributeValue("name", "docNo").first();
-                        String docNoValue = docNoElement.attr("value");
-                        borrowedItemsList.add(new BorrowedItem(title, shelfMark, borrowedDateAsDate, toBeReturnedBeforeAsDate, docNoValue, userIdValue, ItemType.REGULAR_BORROWED_ITEM));
+                    String authorInfo = null;
+                    Elements loanBrowseFieldDataCells = loanBrowseTable.getElementsByClass("LoanBrowseFieldDataCell");
+                    String title = loanBrowseFieldDataCells.get(0).child(0).text();
+                    String titleAndAuthorHtml = loanBrowseFieldDataCells.get(0).html();
+                    if (titleAndAuthorHtml.indexOf("/ ") != -1) {
+                        authorInfo = titleAndAuthorHtml.substring(titleAndAuthorHtml.indexOf("/ ") + 2).trim();
                     }
+                    String documentNumber = loanBrowseFieldDataCells.get(1).text().trim();
+                    String borrowedItemLocation = loanBrowseFieldDataCells.get(2).text().trim();
+                    Date borrowedDate = toDate(loanBrowseFieldDataCells.get(3).text().trim());
+                    Date returnDate = toDate(loanBrowseFieldDataCells.get(4).getElementsByClass("LoanDate").first().child(0).text().toString().trim());
+                    //TODO : LateLoan field
+
+                    borrowedItemsList.add(new BorrowedItem(title, authorInfo, borrowedItemLocation, borrowedDate, returnDate, documentNumber, null, ItemType.REGULAR_BORROWED_ITEM));
                 }
-                details = new Details(name, expirationDateAsDate, currentDebt, userIdValue, borrowedItemsList);
+
+                details = new Details(name, null, currentDebt, null, borrowedItemsList);
             }
+
+
+//            Element detailsElement = contenu.getElementsByTag("p").first();
+//            List<Node> nodes = detailsElement.childNodes();
+//            String name = nodes.get(2).toString().trim();
+//            String expirationDate = nodes.get(4).toString();
+//            Date expirationDateAsDate = toDate(expirationDate.substring(expirationDate.indexOf(":") + 2) + "-00:00");
+//
+//            Element userIdElement = contenu.getElementsByAttributeValue("name", "userID").first();
+//
+//            String currentDebtText = nodes.get(6).toString();
+//            String currentDebt = currentDebtText.substring(currentDebtText.indexOf(":") + 2).trim();
+//
+//            if (userIdElement == null) {
+//                details = new Details(name, expirationDateAsDate, currentDebt);
+//            } else {
+//                List<BorrowedItem> borrowedItemsList = new ArrayList<BorrowedItem>();
+//                String userIdValue = userIdElement.attr("value");
+//
+//                Elements borrowedItems = contenu.getElementsByTag("li");
+//                for (Element borrowedItem : borrowedItems) {
+//                    List<Node> borrowedItemProperties = borrowedItem.childNodes();
+//
+//                    String title = borrowedItemProperties.get(0).toString();
+//
+//                    if(title.startsWith("(")) {
+//                        // reservation
+//                        Date borrowedDateAsDate = toDate(title.substring(title.indexOf("(") + 1, title.indexOf(")") - 1));
+//                        title = "Reservation : " + title.substring(title.indexOf(")") + 1);
+//                        borrowedItemsList.add(new BorrowedItem(title, null, borrowedDateAsDate, null, null, userIdValue, ItemType.RESERVATION));
+//                    } else {
+//                       // regular borrowed item
+//                        String shelfMarkText = borrowedItemProperties.get(2).toString();
+//                        String shelfMark = shelfMarkText.substring(shelfMarkText.indexOf(":") + 2).trim();
+//
+//                        String borrowedDate = borrowedItemProperties.get(4).toString();
+//                        Date borrowedDateAsDate = toDate(borrowedDate.substring(borrowedDate.indexOf(":") + 2));
+//
+//                        String toBeReturnedBefore = borrowedItemProperties.get(6).toString();
+//                        Date toBeReturnedBeforeAsDate = toDate(toBeReturnedBefore.substring(toBeReturnedBefore.indexOf(":") + 2));
+//
+//                        Element docNoElement = borrowedItem.getElementsByAttributeValue("name", "docNo").first();
+//                        String docNoValue = docNoElement.attr("value");
+//                        borrowedItemsList.add(new BorrowedItem(title, shelfMark, borrowedDateAsDate, toBeReturnedBeforeAsDate, docNoValue, userIdValue, ItemType.REGULAR_BORROWED_ITEM));
+//                    }
+//                }
+//                details = new Details(name, expirationDateAsDate, currentDebt, userIdValue, borrowedItemsList);
+//            }
 
         }
         return details;
@@ -262,7 +322,7 @@ public class BanqClient {
 
     static Date toDate(String substring) throws ParseException {
         substring = substring + " EDT";
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH:mm 'EDT'");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy 'EDT'");
         return formatter.parse(substring);
     }
 
@@ -293,7 +353,7 @@ public class BanqClient {
             location = getLocationHeader(connect);
             enrichCookies(connect, cookies);
             inputStream = connect.getInputStream();
-            responseMessage = HttpBuilder.toString(inputStream);
+            responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
         } finally {
             if (connect != null) {
                 connect.disconnect();

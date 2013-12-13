@@ -9,16 +9,19 @@ import java.util.Date;
 public class BorrowedItem {
 
     private final String title;
-    private final String shelfMark;
+    private final String authorInfo;
+
+    private final String documentLocation;
     private final Date borrowedDate;
     private final Date toBeReturnedBefore;
     private final String docNo;
     private final String userID;
     private final ItemType itemType;
 
-    public BorrowedItem(String title, String shelfMark, Date borrowedDate, Date toBeReturnedBefore, String docNo, String userID, ItemType itemType) {
+    public BorrowedItem(String title, String authorInfo, String documentLocation, Date borrowedDate, Date toBeReturnedBefore, String docNo, String userID, ItemType itemType) {
         this.title = title;
-        this.shelfMark = shelfMark;
+        this.authorInfo = authorInfo;
+        this.documentLocation = documentLocation;
         this.borrowedDate = borrowedDate;
         this.toBeReturnedBefore = toBeReturnedBefore;
         this.docNo = docNo;
@@ -34,8 +37,8 @@ public class BorrowedItem {
         return title;
     }
 
-    public String getShelfMark() {
-        return shelfMark;
+    public String getDocumentLocation() {
+        return documentLocation;
     }
 
     public Date getBorrowedDate() {
@@ -63,7 +66,7 @@ public class BorrowedItem {
 
         if (!borrowedDate.equals(that.borrowedDate)) return false;
         if (!docNo.equals(that.docNo)) return false;
-        if (!shelfMark.equals(that.shelfMark)) return false;
+        if (!documentLocation.equals(that.documentLocation)) return false;
         if (!title.equals(that.title)) return false;
         if (!toBeReturnedBefore.equals(that.toBeReturnedBefore)) return false;
 
@@ -73,7 +76,7 @@ public class BorrowedItem {
     @Override
     public int hashCode() {
         int result = title.hashCode();
-        result = 31 * result + shelfMark.hashCode();
+        result = 31 * result + documentLocation.hashCode();
         result = 31 * result + borrowedDate.hashCode();
         result = 31 * result + toBeReturnedBefore.hashCode();
         result = 31 * result + docNo.hashCode();
@@ -101,7 +104,8 @@ public class BorrowedItem {
     public String toString() {
         return "BorrowedItem{" +
                 "title='" + title + '\'' +
-                ", shelfMark='" + shelfMark + '\'' +
+                ", authorInfo='" + authorInfo + '\'' +
+                ", documentLocation='" + documentLocation + '\'' +
                 ", borrowedDate=" + borrowedDate +
                 ", toBeReturnedBefore=" + toBeReturnedBefore +
                 ", docNo='" + docNo + '\'' +

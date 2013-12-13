@@ -97,8 +97,8 @@ public class HttpBuilder {
 		InputStream errorStream = httpURLConnection.getErrorStream();
 		String erorMessage = "";
 		if (errorStream != null) {
-			erorMessage = toString(errorStream);
-		}
+            erorMessage = toString(errorStream, ISO_8859_1);
+        }
 		throw new ConnectException("Bad response received ("
 				+ httpURLConnection.getResponseCode() + ") for " + httpMethod
 				+ " request : " + erorMessage);
@@ -126,8 +126,8 @@ public class HttpBuilder {
 	}
 
 	public HttpBuilder data(InputStream stream) throws IOException {
-		this.data = toString(stream);
-		return this;
+        this.data = toString(stream, ISO_8859_1);
+        return this;
 	}
 
 	public HttpBuilder data(Map<String, String> data) {
@@ -182,13 +182,13 @@ public class HttpBuilder {
 		return true;
 	}
 
-	public static String toString(InputStream stream) throws IOException {
-		Writer writer = new StringWriter();
+    public static String toString(InputStream stream, String charset) throws IOException {
+        Writer writer = new StringWriter();
 		char[] buffer = new char[1024];
 		try {
 			Reader reader = new BufferedReader(new InputStreamReader(stream,
-					Charset.forName(ISO_8859_1)));
-			int n;
+                    Charset.forName(charset)));
+            int n;
 			while ((n = reader.read(buffer)) != -1) {
 				writer.write(buffer, 0, n);
 			}
