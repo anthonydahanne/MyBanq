@@ -21,7 +21,6 @@ import net.dahanne.banq.BanqClient;
 import net.dahanne.banq.exceptions.FailedToRenewException;
 import net.dahanne.banq.exceptions.InvalidSessionException;
 import net.dahanne.banq.model.BorrowedItem;
-import net.dahanne.banq.model.ItemType;
 
 import java.text.DateFormat;
 import java.util.List;
@@ -53,7 +52,7 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
         final BorrowedItem item = getItem(position);
         Spanned titleFromHtml = Html.fromHtml(item.getTitle());
         holder.name.setText(titleFromHtml.toString(), TextView.BufferType.SPANNABLE);
-        if(item.getItemType() == ItemType.REGULAR_BORROWED_ITEM) {
+        if (item.getItemType() == ItemType.REGULAR_BORROWED_ITEM) {
             Spannable daysRemaining = new SpannableString(String.format(getContext().getString(R.string.daysRemaining), item.getRemainingDays()));
             daysRemaining.setSpan(new ForegroundColorSpan(DateComparatorUtil.getBorrowColor(item.getRemainingDays())), 0, daysRemaining.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             holder.remainingDays.setText(daysRemaining);
@@ -66,7 +65,7 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
             int renewVisibility = DateComparatorUtil.getRenewVisibility(getContext(), item.getRemainingDays());
             holder.renewButton.setVisibility(renewVisibility);
             holder.separator.setVisibility(renewVisibility);
-        } else if(item.getItemType() == ItemType.RESERVATION) {
+        } else if (item.getItemType() == ItemType.RESERVATION) {
             holder.remainingDays.setText(DateFormat.getDateInstance().format(item.getBorrowedDate()));
         }
         return convertView;
@@ -112,12 +111,12 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
         protected void onPostExecute(Void nothing) {
             if (exceptionCaught == null) {
                 Toast.makeText(context, context.getString(R.string.renewal_successful), Toast.LENGTH_SHORT).show();
-                ((MainActivity)getContext()).refresh();
+                ((MainActivity) getContext()).refresh();
             } else if (exceptionCaught == null) {
                 Toast.makeText(context, context.getString(R.string.unexpectedError), Toast.LENGTH_SHORT).show();
             } else if (exceptionCaught instanceof InvalidSessionException) {
                 Toast.makeText(context, context.getString(R.string.invalid_session), Toast.LENGTH_SHORT).show();
-                ((MainActivity)getContext()).backToLogin();
+                ((MainActivity) getContext()).backToLogin();
             } else if (exceptionCaught instanceof FailedToRenewException) {
                 Toast.makeText(context, Html.fromHtml(exceptionCaught.getMessage()), Toast.LENGTH_SHORT).show();
                 //TODO does not work

@@ -10,31 +10,28 @@ public class BorrowedItem {
 
     private final String title;
     private final String authorInfo;
-
     private final String documentLocation;
     private final Date borrowedDate;
     private final Date toBeReturnedBefore;
     private final String docNo;
-    private final String userID;
-    private final ItemType itemType;
+    private final boolean isRenewable;
 
-    public BorrowedItem(String title, String authorInfo, String documentLocation, Date borrowedDate, Date toBeReturnedBefore, String docNo, String userID, ItemType itemType) {
+    public BorrowedItem(String title, String authorInfo, String documentLocation, Date borrowedDate, Date toBeReturnedBefore, String docNo, boolean isRenewable) {
         this.title = title;
         this.authorInfo = authorInfo;
         this.documentLocation = documentLocation;
         this.borrowedDate = borrowedDate;
         this.toBeReturnedBefore = toBeReturnedBefore;
         this.docNo = docNo;
-        this.userID = userID;
-        this.itemType = itemType;
-    }
-
-    public String getUserID() {
-        return userID;
+        this.isRenewable = isRenewable;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public String getAuthorInfo() {
+        return authorInfo;
     }
 
     public String getDocumentLocation() {
@@ -53,8 +50,25 @@ public class BorrowedItem {
         return docNo;
     }
 
-    public ItemType getItemType() {
-        return itemType;
+    public boolean isRenewable() {
+        return isRenewable;
+    }
+
+    public long getRemainingDays() {
+        // not a regular borrowed item
+        if (toBeReturnedBefore == null) {
+            return -1;
+        }
+
+        Calendar instance = Calendar.getInstance();
+        // to make sure we have the same number of remaining days when the user opens the app
+        // several times the same day
+        instance.set(Calendar.MILLISECOND, 0);
+        instance.set(Calendar.SECOND, 0);
+        instance.set(Calendar.MINUTE, 0);
+        instance.set(Calendar.HOUR_OF_DAY, 0);
+
+        return Math.round((toBeReturnedBefore.getTime() - instance.getTimeInMillis()) / (1000l * 60l * 60l * 24l));
     }
 
     @Override
@@ -64,40 +78,31 @@ public class BorrowedItem {
 
         BorrowedItem that = (BorrowedItem) o;
 
-        if (!borrowedDate.equals(that.borrowedDate)) return false;
+        if (isRenewable != that.isRenewable) return false;
+        if (authorInfo != null ? !authorInfo.equals(that.authorInfo) : that.authorInfo != null)
+            return false;
+        if (borrowedDate != null ? !borrowedDate.equals(that.borrowedDate) : that.borrowedDate != null)
+            return false;
         if (!docNo.equals(that.docNo)) return false;
-        if (!documentLocation.equals(that.documentLocation)) return false;
-        if (!title.equals(that.title)) return false;
-        if (!toBeReturnedBefore.equals(that.toBeReturnedBefore)) return false;
+        if (documentLocation != null ? !documentLocation.equals(that.documentLocation) : that.documentLocation != null)
+            return false;
+        if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        if (toBeReturnedBefore != null ? !toBeReturnedBefore.equals(that.toBeReturnedBefore) : that.toBeReturnedBefore != null)
+            return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = title.hashCode();
-        result = 31 * result + documentLocation.hashCode();
-        result = 31 * result + borrowedDate.hashCode();
-        result = 31 * result + toBeReturnedBefore.hashCode();
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (authorInfo != null ? authorInfo.hashCode() : 0);
+        result = 31 * result + (documentLocation != null ? documentLocation.hashCode() : 0);
+        result = 31 * result + (borrowedDate != null ? borrowedDate.hashCode() : 0);
+        result = 31 * result + (toBeReturnedBefore != null ? toBeReturnedBefore.hashCode() : 0);
         result = 31 * result + docNo.hashCode();
+        result = 31 * result + (isRenewable ? 1 : 0);
         return result;
-    }
-
-    public long getRemainingDays() {
-        // not a regular borrowed item
-        if(toBeReturnedBefore ==  null) {
-            return -1;
-        }
-
-        Calendar instance = Calendar.getInstance();
-        // to make sure we have the same number of remaining days when the user opens the app
-        // several times the same day
-        instance.set(Calendar.MILLISECOND,0);
-        instance.set(Calendar.SECOND,0);
-        instance.set(Calendar.MINUTE,0);
-        instance.set(Calendar.HOUR_OF_DAY,0);
-
-        return Math.round((toBeReturnedBefore.getTime() - instance.getTimeInMillis()   ) / (1000l * 60l * 60l * 24l));
     }
 
     @Override
@@ -109,8 +114,7 @@ public class BorrowedItem {
                 ", borrowedDate=" + borrowedDate +
                 ", toBeReturnedBefore=" + toBeReturnedBefore +
                 ", docNo='" + docNo + '\'' +
-                ", userID='" + userID + '\'' +
-                ", itemType='" + itemType + '\'' +
+                ", isRenewable=" + isRenewable +
                 '}';
     }
 }

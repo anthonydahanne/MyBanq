@@ -7,7 +7,7 @@
 <head>
 
 
-<title>Catalogue Iris BAnQ - Mon dossier - Sommaire</title>
+<title>Catalogue Iris BAnQ - Mon dossier - Renseignements personnels</title>
 
 
 <meta name="viewport"
@@ -35,7 +35,7 @@
 <meta http-equiv="imagetoolbar" content="no"/>
 
 <META NAME="ZonesObjClass" CONTENT="CWWWPortfolioSSAccount">
-<META NAME="ZonesObjName" CONTENT="Obj_1700041386823739">
+<META NAME="ZonesObjName" CONTENT="Obj_778631387051806">
 <META NAME="ZonesTemplate" CONTENT="PSSACCOUNT">
 <META NAME="ZonesTemplateFileName" CONTENT="templates\Mobile\PSSACCOUNT.html">
 
@@ -285,7 +285,7 @@ if(typeof(limit) != "undefined" && limit != "")
 {
 printOptions+="&Options.MaxItem=" + limit;
 }
-var dialogURL = "Obj_1700041386823739?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8";
+var dialogURL = "Obj_778631387051806?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&SubView=ShowAddress";
 dialogURL += "&Style=Portal2&SubStyle=ForPortal3&Method=" + method + "&PrintOnly=1" + printOptions + printExtent;
 var e = document.getElementById('PrintLDLG');
 var dlg_width = 470;
@@ -326,7 +326,7 @@ if(options != "")
 printOptions+= "&" + options;
 }
 Printing = false;
-var dialogURL = "Obj_1700041386823739?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8";
+var dialogURL = "Obj_778631387051806?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&SubView=ShowAddress";
 dialogURL += "&Style=Portal2&SubStyle=ForPortal3&Method=" + method + "&EmailOnly=1" + printOptions;
 var e = document.getElementById('PrintLDLG');
 var dlg_width = 470;
@@ -568,7 +568,7 @@ img.attr("src","/Portal3/GBQ/Interface/fleche_bas_noir2.gif");
 
 $('#LanguageComboBox').change(function() {
 var sOption = $("#LanguageComboBox option:selected");
-var url = "Obj_1700041386823739?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Lang=" + sOption.val();
+var url = "Obj_778631387051806?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&SubView=ShowAddress&Lang=" + sOption.val();
 document.location.href = url;
 
 });
@@ -700,7 +700,6 @@ return(a.innerHTML < b.innerHTML) ? 1 : -1;
 );
 });
 
-
 </script>
 
 
@@ -736,7 +735,6 @@ return(a.innerHTML < b.innerHTML) ? 1 : -1;
 
 
 
-
 </script>
 
 <!-- Declaration du fichier JS pour Webtrends -->
@@ -758,7 +756,6 @@ $("<link>", {rel:"stylesheet", href:"/smedia/css/ipad.css"}).appendTo("head")
   })
 }
 
-
 </script>
 <!-- Fin du code affichage IPAD -->
 
@@ -770,7 +767,7 @@ $("<link>", {rel:"stylesheet", href:"/smedia/css/ipad.css"}).appendTo("head")
 		{
 
 
-					window.location="Obj_1700041386823739?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Method=MakeBookSuggestion&Lang=FRE";
+					window.location="Obj_778631387051806?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&SubView=ShowAddress&Method=MakeBookSuggestion&Lang=FRE";
 
 
 		}
@@ -923,7 +920,7 @@ $("<link>", {rel:"stylesheet", href:"/smedia/css/ipad.css"}).appendTo("head")
 		function PerformRenewItem( item, notifyLate )
 		{
             isNotifyLate = notifyLate;
-			$.getJSON("Obj_1700041386823739?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Method=Renew&Accepted=1", {"Item": item },
+			$.getJSON("Obj_778631387051806?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&SubView=ShowAddress&Method=Renew&Accepted=1", {"Item": item },
 			    function(data)
 				{
 
@@ -976,7 +973,6 @@ $("<link>", {rel:"stylesheet", href:"/smedia/css/ipad.css"}).appendTo("head")
 		}
 
 
-
 </script>
 
 
@@ -1013,7 +1009,7 @@ $("<link>", {rel:"stylesheet", href:"/smedia/css/ipad.css"}).appendTo("head")
 
 			var changePinOptions = {
 					    target:     '#changePinResult',
-					    url:        'Obj_1700041386823739',
+					    url:        'Obj_778631387051806',
 					    success:    function() {
 
 						},
@@ -1025,7 +1021,7 @@ $("<link>", {rel:"stylesheet", href:"/smedia/css/ipad.css"}).appendTo("head")
 
 			var changeContactOptions = {
 					    target:     '#changeContactResult',
-					    url:        'Obj_1700041386823739',
+					    url:        'Obj_778631387051806',
 					    success:    function() {
 					        $('#contactAddress1').html($('#NewAddress1').html());
 					      	$('#contactAddress2').html($('#NewAddress2').html());
@@ -1132,7 +1128,6 @@ $("<link>", {rel:"stylesheet", href:"/smedia/css/ipad.css"}).appendTo("head")
 
 
 
-
 </script>
 
 
@@ -1141,7 +1136,6 @@ var reso=screen.width
 	if(reso < 900) {
 document.write ('<link href="/Portal3/CSS/Biblio/Iris09-800.css" rel="stylesheet" type="text/css" />');
 	}
-
 
 </script>
 
@@ -1210,7 +1204,6 @@ document.write ('<link href="/Portal3/CSS/Biblio/Iris09-800.css" rel="stylesheet
 
 	}); //(FIN) $(document).ready
 
-
 </script>
 
 <div class="Invisible">
@@ -1249,11 +1242,13 @@ document.write ('<link href="/Portal3/CSS/Biblio/Iris09-800.css" rel="stylesheet
 
     <div id="fildariane">
 
-        <span class="MyZoneHeaderSection">Mon dossier</span>
+
+        <a href="APS_ZONES?fn=MyZone&Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8"
+           class="MyZoneHeaderLink" title="Acc&eacute;der &agrave; mon dossier.">Mon dossier</a>
 
 
         <span class="MyZoneHeaderSectionSep">&gt;</span>
-        <span class="MyZoneHeaderSection">Sommaire</span>
+        <span class="MyZoneHeaderSection">Renseignements personnels</span>
     </div>
 
 
@@ -1262,846 +1257,141 @@ document.write ('<link href="/Portal3/CSS/Biblio/Iris09-800.css" rel="stylesheet
 <div id="pageContent">
 
 
-<div class="title">
-    <h2 class="MyZonetitleText">
-        Dahanne Anthony
+    <div class="title">
+        <h2 class="MyZonetitleText">
+            Dahanne Anthony
 
 
-    </h2>
-</div>
-<div style="clear:both;">
+        </h2>
+    </div>
+    <div style="clear:both;">
 
 
-<div class=AccountTrapWarningContainer>
-    <b>
+        <div class="AccountDetails">
+            <table class="AccountDetailsTable">
+                <thead>
+                <tr>
+                    <td colspan="2" class="AccountDetailsHeaderCell"><b>Renseignements
+                        personnels</b></td>
+                </tr>
+                </thead>
+                <tbody>
 
 
-    </b>
-</div>
+                <tr>
+                    <td valign="top" class="AccountDetailFieldNameCellStripe">Nom</td>
+                    <td valign="top" class="AccountDetailFieldValueCellStripe">
+                        Dahanne Anthony
+
+                    </td>
+                </tr>
 
 
-<table class="SummaryDetailsTable">
-    <thead>
-    <tr>
-        <td colspan="3" class="AccountSummaryHeaderCell">Prêts et renouvellements</td>
-    </tr>
-    </thead>
-    <tbody>
+                <tr>
+                    <td valign="top" class="AccountDetailFieldNameCell">Expiration</td>
+                    <td valign="top" class="AccountDetailFieldValueCell">05/05/2014</td>
+                </tr>
 
 
-    <tr>
-        <td class="AccountSummaryCounterNameCellStripe">
-
-            <a class="AccountSummaryCounterLink"
-               href="Obj_1700041386823739?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8?Method=ShowLoans"
-               title="Consulter vos pr&ecirc;ts en cours">Pr&ecirc;ts en cours</a>
-
-        </td>
-        <td class="AccountSummaryCounterValueCellStripe">10</td>
-        <td class="AccountSummaryActionCellStripe"></td>
-    </tr>
+                <tr>
+                    <td valign="top" class="AccountDetailFieldNameCellStripe">Numéro</td>
+                    <td valign="top" class="AccountDetailFieldValueCellStripe">0200200999999</td>
+                </tr>
 
 
-    <tr>
-        <td class="AccountSummaryCounterNameCell">
-
-            <a class="AccountSummaryCounterLink"
-               href="APS_ZONES?fn=MyReservations&PageSize=15&Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8"
-               title="Consulter vos réservations">Réservations</a>
-
-        </td>
-        <td class="AccountSummaryCounterValueCell">0</td>
-        <td class="AccountSummaryActionCell"></td>
-    </tr>
+                <tr>
+                    <td valign="top" class="AccountDetailFieldNameCell">Adresse</td>
+                    <td valign="top" class="AccountDetailFieldValueCell">
+                        <div id="contactAddress1">
 
 
-    <tr>
-        <td class="AccountSummaryCounterNameCellStripe">
-
-            <a class="AccountSummaryCounterLink"
-               href="Obj_1700041386823739?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Method=ShowMessages"
-               title="Visualiser vos messages">Messages</a>
-
-        </td>
-        <td class="AccountSummaryCounterValueCellStripe">0</td>
-        <td class="AccountSummaryActionCellStripe"></td>
-    </tr>
+                            555 rue Saint-André<br>
 
 
-    <tr>
-        <td class="AccountSummaryCounterNameCell">
-
-            <a class="AccountSummaryCounterLink"
-               href="Obj_1700041386823739?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Method=ShowAccount"
-               title="Consulter vos frais au dossier">Frais au dossier</a>
-
-        </td>
-        <td class="AccountSummaryCounterValueCell">
-            9,80 $
-
-            <div class="PayInfo">
-
-                <img class="PayImage" src="/Portal3/IMG/pay/visa.png" alt="Visa"/>
-                <img class="PayImage" src="/Portal3/IMG/pay/master.png" alt="Mastercard"/>
+                            Montréal (QC)<br>
 
 
+                            Canada
+
+
+                            H2L 4G4
+
+                        </div>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td valign="top" class="AccountDetailFieldNameCellStripe">&nbsp;</td>
+                    <td valign="top" class="AccountDetailFieldValueCellStripe">&nbsp;</td>
+                </tr>
+
+
+                <tr>
+                    <td valign="top" class="AccountDetailFieldNameCell">Téléphone (résidence)</td>
+                    <td valign="top" class="AccountDetailFieldValueCell">(514)316-5555</td>
+                </tr>
+
+
+                </tbody>
+            </table>
+
+            <div>
+                <a class="AccountSummaryActionLink" href="javascript:RenewSubscriptionAdvice()"
+                   title="Comment renouveler votre abonnement">Comment renouveler votre
+                    abonnement</a>
             </div>
 
-            <div class="floatClear"></div>
-
-        </td>
-        <td class="AccountSummaryActionCell"></td>
-    </tr>
-
-
-    <tr>
-        <td class="AccountSummaryCounterNameCell">
-
-            <a class="AccountSummaryCounterLink"
-               href="Obj_1700041386823739?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Method=ShowAccount"
-               title="Consulter vos frais au dossier"></a>
-
-        </td>
-        <td class="AccountSummaryCounterValueCell">
-
-
-            <div id="PayButton">
-
-
-                <a id="buttonAccountPay" title="Cliquer pour payer"
-                   target='_top'
-                   tabindex=""
-                   class="button"
-                   href="https://www.banq.qc.ca/pel/accueil"><span>Payer</span></a>
-
-
-                <a href="javascript:PayAdvice()" class="PayHelp"
-                   title="Aide pour le Paiement en ligne">? Aide</a>
+            <div>
+                <a class="AccountSummaryActionLink" href="javascript:LostCard()"
+                   title="Comment signaler la perte de votre carte">Comment signaler la perte de
+                    votre carte</a>
             </div>
-            <div class="floatClear"></div>
 
-        </td>
-        <td class="AccountSummaryActionCell"></td>
-    </tr>
 
+            <div>
+                <a id="ChangeContactLink" class="AccountSummaryActionLink"
+                   target="_top"
+                   href="https://www.banq.qc.ca/mon_dossier/modifier_profil/index.html"
+                   title="Modifier vos renseignements personnels ">Modifier renseignements
+                    personnels</a>
+            </div>
+
+        </div>
+
+
+        <DIV class="redmond" id="renewSubDLG" title="Renouveler votre abonnement"
+             style="display:none;">Il suffit de vous présenter dans un des édifices de BAnQ (par
+            exemple, au comptoir d’abonnement de la Grande Bibliothèque) avec votre carte d’abonné,
+            une pièce d’identité et une preuve de résidence valides. Tous les frais inscrits à votre
+            dossier doivent être réglés.
+        </DIV>
+        <DIV class="redmond" id="lostCardDLG" title="Signaler la perte de votre carte"
+             style="display:none;">Vous devez aviser immédiatement BAnQ à un comptoir de service ou
+            par téléphone au 514 873-1100. Veuillez noter que vous êtes responsable de votre carte
+            et de l’usage qui en est fait. Pour la faire remplacer, vous devez présenter une pièce
+            d’identité valide et payer des frais de 2 $ pour une carte de jeune et de 3 $ pour une
+            carte d’adulte.
+        </DIV>
+        <DIV class="redmond" id="payAdviceDLG" title="Paiement en ligne" style="display:none;">
+            Bibliothèque et Archives nationales du Québec vous offre la possibilité d'effectuer
+            sur-le-champ, par carte de crédit Visa ou Mastercard, le paiement des frais inscrits à
+            votre dossier. Ce service vous garantit sécurité, fiabilité et efficacité. <p> Le
+            montant minimum requis pour accéder au service de paiement en ligne est de 5 $.
+            Le paiement en ligne sur le portail de BAnQ permet de payer les frais au dossier, mais
+            pas les frais de retard estimés. Les frais au dossier sont les frais déjà inscrits à
+            votre dossier parce que vous avez remis un document en retard, l'avez perdu ou
+            endommagé, ou encore parce que vous n'avez pas récupéré dans le délai prévu un document
+            que vous aviez réservé. Quant aux frais de retard estimés, ils correspondent à des frais
+            pour des documents en retard que vous n'avez pas encore remis, qui seraient exigés et
+            inscrits à votre dossier si le document était remis sur-le-champ. Ces frais s'accumulent
+            jusqu'au retour des documents.
+
+            <p> Vous trouverez de l’information additionnelle en accédant au service de paiement en
+                ligne.</DIV>
 
-    <tr>
-        <td class="AccountSummaryCounterNameCellStripe">
 
-            <a class="AccountSummaryCounterLink"
-               href="Obj_1700041386823739?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Method=ShowLoans"
-               title="Consulter vos frais de retard estimés">Frais de retard estimés</a>
-
-        </td>
-        <td class="AccountSummaryCounterValueCellStripe"> 0,00 $</td>
-        <td class="AccountSummaryActionCellStripe"></td>
-    </tr>
-
-
-    </tbody>
-</table>
-
-
-<div class="InlineCurrentLoans">
-<br/><br/>
-<table>
-<thead>
-<tr>
-    <td colspan="3" class="AccountDetailsHeaderCell">Pr&ecirc;ts et renouvellements</td>
-</tr>
-</thead>
-
-
-<tr>
-    <td valign=top class="LoansBrowseHitNumber">1</td>
-    <td valign=top id="item_P1" class="LoansBrowseItemDetailsCell">
-        <table class="LoanBrowseTable">
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Titre</td>
-                <td class="LoanBrowseFieldDataCell">
-                    <b>The very hungry caterpillar and other stories [enregistrement vidéo]
-                    </b>
-                </td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">No de document</td>
-                <td class="LoanBrowseFieldDataCell">32002506795739</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; &agrave;</td>
-                <td class="LoanBrowseFieldDataCell">Grande Bibliothèque</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; le</td>
-                <td class="LoanBrowseFieldDataCell" id="loanDate_P1">30/11/2013</td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Doit &ecirc;tre remis le</td>
-                <td class="LoanBrowseFieldDataCell" id="returnDate_P1">
-                    <div class="LoanDate">
-                        <b>21/12/2013</b>
-                    </div>
-
-
-                    <div class="LateLoan">
-
-                    </div>
-
-
-                    <div style="width:120px; height:30px; padding-top:5px; display:inline;">
-
-
-                        <a id="buttonRenewLoan" title="Cliquer pour renouveler"
-                           target=''
-                           tabindex=""
-                           class="button"
-                           href="javascript:RenewLoan('P1', false)"><span>Renouveler</span></a>
-
-
-                    </div>
-
-
-                </td>
-            </tr>
-
-
-        </table>
-    </td>
-</tr>
-
-
-<tr>
-    <td valign=top class="LoansBrowseHitNumberStripe">2</td>
-    <td valign=top id="item_P2" class="LoansBrowseItemDetailsCellStripe">
-        <table class="LoanBrowseTable">
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Titre</td>
-                <td class="LoanBrowseFieldDataCell">
-                    <b>Petit Ours brun veut faire comme papa
-                    </b>
-                    / Aubinais, Marie
-                </td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">No de document</td>
-                <td class="LoanBrowseFieldDataCell">32002511383935</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; &agrave;</td>
-                <td class="LoanBrowseFieldDataCell">Grande Bibliothèque</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; le</td>
-                <td class="LoanBrowseFieldDataCell" id="loanDate_P2">30/11/2013</td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Doit &ecirc;tre remis le</td>
-                <td class="LoanBrowseFieldDataCell" id="returnDate_P2">
-                    <div class="LoanDate">
-                        <b>21/12/2013</b>
-                    </div>
-
-
-                    <div class="LateLoan">
-
-                    </div>
-
-
-                    <div style="width:120px; height:30px; padding-top:5px; display:inline;">
-
-
-                        <a id="buttonRenewLoan" title="Cliquer pour renouveler"
-                           target=''
-                           tabindex=""
-                           class="button"
-                           href="javascript:RenewLoan('P2', false)"><span>Renouveler</span></a>
-
-
-                    </div>
-
-
-                </td>
-            </tr>
-
-
-        </table>
-    </td>
-</tr>
-
-
-<tr>
-    <td valign=top class="LoansBrowseHitNumber">3</td>
-    <td valign=top id="item_P3" class="LoansBrowseItemDetailsCell">
-        <table class="LoanBrowseTable">
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Titre</td>
-                <td class="LoanBrowseFieldDataCell">
-                    <b>This tree, 1, 2, 3
-                    </b>
-                    / Formento, Alison
-                </td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">No de document</td>
-                <td class="LoanBrowseFieldDataCell">32002515727087</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; &agrave;</td>
-                <td class="LoanBrowseFieldDataCell">Grande Bibliothèque</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; le</td>
-                <td class="LoanBrowseFieldDataCell" id="loanDate_P3">30/11/2013</td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Doit &ecirc;tre remis le</td>
-                <td class="LoanBrowseFieldDataCell" id="returnDate_P3">
-                    <div class="LoanDate">
-                        <b>21/12/2013</b>
-                    </div>
-
-
-                    <div class="LateLoan">
-
-                    </div>
-
-
-                    <div style="width:120px; height:30px; padding-top:5px; display:inline;">
-
-
-                        <a id="buttonRenewLoan" title="Cliquer pour renouveler"
-                           target=''
-                           tabindex=""
-                           class="button"
-                           href="javascript:RenewLoan('P3', false)"><span>Renouveler</span></a>
-
-
-                    </div>
-
-
-                </td>
-            </tr>
-
-
-        </table>
-    </td>
-</tr>
-
-
-<tr>
-    <td valign=top class="LoansBrowseHitNumberStripe">4</td>
-    <td valign=top id="item_P4" class="LoansBrowseItemDetailsCellStripe">
-        <table class="LoanBrowseTable">
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Titre</td>
-                <td class="LoanBrowseFieldDataCell">
-                    <b>Green eggs and ham
-                    </b>
-                    / Seuss, Dr.
-                </td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">No de document</td>
-                <td class="LoanBrowseFieldDataCell">32002501575128</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; &agrave;</td>
-                <td class="LoanBrowseFieldDataCell">Grande Bibliothèque</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; le</td>
-                <td class="LoanBrowseFieldDataCell" id="loanDate_P4">01/12/2013</td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Doit &ecirc;tre remis le</td>
-                <td class="LoanBrowseFieldDataCell" id="returnDate_P4">
-                    <div class="LoanDate">
-                        <b>22/12/2013</b>
-                    </div>
-
-
-                    <div class="LateLoan">
-
-                    </div>
-
-
-                </td>
-            </tr>
-
-
-        </table>
-    </td>
-</tr>
-
-
-<tr>
-    <td valign=top class="LoansBrowseHitNumber">5</td>
-    <td valign=top id="item_P5" class="LoansBrowseItemDetailsCell">
-        <table class="LoanBrowseTable">
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Titre</td>
-                <td class="LoanBrowseFieldDataCell">
-                    <b>Caillou. Le meilleur de Caillou [enregistrement vidéo].
-                        - vol. v.3 </b>
-                </td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">No de document</td>
-                <td class="LoanBrowseFieldDataCell">32002519042079</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; &agrave;</td>
-                <td class="LoanBrowseFieldDataCell">Grande Bibliothèque</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; le</td>
-                <td class="LoanBrowseFieldDataCell" id="loanDate_P5">01/12/2013</td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Doit &ecirc;tre remis le</td>
-                <td class="LoanBrowseFieldDataCell" id="returnDate_P5">
-                    <div class="LoanDate">
-                        <b>22/12/2013</b>
-                    </div>
-
-
-                    <div class="LateLoan">
-
-                    </div>
-
-
-                    <div style="width:120px; height:30px; padding-top:5px; display:inline;">
-
-
-                        <a id="buttonRenewLoan" title="Cliquer pour renouveler"
-                           target=''
-                           tabindex=""
-                           class="button"
-                           href="javascript:RenewLoan('P5', false)"><span>Renouveler</span></a>
-
-
-                    </div>
-
-
-                </td>
-            </tr>
-
-
-        </table>
-    </td>
-</tr>
-
-
-<tr>
-    <td valign=top class="LoansBrowseHitNumberStripe">6</td>
-    <td valign=top id="item_P6" class="LoansBrowseItemDetailsCellStripe">
-        <table class="LoanBrowseTable">
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Titre</td>
-                <td class="LoanBrowseFieldDataCell">
-                    <b>Nouveau dans l'équipe [enregistrement vidéo] = New to the crew
-                    </b>
-                </td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">No de document</td>
-                <td class="LoanBrowseFieldDataCell">32002508382601</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; &agrave;</td>
-                <td class="LoanBrowseFieldDataCell">Grande Bibliothèque</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; le</td>
-                <td class="LoanBrowseFieldDataCell" id="loanDate_P6">01/12/2013</td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Doit &ecirc;tre remis le</td>
-                <td class="LoanBrowseFieldDataCell" id="returnDate_P6">
-                    <div class="LoanDate">
-                        <b>22/12/2013</b>
-                    </div>
-
-
-                    <div class="LateLoan">
-
-                    </div>
-
-
-                    <div style="width:120px; height:30px; padding-top:5px; display:inline;">
-
-
-                        <a id="buttonRenewLoan" title="Cliquer pour renouveler"
-                           target=''
-                           tabindex=""
-                           class="button"
-                           href="javascript:RenewLoan('P6', false)"><span>Renouveler</span></a>
-
-
-                    </div>
-
-
-                </td>
-            </tr>
-
-
-        </table>
-    </td>
-</tr>
-
-
-<tr>
-    <td valign=top class="LoansBrowseHitNumber">7</td>
-    <td valign=top id="item_P7" class="LoansBrowseItemDetailsCell">
-        <table class="LoanBrowseTable">
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Titre</td>
-                <td class="LoanBrowseFieldDataCell">
-                    <b>Pets : peek through holes to guess who I am
-                    </b>
-                    / Gardner, Charlie
-                </td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">No de document</td>
-                <td class="LoanBrowseFieldDataCell">32002517155519</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; &agrave;</td>
-                <td class="LoanBrowseFieldDataCell">Grande Bibliothèque</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; le</td>
-                <td class="LoanBrowseFieldDataCell" id="loanDate_P7">01/12/2013</td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Doit &ecirc;tre remis le</td>
-                <td class="LoanBrowseFieldDataCell" id="returnDate_P7">
-                    <div class="LoanDate">
-                        <b>22/12/2013</b>
-                    </div>
-
-
-                    <div class="LateLoan">
-
-                    </div>
-
-
-                    <div style="width:120px; height:30px; padding-top:5px; display:inline;">
-
-
-                        <a id="buttonRenewLoan" title="Cliquer pour renouveler"
-                           target=''
-                           tabindex=""
-                           class="button"
-                           href="javascript:RenewLoan('P7', false)"><span>Renouveler</span></a>
-
-
-                    </div>
-
-
-                </td>
-            </tr>
-
-
-        </table>
-    </td>
-</tr>
-
-
-<tr>
-    <td valign=top class="LoansBrowseHitNumberStripe">8</td>
-    <td valign=top id="item_P8" class="LoansBrowseItemDetailsCellStripe">
-        <table class="LoanBrowseTable">
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Titre</td>
-                <td class="LoanBrowseFieldDataCell">
-                    <b>Numbers from nature
-                    </b>
-                </td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">No de document</td>
-                <td class="LoanBrowseFieldDataCell">32002514597135</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; &agrave;</td>
-                <td class="LoanBrowseFieldDataCell">Grande Bibliothèque</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; le</td>
-                <td class="LoanBrowseFieldDataCell" id="loanDate_P8">01/12/2013</td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Doit &ecirc;tre remis le</td>
-                <td class="LoanBrowseFieldDataCell" id="returnDate_P8">
-                    <div class="LoanDate">
-                        <b>22/12/2013</b>
-                    </div>
-
-
-                    <div class="LateLoan">
-
-                    </div>
-
-
-                    <div style="width:120px; height:30px; padding-top:5px; display:inline;">
-
-
-                        <a id="buttonRenewLoan" title="Cliquer pour renouveler"
-                           target=''
-                           tabindex=""
-                           class="button"
-                           href="javascript:RenewLoan('P8', false)"><span>Renouveler</span></a>
-
-
-                    </div>
-
-
-                </td>
-            </tr>
-
-
-        </table>
-    </td>
-</tr>
-
-
-<tr>
-    <td valign=top class="LoansBrowseHitNumber">9</td>
-    <td valign=top id="item_P9" class="LoansBrowseItemDetailsCell">
-        <table class="LoanBrowseTable">
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Titre</td>
-                <td class="LoanBrowseFieldDataCell">
-                    <b>Caillou. Où es-tu Caillou? [enregistrement vidéo] = Caillou. Where's Caillou?
-                    </b>
-                </td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">No de document</td>
-                <td class="LoanBrowseFieldDataCell">32002519376956</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; &agrave;</td>
-                <td class="LoanBrowseFieldDataCell">Grande Bibliothèque</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; le</td>
-                <td class="LoanBrowseFieldDataCell" id="loanDate_P9">01/12/2013</td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Doit &ecirc;tre remis le</td>
-                <td class="LoanBrowseFieldDataCell" id="returnDate_P9">
-                    <div class="LoanDate">
-                        <b>22/12/2013</b>
-                    </div>
-
-
-                    <div class="LateLoan">
-
-                    </div>
-
-
-                    <div style="width:120px; height:30px; padding-top:5px; display:inline;">
-
-
-                        <a id="buttonRenewLoan" title="Cliquer pour renouveler"
-                           target=''
-                           tabindex=""
-                           class="button"
-                           href="javascript:RenewLoan('P9', false)"><span>Renouveler</span></a>
-
-
-                    </div>
-
-
-                </td>
-            </tr>
-
-
-        </table>
-    </td>
-</tr>
-
-
-<tr>
-    <td valign=top class="LoansBrowseHitNumberStripe">10</td>
-    <td valign=top id="item_P10" class="LoansBrowseItemDetailsCellStripe">
-        <table class="LoanBrowseTable">
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Titre</td>
-                <td class="LoanBrowseFieldDataCell">
-                    <b>Working effectively with legacy code
-                    </b>
-                    / Feathers, Michael C.
-                </td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">No de document</td>
-                <td class="LoanBrowseFieldDataCell">32002505776151</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; &agrave;</td>
-                <td class="LoanBrowseFieldDataCell">Grande Bibliothèque</td>
-            </tr>
-
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; le</td>
-                <td class="LoanBrowseFieldDataCell" id="loanDate_P10">03/12/2013</td>
-            </tr>
-            <tr>
-                <td class="LoanBrowseFieldNameCell">Doit &ecirc;tre remis le</td>
-                <td class="LoanBrowseFieldDataCell" id="returnDate_P10">
-                    <div class="LoanDate">
-                        <b>27/12/2013</b>
-                    </div>
-
-
-                    <div class="LateLoan">
-
-                    </div>
-
-
-                    <div style="width:120px; height:30px; padding-top:5px; display:inline;">
-
-
-                        <a id="buttonRenewLoan" title="Cliquer pour renouveler"
-                           target=''
-                           tabindex=""
-                           class="button"
-                           href="javascript:RenewLoan('P10', false)"><span>Renouveler</span></a>
-
-
-                    </div>
-
-
-                </td>
-            </tr>
-
-
-        </table>
-    </td>
-</tr>
-
-
-</table>
-</div>
-<div id="ConfirmRenewDLG" title="Demande de renouvellement" style="display:none;">
-    <TABLE width="100%" style="height:65px">
-        <TR>
-            <TD align=left colspan=4>Voulez-vous vraiment renouveler cet emprunt?<br/><br/>Si votre
-                document est en retard, des frais seront ajoutés à votre dossier.
-            </TD>
-        </TR>
-        <TR>
-            <TD nowrap align=right>
-                <table>
-                    <tr>
-                        <td>
-
-
-                            <a id="buttonYes" title="Prolonger le prêt du document."
-                               target=''
-                               tabindex=""
-                               class="button"
-                               href="javascript:answerYesRenew()"><span>Oui</span></a>
-
-
-                        </td>
-                        <td>
-
-
-                            <a id="buttonNo" title="Ne pas prolonger le prêt du document."
-                               target=''
-                               tabindex=""
-                               class="button"
-                               href="javascript:answerNoRenew()"><span>Non</span></a>
-
-
-                        </td>
-                    </tr>
-                </table>
-            </TD>
-        </TR>
-    </TABLE>
-</div>
-
-<div id="LateRenewWarnDLG" title="Prêt en retard" style="display:none;">
-    <div>Des frais de retard ont été ajoutés à votre dossier</div>
-</div>
-
-<div id="CannotRenewDLG" title="Le renouvellement n'est pas possible parce que ">
-    <TABLE width="100%" style="height:65px">
-        <TR>
-            <TD align=left colspan=4>
-                <div id="CannotRenewReason">
-            </TD>
-        </TR>
-    </TABLE>
-</div>
-
-<div id="RenewalResultDLG" title="Détails sur la demande de renouvellement" style="display:none">
-    <div id="RenewalResultSuccess" style="display:none;"></div>
-    <div id="RenewalResultLateWarning" style="display:none;">Des frais de retard ont été ajoutés à
-        votre dossier
     </div>
-    <div id="RenewalResultFailure" style="display:none;">Votre demande de renouvellement a été
-        refusée.
-    </div>
-    <div id="RenewalResultFailureDetails" style="display:none;"></div>
-</div>
-
-
-<DIV class="redmond" id="renewSubDLG" title="Renouveler votre abonnement" style="display:none;">Il
-    suffit de vous présenter dans un des édifices de BAnQ (par exemple, au comptoir d’abonnement de
-    la Grande Bibliothèque) avec votre carte d’abonné, une pièce d’identité et une preuve de
-    résidence valides. Tous les frais inscrits à votre dossier doivent être réglés.
-</DIV>
-<DIV class="redmond" id="lostCardDLG" title="Signaler la perte de votre carte"
-     style="display:none;">Vous devez aviser immédiatement BAnQ à un comptoir de service ou par
-    téléphone au 514 873-1100. Veuillez noter que vous êtes responsable de votre carte et de l’usage
-    qui en est fait. Pour la faire remplacer, vous devez présenter une pièce d’identité valide et
-    payer des frais de 2 $ pour une carte de jeune et de 3 $ pour une carte d’adulte.
-</DIV>
-<DIV class="redmond" id="payAdviceDLG" title="Paiement en ligne" style="display:none;">Bibliothèque
-    et Archives nationales du Québec vous offre la possibilité d'effectuer sur-le-champ, par carte
-    de crédit Visa ou Mastercard, le paiement des frais inscrits à votre dossier. Ce service vous
-    garantit sécurité, fiabilité et efficacité. <p> Le montant minimum requis pour accéder au
-        service de paiement en ligne est de 5 $.
-        Le paiement en ligne sur le portail de BAnQ permet de payer les frais au dossier, mais pas
-        les frais de retard estimés. Les frais au dossier sont les frais déjà inscrits à votre
-        dossier parce que vous avez remis un document en retard, l'avez perdu ou endommagé, ou
-        encore parce que vous n'avez pas récupéré dans le délai prévu un document que vous aviez
-        réservé. Quant aux frais de retard estimés, ils correspondent à des frais pour des documents
-        en retard que vous n'avez pas encore remis, qui seraient exigés et inscrits à votre dossier
-        si le document était remis sur-le-champ. Ces frais s'accumulent jusqu'au retour des
-        documents.
-
-    <p> Vous trouverez de l’information additionnelle en accédant au service de paiement en ligne.
-</DIV>
-
-
-</div>
 
 </div>
 
@@ -2139,7 +1429,7 @@ document.write ('<link href="/Portal3/CSS/Biblio/Iris09-800.css" rel="stylesheet
 
         <div class="AccountMenuLinkRow">
             <a class="AccountMenuLink2"
-               href='APS_ZONES?fn=MyContactDetails&Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Parent=Obj_1700041386823739%3FStyle%3DMobile%26SubStyle%3D%26Lang%3DFRE%26ResponseEncoding%3Dutf-8'
+               href='APS_ZONES?fn=MyContactDetails&Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Parent=Obj_778631387051806%3FStyle%3DMobile%26SubStyle%3D%26Lang%3DFRE%26ResponseEncoding%3Dutf-8'
                title="Aller à la section Renseignements personnels.">Renseignements personnels</a>
         </div>
 
@@ -2174,7 +1464,7 @@ document.write ('<link href="/Portal3/CSS/Biblio/Iris09-800.css" rel="stylesheet
     <p id="langFooter" class="FullSiteLink">
 
 
-        <a href="Obj_1700041386823739?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Lang=ENG"
+        <a href="Obj_778631387051806?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&SubView=ShowAddress&Lang=ENG"
            title="Go to the page in English">English</a>
 
 
@@ -2220,7 +1510,6 @@ document.write ('<link href="/Portal3/CSS/Biblio/Iris09-800.css" rel="stylesheet
             }
         }
 
-
 </script>
 
 <iframe title="PrintDLG" src="/blank.html"
@@ -2241,7 +1530,6 @@ dcsTag();
   //do nothing
 }
 
-
 </SCRIPT>
 <NOSCRIPT>
     <div><img alt="DCSIMG" id="DCSIMG" width="1" height="1"
@@ -2261,7 +1549,6 @@ try {
 var pageTracker = _gat._getTracker("UA-12469043-4");
 pageTracker._trackPageview();
 } catch(err) {}
-
 </script>
 <!-- Fin du code d'appel de Analytics -->
 

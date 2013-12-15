@@ -2,9 +2,10 @@ package net.dahanne.banq;
 
 import net.dahanne.banq.exceptions.InvalidCredentialsException;
 import net.dahanne.banq.model.BorrowedItem;
+import net.dahanne.banq.model.ContactDetails;
 import net.dahanne.banq.model.Details;
-import net.dahanne.banq.model.ItemType;
 import net.dahanne.banq.model.Reservation;
+import net.dahanne.banq.model.ReturnedLoan;
 
 import org.hamcrest.core.IsNull;
 import org.junit.Assume;
@@ -61,8 +62,13 @@ public class BanqClientTest {
         assertEquals("9,80 $", details.getCurrentDebt());
 //        assertEquals("02002005631076",details.getUserID());
 
-        BorrowedItem expectedMaisy = new BorrowedItem("This tree, 1, 2, 3", "Formento, Alison", "Grande Bibliothèque", getDate(2013, 10, 30), getDate(2013, 11, 21), "32002515727087", null, ItemType.REGULAR_BORROWED_ITEM);
+        BorrowedItem expectedMaisy = new BorrowedItem("This tree, 1, 2, 3", "Formento, Alison", "Grande Bibliothèque", getDate(2013, 10, 30), getDate(2013, 11, 21), "32002515727087", true);
         assertEquals(expectedMaisy, details.getBorrowedItems().get(2));
+
+        expectedMaisy = new BorrowedItem("Green eggs and ham", "Seuss, Dr.", "Grande Bibliothèque", getDate(2013, 11, 1), getDate(2013, 11, 22), "32002501575128", false);
+        assertEquals(expectedMaisy, details.getBorrowedItems().get(3));
+
+
     }
 
 
@@ -77,6 +83,29 @@ public class BanqClientTest {
         assertEquals(expectedMaisy, reservations.get(1));
     }
 
+    @Test
+    public void parseLoansTest() throws IOException, ParseException {
+        InputStream resource = BanqClientTest.class.getClassLoader().getResourceAsStream("loanshistory.html");
+        String loansHistoryPage = HttpBuilder.toString(resource, "UTF-8");
+
+        BanqClient bc = new BanqClient();
+        List<ReturnedLoan> reservations = bc.parseLoansHistory(loansHistoryPage);
+        ReturnedLoan expectedMaisy = new ReturnedLoan("Petit Ours brun veut faire comme papa / Aubinais, Marie", getDate(2013, 10, 10), getDate(2013, 10, 30));
+        assertEquals(expectedMaisy, reservations.get(2));
+    }
+
+
+    @Test
+    public void parseMyContactDetailsTest() throws IOException, ParseException {
+        InputStream resource = BanqClientTest.class.getClassLoader().getResourceAsStream("mycontactdetails.html");
+        String contactPage = HttpBuilder.toString(resource, "UTF-8");
+
+        BanqClient bc = new BanqClient();
+        ContactDetails contactDetails = bc.parseMyContactDetails(contactPage);
+        ContactDetails expectedContactDetails = new ContactDetails("Dahanne Anthony", getDate(2014, 04, 5), "0200200999999", "555 rue Saint-André Montréal (QC) Canada H2L 4G4", "(514)316-5555");
+        assertEquals(expectedContactDetails, contactDetails);
+    }
+
 
     @Test
     public void sampleRunTest() throws Exception {
@@ -84,34 +113,27 @@ public class BanqClientTest {
         Set<String> cookies = bc.authenticate(USERNAME, PASSWORD);
         String detailsPage = bc.getDetailsPage(cookies);
         String reservationsPage = bc.getReservationsPage(cookies);
+        String contactPage = bc.getContactDetailsPage(cookies);
+        String loansHistory = bc.getLoansHistory(cookies);
+        String accountHistoryPage = bc.getAccountHistory(cookies);
 
         Details details = bc.parseDetails(detailsPage);
         List<Reservation> reservations = bc.parseReservations(reservationsPage);
-        System.out.println("Borrower name  : " + details.getName());
-        System.out.println("Current debt  : " + details.getCurrentDebt());
+        List<ReturnedLoan> loans = bc.parseLoansHistory(loansHistory);
 
-        for (BorrowedItem item : details.getBorrowedItems()) {
-            System.out.println(item);
-        }
+        System.out.println(details);
 
         for (Reservation reservation : reservations) {
             System.out.println(reservation);
         }
 
-//        System.out.println("Current debt  : " + details.getCurrentDebt());
-//        System.out.println("Subscription expiration date : " + details.getExpirationDate());
+        System.out.println(bc.parseMyContactDetails(contactPage));
 
+        for (ReturnedLoan loan : loans) {
+            System.out.println(loan);
+        }
 
-//        // we try to renew a doc that can't be renewed
-//        String docNo = "3200251908339";
-//        String userId = "02002005631076";
-//        try {
-//        bc.renew(cookies, userId, docNo);
-//        }
-//        catch (FailedToRenewException itre) {
-//            System.out.println(itre.getMessage());
-//        }
-
+//        System.err.println(accountHistoryPage);
     }
 
     @Test(expected = InvalidCredentialsException.class)

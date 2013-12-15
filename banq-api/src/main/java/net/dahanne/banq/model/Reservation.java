@@ -49,13 +49,23 @@ public class Reservation {
         Reservation that = (Reservation) o;
 
         if (id != that.id) return false;
+        if (rank != that.rank) return false;
+        if (bookedSince != null ? !bookedSince.equals(that.bookedSince) : that.bookedSince != null)
+            return false;
+        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+        if (title != null ? !title.equals(that.title) : that.title != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return id;
+        int result = id;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (bookedSince != null ? bookedSince.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + rank;
+        return result;
     }
 
     @Override

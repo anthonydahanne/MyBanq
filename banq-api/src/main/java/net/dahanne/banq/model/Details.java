@@ -1,8 +1,6 @@
 package net.dahanne.banq.model;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -11,41 +9,47 @@ import java.util.List;
 public class Details {
 
     private final String name;
-    private final Date expirationDate;
     private final String currentDebt;
-    private final String userID;
-    private final List<BorrowedItem> borrowedItems;
+    private final String lateFeesToCome;
+    private final int messagesNumber;
+    private final int reservationsNumber;
+    private final List<BorrowedItem> borrowedItems = new ArrayList<BorrowedItem>();
 
-    public Details(String name, Date expirationDate, String currentDebt, String userID, List<BorrowedItem> borrowedItems) {
+    public Details(String name, String currentDebt, String lateFeesToCome, int messagesNumber, int reservationsNumber, List<BorrowedItem> borrowedItems) {
         this.name = name;
-        this.expirationDate = expirationDate;
         this.currentDebt = currentDebt;
-        this.userID = userID;
-        this.borrowedItems = borrowedItems;
+        this.lateFeesToCome = lateFeesToCome;
+        this.messagesNumber = messagesNumber;
+        this.reservationsNumber = reservationsNumber;
+        this.borrowedItems.addAll(borrowedItems);
     }
 
-    public Details(String name, Date expirationDateAsDate, String currentDebt) {
+    public Details(String name, String currentDebt, String lateFeesToCome, int messagesNumber, int reservationsNumber) {
         this.name = name;
-        this.expirationDate = expirationDateAsDate;
         this.currentDebt = currentDebt;
-        this.borrowedItems = new ArrayList<BorrowedItem>();
-        this.userID = null;
-    }
-
-    public String getUserID() {
-        return userID;
+        this.lateFeesToCome = lateFeesToCome;
+        this.messagesNumber = messagesNumber;
+        this.reservationsNumber = reservationsNumber;
     }
 
     public String getName() {
         return name;
     }
 
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
-
     public String getCurrentDebt() {
         return currentDebt;
+    }
+
+    public String getLateFeesToCome() {
+        return lateFeesToCome;
+    }
+
+    public int getMessagesNumber() {
+        return messagesNumber;
+    }
+
+    public int getReservationsNumber() {
+        return reservationsNumber;
     }
 
     public List<BorrowedItem> getBorrowedItems() {
@@ -59,22 +63,39 @@ public class Details {
 
         Details details = (Details) o;
 
-        if (!currentDebt.equals(details.currentDebt)) return false;
-        if (!expirationDate.equals(details.expirationDate)) return false;
-        if (!name.equals(details.name)) return false;
+        if (messagesNumber != details.messagesNumber) return false;
+        if (reservationsNumber != details.reservationsNumber) return false;
+        if (borrowedItems != null ? !borrowedItems.equals(details.borrowedItems) : details.borrowedItems != null)
+            return false;
+        if (currentDebt != null ? !currentDebt.equals(details.currentDebt) : details.currentDebt != null)
+            return false;
+        if (lateFeesToCome != null ? !lateFeesToCome.equals(details.lateFeesToCome) : details.lateFeesToCome != null)
+            return false;
+        if (name != null ? !name.equals(details.name) : details.name != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + expirationDate.hashCode();
-        result = 31 * result + currentDebt.hashCode();
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (currentDebt != null ? currentDebt.hashCode() : 0);
+        result = 31 * result + (lateFeesToCome != null ? lateFeesToCome.hashCode() : 0);
+        result = 31 * result + messagesNumber;
+        result = 31 * result + reservationsNumber;
+        result = 31 * result + (borrowedItems != null ? borrowedItems.hashCode() : 0);
         return result;
     }
 
-    public long getRemaingDays() {
-        return (expirationDate.getTime() - Calendar.getInstance().getTimeInMillis()) / (1000 * 60 * 60 * 24);
+    @Override
+    public String toString() {
+        return "Details{" +
+                "name='" + name + '\'' +
+                ", currentDebt='" + currentDebt + '\'' +
+                ", lateFeesToCome='" + lateFeesToCome + '\'' +
+                ", messagesNumber=" + messagesNumber +
+                ", reservationsNumber=" + reservationsNumber +
+                ", borrowedItems=" + borrowedItems +
+                '}';
     }
 }
