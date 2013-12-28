@@ -15,8 +15,9 @@ public class BorrowedItem {
     private final Date toBeReturnedBefore;
     private final String docNo;
     private final boolean isRenewable;
+    private final String lateFees;
 
-    public BorrowedItem(String title, String authorInfo, String documentLocation, Date borrowedDate, Date toBeReturnedBefore, String docNo, boolean isRenewable) {
+    public BorrowedItem(String title, String authorInfo, String documentLocation, Date borrowedDate, Date toBeReturnedBefore, String docNo, boolean isRenewable, String lateFees) {
         this.title = title;
         this.authorInfo = authorInfo;
         this.documentLocation = documentLocation;
@@ -24,6 +25,7 @@ public class BorrowedItem {
         this.toBeReturnedBefore = toBeReturnedBefore;
         this.docNo = docNo;
         this.isRenewable = isRenewable;
+        this.lateFees = lateFees;
     }
 
     public String getTitle() {
@@ -52,6 +54,10 @@ public class BorrowedItem {
 
     public boolean isRenewable() {
         return isRenewable;
+    }
+
+    public String getLateFees() {
+        return lateFees;
     }
 
     public long getRemainingDays() {
@@ -83,8 +89,10 @@ public class BorrowedItem {
             return false;
         if (borrowedDate != null ? !borrowedDate.equals(that.borrowedDate) : that.borrowedDate != null)
             return false;
-        if (!docNo.equals(that.docNo)) return false;
+        if (docNo != null ? !docNo.equals(that.docNo) : that.docNo != null) return false;
         if (documentLocation != null ? !documentLocation.equals(that.documentLocation) : that.documentLocation != null)
+            return false;
+        if (lateFees != null ? !lateFees.equals(that.lateFees) : that.lateFees != null)
             return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
         if (toBeReturnedBefore != null ? !toBeReturnedBefore.equals(that.toBeReturnedBefore) : that.toBeReturnedBefore != null)
@@ -100,10 +108,12 @@ public class BorrowedItem {
         result = 31 * result + (documentLocation != null ? documentLocation.hashCode() : 0);
         result = 31 * result + (borrowedDate != null ? borrowedDate.hashCode() : 0);
         result = 31 * result + (toBeReturnedBefore != null ? toBeReturnedBefore.hashCode() : 0);
-        result = 31 * result + docNo.hashCode();
+        result = 31 * result + (docNo != null ? docNo.hashCode() : 0);
         result = 31 * result + (isRenewable ? 1 : 0);
+        result = 31 * result + (lateFees != null ? lateFees.hashCode() : 0);
         return result;
     }
+
 
     @Override
     public String toString() {
@@ -115,6 +125,7 @@ public class BorrowedItem {
                 ", toBeReturnedBefore=" + toBeReturnedBefore +
                 ", docNo='" + docNo + '\'' +
                 ", isRenewable=" + isRenewable +
+                ", lateFees='" + lateFees + '\'' +
                 '}';
     }
 }

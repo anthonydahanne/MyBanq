@@ -1393,7 +1393,7 @@ document.write ('<link href="/Portal3/CSS/Biblio/Iris09-800.css" rel="stylesheet
                title="Consulter vos frais de retard estimés">Frais de retard estimés</a>
 
         </td>
-        <td class="AccountSummaryCounterValueCellStripe"> 0,00 $</td>
+        <td class="AccountSummaryCounterValueCellStripe"> 0,35 $</td>
         <td class="AccountSummaryActionCellStripe"></td>
     </tr>
 
@@ -1445,8 +1445,8 @@ document.write ('<link href="/Portal3/CSS/Biblio/Iris09-800.css" rel="stylesheet
                     </div>
 
 
-                    <div class="LateLoan">
-
+                    <div id="LateLoan_P1" class="LateLoan">
+                        <span class="LateLoanLabel">Retard</span>
                     </div>
 
 
@@ -1465,7 +1465,12 @@ document.write ('<link href="/Portal3/CSS/Biblio/Iris09-800.css" rel="stylesheet
 
                 </td>
             </tr>
-
+            <tr>
+                <td class="LoanBrowseFieldNameCell" >Frais à ce jour</td>
+                <td class="LoanBrowseFieldDataCell" >
+                    0,25 $
+                </td>
+            </tr>
 
         </table>
     </td>
@@ -1481,8 +1486,7 @@ document.write ('<link href="/Portal3/CSS/Biblio/Iris09-800.css" rel="stylesheet
                 <td class="LoanBrowseFieldDataCell">
                     <b>Petit Ours brun veut faire comme papa
                     </b>
-                    / Aubinais, Marie
-                </td>
+                    / Aubinais, Marie </td>
             </tr>
             <tr>
                 <td class="LoanBrowseFieldNameCell">No de document</td>
@@ -1495,8 +1499,8 @@ document.write ('<link href="/Portal3/CSS/Biblio/Iris09-800.css" rel="stylesheet
             </tr>
 
             <tr>
-                <td class="LoanBrowseFieldNameCell">Emprunt&eacute; le</td>
-                <td class="LoanBrowseFieldDataCell" id="loanDate_P2">30/11/2013</td>
+                <td class="LoanBrowseFieldNameCell" >Emprunt&eacute; le</td>
+                <td class="LoanBrowseFieldDataCell" id="loanDate_P2" >30/11/2013</td>
             </tr>
             <tr>
                 <td class="LoanBrowseFieldNameCell">Doit &ecirc;tre remis le</td>
@@ -1506,28 +1510,24 @@ document.write ('<link href="/Portal3/CSS/Biblio/Iris09-800.css" rel="stylesheet
                     </div>
 
 
-                    <div class="LateLoan">
-
+                    <div id="LateLoan_P2" class="LateLoan">
+                        <span class="LateLoanLabel">Retard</span>
                     </div>
-
-
                     <div style="width:120px; height:30px; padding-top:5px; display:inline;">
-
-
                         <a id="buttonRenewLoan" title="Cliquer pour renouveler"
-                           target=''
+                           target = ''
                            tabindex=""
                            class="button"
                            href="javascript:RenewLoan('P2', false)"><span>Renouveler</span></a>
-
-
                     </div>
-
-
                 </td>
             </tr>
-
-
+            <tr>
+                <td class="LoanBrowseFieldNameCell" >Frais à ce jour</td>
+                <td class="LoanBrowseFieldDataCell" >
+                    0,10 $
+                </td>
+            </tr>
         </table>
     </td>
 </tr>

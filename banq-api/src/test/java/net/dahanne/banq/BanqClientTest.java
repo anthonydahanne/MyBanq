@@ -4,6 +4,8 @@ import net.dahanne.banq.exceptions.InvalidCredentialsException;
 import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.ContactDetails;
 import net.dahanne.banq.model.Details;
+import net.dahanne.banq.model.LateFee;
+import net.dahanne.banq.model.LateFees;
 import net.dahanne.banq.model.Reservation;
 import net.dahanne.banq.model.ReturnedLoan;
 
@@ -15,6 +17,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -62,11 +65,15 @@ public class BanqClientTest {
         assertEquals("9,80 $", details.getCurrentDebt());
 //        assertEquals("02002005631076",details.getUserID());
 
-        BorrowedItem expectedMaisy = new BorrowedItem("This tree, 1, 2, 3", "Formento, Alison", "Grande Bibliothèque", getDate(2013, 10, 30), getDate(2013, 11, 21), "32002515727087", true);
-        assertEquals(expectedMaisy, details.getBorrowedItems().get(2));
+        BorrowedItem borrowedItem = new BorrowedItem("Petit Ours brun veut faire comme papa", "Aubinais, Marie", "Grande Bibliothèque", getDate(2013, 10, 30), getDate(2013, 11, 21), "32002511383935", true, "0,10 $");
+        assertEquals(borrowedItem, details.getBorrowedItems().get(1));
 
-        expectedMaisy = new BorrowedItem("Green eggs and ham", "Seuss, Dr.", "Grande Bibliothèque", getDate(2013, 11, 1), getDate(2013, 11, 22), "32002501575128", false);
-        assertEquals(expectedMaisy, details.getBorrowedItems().get(3));
+
+        borrowedItem = new BorrowedItem("This tree, 1, 2, 3", "Formento, Alison", "Grande Bibliothèque", getDate(2013, 10, 30), getDate(2013, 11, 21), "32002515727087", true, null);
+        assertEquals(borrowedItem, details.getBorrowedItems().get(2));
+
+        borrowedItem = new BorrowedItem("Green eggs and ham", "Seuss, Dr.", "Grande Bibliothèque", getDate(2013, 11, 1), getDate(2013, 11, 22), "32002501575128", false, null);
+        assertEquals(borrowedItem, details.getBorrowedItems().get(3));
 
 
     }
@@ -106,6 +113,18 @@ public class BanqClientTest {
         assertEquals(expectedContactDetails, contactDetails);
     }
 
+    @Test
+    public void parseMyAccountHistoryTest() throws IOException, ParseException {
+        InputStream resource = BanqClientTest.class.getClassLoader().getResourceAsStream("accounthistory.html");
+        String contactPage = HttpBuilder.toString(resource, "UTF-8");
+
+        BanqClient bc = new BanqClient();
+        LateFees lateFees = bc.parseAccountHistory(contactPage);
+        assertEquals("9,80 $", lateFees.getCurrentDebt());
+        assertEquals(new LateFee("Développer des applications An", "01/02/2013 - 09:26:59", "1,50 $", "Amende", "32002515791042" ), lateFees.getLateFees().get(4));
+
+    }
+
 
     @Test
     public void sampleRunTest() throws Exception {
@@ -133,7 +152,7 @@ public class BanqClientTest {
             System.out.println(loan);
         }
 
-//        System.err.println(accountHistoryPage);
+        System.out.println(bc.parseAccountHistory(accountHistoryPage));
     }
 
     @Test(expected = InvalidCredentialsException.class)

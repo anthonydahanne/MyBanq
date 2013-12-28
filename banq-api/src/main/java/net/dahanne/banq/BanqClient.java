@@ -16,6 +16,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +36,11 @@ import java.util.Set;
  */
 public class BanqClient {
 
+    private static Logger LOG = LoggerFactory.getLogger(BanqClient.class);
+    static {
+        LOG.warn("AYAYAYYAYAYAYAY");
+    }
+
     public Set<String> authenticate(String username, String password) throws IOException, InterruptedException, InvalidCredentialsException {
         Set<String> cookies = new HashSet<String>();
 
@@ -46,7 +53,6 @@ public class BanqClient {
         InputStream inputStream = null;
         String responseMessage = null;
         try {
-//            connect = new HttpBuilder("http://www.banq.qc.ca/mobile2/mon_dossier/detail.jsp").cookie(cookies).connect();
             connect = new HttpBuilder("https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyZone&Style=Mobile&Lang=FRE").cookie(cookies).connect();
 
             location = getLocationHeader(connect);
@@ -58,9 +64,8 @@ public class BanqClient {
                 connect.disconnect();
             }
         }
-
+        LOG.debug("1st step completed");
         try {
-//            connect = new HttpBuilder(location).connect();
             connect = new HttpBuilder("https://iris.banq.qc.ca/login/login.aspx?Lang=FRE&retObj=APS_ZONES%3Ffn%3DMyZoneHomePage%26Style%3DMobile%26SubStyle%3D%26Lang%3DFRE%26ResponseEncoding%3Dutf-8&retPage=").connect();
 
             location = getLocationHeader(connect);
@@ -72,7 +77,7 @@ public class BanqClient {
                 connect.disconnect();
             }
         }
-
+        LOG.debug("2nd step completed");
         //https://www.banq.qc.ca:443/idp/Authn/UserPassword for JSESSION_ID
         try {
             connect = new HttpBuilder(location).cookie(cookies).connect();
@@ -85,7 +90,7 @@ public class BanqClient {
                 connect.disconnect();
             }
         }
-
+        LOG.debug("3rd step completed");
 
         try {
             connect = new HttpBuilder(location).cookie(cookies).connect();
@@ -98,7 +103,7 @@ public class BanqClient {
                 connect.disconnect();
             }
         }
-
+        LOG.debug("4th step completed");
 
         String relayState = null;
         String SAMLResponse = null;
@@ -137,7 +142,7 @@ public class BanqClient {
                 connect.disconnect();
             }
         }
-
+        LOG.debug("5th step completed : logged in");
         try {
             data = new HashMap<String, String>();
             data.put("RelayState", relayState);
@@ -155,6 +160,8 @@ public class BanqClient {
                 connect.disconnect();
             }
         }
+        LOG.debug("6th step completed : SSO completed");
+
         try {
             connect = new HttpBuilder(location).cookie(cookies).connect();
             location = getLocationHeader(connect);
@@ -167,6 +174,7 @@ public class BanqClient {
                 connect.disconnect();
             }
         }
+        LOG.debug("7th step completed - all done");
         return cookies;
     }
 
@@ -232,17 +240,17 @@ public class BanqClient {
         String originalPage = getPage(cookies, "https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyAccountHistory&Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8");
 //        System.out.println("originalPage count : " + originalPage.length());
         sb.append(originalPage);
-        while (originalPage.contains("Method=PageDown")) {
-            //<META NAME="ZonesObjName"  CONTENT="Obj_1630781387085165">
-            Document parse = Jsoup.parse(originalPage);
-            Element zonesObjNameTag = parse.getElementsByAttributeValue("NAME", "ZonesObjName").first();
-            String objName = zonesObjNameTag.attr("CONTENT");
-            String url = "https://iris.banq.qc.ca/alswww2.dll/" + objName + "?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Method=PageDown&PageSize=10";
-//            System.out.println(url);
-            originalPage = getPage(cookies, url);
-//            System.out.println("originalPage count : " + originalPage.length());
-            sb.append(originalPage);
-        }
+//        while (originalPage.contains("Method=PageDown")) {
+//            //<META NAME="ZonesObjName"  CONTENT="Obj_1630781387085165">
+//            Document parse = Jsoup.parse(originalPage);
+//            Element zonesObjNameTag = parse.getElementsByAttributeValue("NAME", "ZonesObjName").first();
+//            String objName = zonesObjNameTag.attr("CONTENT");
+//            String url = "https://iris.banq.qc.ca/alswww2.dll/" + objName + "?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Method=PageDown&PageSize=10";
+////            System.out.println(url);
+//            originalPage = getPage(cookies, url);
+////            System.out.println("originalPage count : " + originalPage.length());
+//            sb.append(originalPage);
+//        }
 //        System.out.println("sb count : " + sb.length());
         return sb.toString();
     }
@@ -373,7 +381,13 @@ public class BanqClient {
                     //TODO : LateLoan field
 
                     boolean isRenewable = loanBrowseTable.getElementById("buttonRenewLoan") != null;
-                    borrowedItemsList.add(new BorrowedItem(title, authorInfo, borrowedItemLocation, borrowedDate, returnDate, documentNumber, isRenewable));
+
+                    String lateFees = null;
+                    boolean lateFeesDued = loanBrowseTable.getElementsByClass("LateLoan").first().text().trim().length() != 0;
+                    if(lateFeesDued) {
+                        lateFees = loanBrowseFieldDataCells.get(5).text().trim();
+                    }
+                    borrowedItemsList.add(new BorrowedItem(title, authorInfo, borrowedItemLocation, borrowedDate, returnDate, documentNumber, isRenewable, lateFees));
                 }
 
                 details = new Details(name, currentDebt, lateFeesToCome, messagesNumber, reservationsNumber, borrowedItemsList);
