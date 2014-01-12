@@ -16,8 +16,9 @@ public class BorrowedItem {
     private final String docNo;
     private final boolean isRenewable;
     private final String lateFees;
+    private final int itemPosition;
 
-    public BorrowedItem(String title, String authorInfo, String documentLocation, Date borrowedDate, Date toBeReturnedBefore, String docNo, boolean isRenewable, String lateFees) {
+    public BorrowedItem(String title, String authorInfo, String documentLocation, Date borrowedDate, Date toBeReturnedBefore, String docNo, boolean isRenewable, String lateFees, int itemPosition) {
         this.title = title;
         this.authorInfo = authorInfo;
         this.documentLocation = documentLocation;
@@ -26,6 +27,7 @@ public class BorrowedItem {
         this.docNo = docNo;
         this.isRenewable = isRenewable;
         this.lateFees = lateFees;
+        this.itemPosition = itemPosition;
     }
 
     public String getTitle() {
@@ -60,6 +62,10 @@ public class BorrowedItem {
         return lateFees;
     }
 
+    public int getItemPosition() {
+        return itemPosition;
+    }
+
     public long getRemainingDays() {
         // not a regular borrowed item
         if (toBeReturnedBefore == null) {
@@ -85,6 +91,7 @@ public class BorrowedItem {
         BorrowedItem that = (BorrowedItem) o;
 
         if (isRenewable != that.isRenewable) return false;
+        if (itemPosition != that.itemPosition) return false;
         if (authorInfo != null ? !authorInfo.equals(that.authorInfo) : that.authorInfo != null)
             return false;
         if (borrowedDate != null ? !borrowedDate.equals(that.borrowedDate) : that.borrowedDate != null)
@@ -111,9 +118,9 @@ public class BorrowedItem {
         result = 31 * result + (docNo != null ? docNo.hashCode() : 0);
         result = 31 * result + (isRenewable ? 1 : 0);
         result = 31 * result + (lateFees != null ? lateFees.hashCode() : 0);
+        result = 31 * result + itemPosition;
         return result;
     }
-
 
     @Override
     public String toString() {
@@ -126,6 +133,7 @@ public class BorrowedItem {
                 ", docNo='" + docNo + '\'' +
                 ", isRenewable=" + isRenewable +
                 ", lateFees='" + lateFees + '\'' +
+                ", itemPosition='" + itemPosition + '\'' +
                 '}';
     }
 }

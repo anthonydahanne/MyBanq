@@ -14,13 +14,15 @@ import net.dahanne.banq.model.ReturnedLoan;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,39 +39,60 @@ import java.util.Set;
 public class BanqClient {
 
     private static Logger LOG = LoggerFactory.getLogger(BanqClient.class);
-    static {
-        LOG.warn("AYAYAYYAYAYAYAY");
+    private final CookieManager cookieManager;
+
+    public BanqClient(CookieManager cookieManager) {
+        this.cookieManager = cookieManager;
     }
 
-    public Set<String> authenticate(String username, String password) throws IOException, InterruptedException, InvalidCredentialsException {
-        Set<String> cookies = new HashSet<String>();
+
+    synchronized public void authenticate(String username, String password) throws IOException, InterruptedException, InvalidCredentialsException {
+        CookieHandler.setDefault(this.cookieManager);
 
         if (username.length() != 8) {
             throw new InvalidCredentialsException();
         }
 
+//        CookieManager currentCookieManager = (CookieManager) CookieHandler.getDefault();
+//
+//        try {
+//            if (!currentCookieManager.getCookieStore().get(new URL("https://iris.banq.qc.ca").toURI()).isEmpty()) {
+//                if (force) {
+//                    LOG.debug("Already authenticated resetting cookie manager");
+//                    CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
+//                } else {
+//
+//                }
+//
+//            }
+//
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
+
         HttpURLConnection connect = null;
         String location = null;
         InputStream inputStream = null;
         String responseMessage = null;
-        try {
-            connect = new HttpBuilder("https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyZone&Style=Mobile&Lang=FRE").cookie(cookies).connect();
+//        try {
+//            connect = new HttpBuilder("https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyZone&Style=Mobile&Lang=FRE").connect();
+//
+//            location = getLocationHeader(connect);
+//            inputStream = connect.getInputStream();
+//            responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
+//        } finally {
+//            if (connect != null) {
+//                connect.disconnect();
+//            }
+//        }
+        CookieManager currentCookieManager = (CookieManager) CookieHandler.getDefault();
+        LOG.debug("Empty Cookies!!!" + currentCookieManager.getCookieStore().getCookies());
 
-            location = getLocationHeader(connect);
-            enrichCookies(connect, cookies);
-            inputStream = connect.getInputStream();
-            responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
-        } finally {
-            if (connect != null) {
-                connect.disconnect();
-            }
-        }
-        LOG.debug("1st step completed");
+//        LOG.debug("1st step completed");
         try {
             connect = new HttpBuilder("https://iris.banq.qc.ca/login/login.aspx?Lang=FRE&retObj=APS_ZONES%3Ffn%3DMyZoneHomePage%26Style%3DMobile%26SubStyle%3D%26Lang%3DFRE%26ResponseEncoding%3Dutf-8&retPage=").connect();
 
             location = getLocationHeader(connect);
-            enrichCookies(connect, cookies);
             inputStream = connect.getInputStream();
             responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
         } finally {
@@ -77,12 +100,13 @@ public class BanqClient {
                 connect.disconnect();
             }
         }
-        LOG.debug("2nd step completed");
+        LOG.debug("1st step completed, cookies : " + currentCookieManager.getCookieStore().getCookies());
+
+
         //https://www.banq.qc.ca:443/idp/Authn/UserPassword for JSESSION_ID
         try {
-            connect = new HttpBuilder(location).cookie(cookies).connect();
+            connect = new HttpBuilder(location).connect();
             location = getLocationHeader(connect);
-            enrichCookies(connect, cookies);
             inputStream = connect.getInputStream();
             responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
         } finally {
@@ -90,20 +114,7 @@ public class BanqClient {
                 connect.disconnect();
             }
         }
-        LOG.debug("3rd step completed");
-
-        try {
-            connect = new HttpBuilder(location).cookie(cookies).connect();
-            location = getLocationHeader(connect);
-            enrichCookies(connect, cookies);
-            inputStream = connect.getInputStream();
-            responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
-        } finally {
-            if (connect != null) {
-                connect.disconnect();
-            }
-        }
-        LOG.debug("4th step completed");
+        LOG.debug("2nd step completed, cookies : " + currentCookieManager.getCookieStore().getCookies());
 
         String relayState = null;
         String SAMLResponse = null;
@@ -112,9 +123,8 @@ public class BanqClient {
         try {
             data.put("j_username", username);
             data.put("j_password", password);
-            connect = new HttpBuilder(HttpBuilder.HttpMethod.POST, "https://www.banq.qc.ca/idp/Authn/UserPassword").data(data).cookie(cookies).connect();
+            connect = new HttpBuilder(HttpBuilder.HttpMethod.POST, "https://www.banq.qc.ca/idp/Authn/UserPassword").data(data).connect();
             location = getLocationHeader(connect);
-            enrichCookies(connect, cookies);
             inputStream = connect.getInputStream();
             responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
 
@@ -137,21 +147,24 @@ public class BanqClient {
                     }
                 }
             }
+            if (relayState == null || SAMLResponse == null) {
+                throw new InvalidCredentialsException();
+            }
         } finally {
             if (connect != null) {
                 connect.disconnect();
             }
         }
-        LOG.debug("5th step completed : logged in");
+        LOG.debug("3 rd step completed, cookies : " + currentCookieManager.getCookieStore().getCookies());
+
         try {
             data = new HashMap<String, String>();
             data.put("RelayState", relayState);
             data.put("SAMLResponse", SAMLResponse);
 
-            connect = new HttpBuilder(HttpBuilder.HttpMethod.POST, "https://iris.banq.qc.ca/Shibboleth.sso/SAML2/POST").data(data).cookie(cookies).connect();
+            connect = new HttpBuilder(HttpBuilder.HttpMethod.POST, "https://iris.banq.qc.ca/Shibboleth.sso/SAML2/POST").data(data).connect();
 
             location = getLocationHeader(connect);
-            enrichCookies(connect, cookies);
 
             inputStream = connect.getInputStream();
             responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
@@ -160,33 +173,20 @@ public class BanqClient {
                 connect.disconnect();
             }
         }
-        LOG.debug("6th step completed : SSO completed");
-
+        LOG.debug("4th step completed, cookies : " + currentCookieManager.getCookieStore().getCookies());
         try {
-            connect = new HttpBuilder(location).cookie(cookies).connect();
+            connect = new HttpBuilder(location).connect();
             location = getLocationHeader(connect);
 
             if (location != null) {
-                return authenticate(username, password);
+                authenticate(username, password);
             }
         } finally {
             if (connect != null) {
                 connect.disconnect();
             }
         }
-        LOG.debug("7th step completed - all done");
-        return cookies;
-    }
-
-    private void enrichCookies(HttpURLConnection connect, Set<String> cookies) {
-        String headerName;
-        for (int i = 1; (headerName = connect.getHeaderFieldKey(i)) != null; i++) {
-            if (headerName.equals("Set-Cookie")) {
-                String cookie = connect.getHeaderField(i);
-//                System.out.println("COOKIE : " + cookie);
-                cookies.add(cookie);
-            }
-        }
+        LOG.debug("5th step completed - all done");
     }
 
     private static String getLocationHeader(HttpURLConnection connect) {
@@ -201,17 +201,22 @@ public class BanqClient {
     }
 
 
-    private String getPage(Set<String> cookies, String url) throws IOException, InvalidSessionException {
+    synchronized private String getPage(String url) throws IOException, InvalidSessionException {
+        CookieHandler.setDefault(this.cookieManager);
         HttpURLConnection connect = null;
         try {
-            connect = new HttpBuilder(url).cookie(cookies).connect();
+            connect = new HttpBuilder(url).connect();
             if (connect.getResponseCode() == 302) {
                 // the session is not usable, we should re authenticate from there.
                 throw new InvalidSessionException();
             }
 
             InputStream inputStream = connect.getInputStream();
-            return HttpBuilder.toString(inputStream, "UTF-8");
+            String page = HttpBuilder.toString(inputStream, "UTF-8");
+            if (page.contains("window.location = \"https://iris.banq.qc.ca/login/login.aspx")) {
+                throw new InvalidSessionException();
+            }
+            return page;
         } finally {
             if (connect != null) {
                 connect.disconnect();
@@ -219,25 +224,25 @@ public class BanqClient {
         }
     }
 
-    String getDetailsPage(Set<String> cookies) throws IOException, ParseException, InvalidSessionException {
-        return getPage(cookies, "https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyZone&Style=Mobile&Lang=FRE&ResponseEncoding=utf-8");
+    String getDetailsPage() throws IOException, ParseException, InvalidSessionException {
+        return getPage("https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyZone&Style=Mobile&Lang=FRE&ResponseEncoding=utf-8");
     }
 
-    String getContactDetailsPage(Set<String> cookies) throws IOException, ParseException, InvalidSessionException {
-        return getPage(cookies, "https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyContactDetails&Style=Mobile&Lang=FRE&ResponseEncoding=utf-8");
+    String getContactDetailsPage() throws IOException, ParseException, InvalidSessionException {
+        return getPage("https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyContactDetails&Style=Mobile&Lang=FRE&ResponseEncoding=utf-8");
     }
 
-    String getReservationsPage(Set<String> cookies) throws IOException, ParseException, InvalidSessionException {
-        return getPage(cookies, "https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyReservations&Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8");
+    String getReservationsPage() throws IOException, ParseException, InvalidSessionException {
+        return getPage("https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyReservations&Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8");
     }
 
-    String getLoansHistory(Set<String> cookies) throws IOException, ParseException, InvalidSessionException {
-        return getPage(cookies, "https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyLoansHistory&Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8");
+    String getLoansHistory() throws IOException, ParseException, InvalidSessionException {
+        return getPage("https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyLoansHistory&Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8");
     }
 
-    String getAccountHistory(Set<String> cookies) throws IOException, ParseException, InvalidSessionException {
+    String getAccountHistory() throws IOException, ParseException, InvalidSessionException {
         StringBuilder sb = new StringBuilder();
-        String originalPage = getPage(cookies, "https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyAccountHistory&Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8");
+        String originalPage = getPage("https://iris.banq.qc.ca/alswww2.dll/APS_ZONES?fn=MyAccountHistory&Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8");
 //        System.out.println("originalPage count : " + originalPage.length());
         sb.append(originalPage);
 //        while (originalPage.contains("Method=PageDown")) {
@@ -340,7 +345,9 @@ public class BanqClient {
 
 
     Details parseDetails(String responseMessage) throws ParseException {
-        Document parse = Jsoup.parse(responseMessage);
+        LOG.debug("Starting parsing details");
+        long startTime = System.currentTimeMillis();
+        Document parse = Jsoup.parse(responseMessage.substring(responseMessage.indexOf("<body")));
         Element contenu = parse.getElementById("pageContent");
         Details details = null;
         if (contenu != null) {
@@ -349,7 +356,12 @@ public class BanqClient {
             String name = userIdElement.text().trim();
 
 
+            String importantMessage = contenu.getElementsByAttributeValueStarting("class", "AccountTrap").last().text().trim();
             Element summaryDetailsTable = contenu.getElementsByClass("SummaryDetailsTable").first();
+            String detailsLink = summaryDetailsTable.getElementsByClass("AccountSummaryCounterLink").first().attr("href");
+            String detailsObjId = detailsLink.substring(0, detailsLink.indexOf("?"));
+
+
             Elements accountSummaryCounterValueCells = summaryDetailsTable.getElementsByAttributeValueStarting("class", "AccountSummaryCounterValueCell");
             int reservationsNumber = Integer.valueOf(accountSummaryCounterValueCells.get(1).text().trim());
             int messagesNumber = Integer.valueOf(accountSummaryCounterValueCells.get(2).text().trim());
@@ -361,12 +373,11 @@ public class BanqClient {
             Elements loanBrowseTables = inlineCurrentLoans.getElementsByClass("LoanBrowseTable");
 
             if (loanBrowseTables == null) {
-                details = new Details(name, currentDebt, lateFeesToCome, messagesNumber, reservationsNumber);
+                details = new Details(name, currentDebt, lateFeesToCome, messagesNumber, reservationsNumber, importantMessage, detailsObjId);
             } else {
                 List<BorrowedItem> borrowedItemsList = new ArrayList<BorrowedItem>();
-
+                int itemPosition = 1;
                 for (Element loanBrowseTable : loanBrowseTables) {
-
                     String authorInfo = null;
                     Elements loanBrowseFieldDataCells = loanBrowseTable.getElementsByClass("LoanBrowseFieldDataCell");
                     String title = loanBrowseFieldDataCells.get(0).child(0).text();
@@ -378,21 +389,23 @@ public class BanqClient {
                     String borrowedItemLocation = loanBrowseFieldDataCells.get(2).text().trim();
                     Date borrowedDate = toDate(loanBrowseFieldDataCells.get(3).text().trim());
                     Date returnDate = toDate(loanBrowseFieldDataCells.get(4).getElementsByClass("LoanDate").first().child(0).text().toString().trim());
-                    //TODO : LateLoan field
 
                     boolean isRenewable = loanBrowseTable.getElementById("buttonRenewLoan") != null;
 
                     String lateFees = null;
                     boolean lateFeesDued = loanBrowseTable.getElementsByClass("LateLoan").first().text().trim().length() != 0;
-                    if(lateFeesDued) {
+                    if (lateFeesDued) {
                         lateFees = loanBrowseFieldDataCells.get(5).text().trim();
                     }
-                    borrowedItemsList.add(new BorrowedItem(title, authorInfo, borrowedItemLocation, borrowedDate, returnDate, documentNumber, isRenewable, lateFees));
+
+                    borrowedItemsList.add(new BorrowedItem(title, authorInfo, borrowedItemLocation, borrowedDate, returnDate, documentNumber, isRenewable, lateFees, itemPosition));
+                    itemPosition++;
                 }
 
-                details = new Details(name, currentDebt, lateFeesToCome, messagesNumber, reservationsNumber, borrowedItemsList);
+                details = new Details(name, currentDebt, lateFeesToCome, messagesNumber, reservationsNumber, importantMessage, detailsObjId, borrowedItemsList);
             }
         }
+        LOG.debug("Finished parsing details, it took {} ms", System.currentTimeMillis() - startTime);
         return details;
     }
 
@@ -402,55 +415,71 @@ public class BanqClient {
         return formatter.parse(substring);
     }
 
-    public Details getDetails(Set<String> cookies) throws ParseException, InvalidSessionException, IOException {
-        String detailsPage = this.getDetailsPage(cookies);
+    public Details getDetails() throws ParseException, InvalidSessionException, IOException {
+        String detailsPage = this.getDetailsPage();
         Details details = this.parseDetails(detailsPage);
-        String reservationsPage;
-//        List<Reservation> reservations = this.parseReservations(reservationsPage);
         return details;
     }
 
-    public void renew(Set<String> cookies, String userId, String docNo) throws FailedToRenewException, IOException, InvalidSessionException {
+    synchronized public void renew(String objId, int itemPosition) throws FailedToRenewException, IOException, InvalidSessionException {
+//        CookieManager cookieManager = (CookieManager) CookieHandler.getDefault();
+//        LOG.debug("Cookies!!!" + cookieManager.getCookieStore().getCookies());
+//        CookieManager temporary = new CookieManager(null, CookiePolicy.ACCEPT_ALL);
+        CookieHandler.setDefault(cookieManager);
+//        LOG.debug("2Cookies!!!" + temporary.getCookieStore().getCookies());
 
+        LOG.debug("renewing item " + itemPosition + " from object list " + objId);
+        String responseMessage;
         HttpURLConnection connect = null;
-        connect = new HttpBuilder("http://www.banq.qc.ca/mobile2/mon_dossier/detail.jsp").cookie(cookies).connect();
-        if (connect.getResponseCode() == 302) {
-            // the session is not usable, we should re authenticate from there.
-            throw new InvalidSessionException();
-        }
-
-        String location = "http://www.banq.qc.ca/mobile2/renew.jsp";
-        connect = null;
-        InputStream inputStream = null;
-        String responseMessage = null;
-        HashMap<String, String> data = new HashMap<String, String>();
-        data.put("docNo", docNo);
-        data.put("userID", userId);
         try {
-            connect = new HttpBuilder(HttpBuilder.HttpMethod.POST, location).data(data).cookie(cookies).connect();
-            location = getLocationHeader(connect);
-            enrichCookies(connect, cookies);
-            inputStream = connect.getInputStream();
-            responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
+            String url = "https://iris.banq.qc.ca/alswww2.dll/" + objId + "?Style=Mobile&SubStyle=&Lang=FRE&ResponseEncoding=utf-8&Method=Renew&Accepted=1&Item=P" + itemPosition;
+            Set<String> cookies = new HashSet<String>();
+
+            List<HttpCookie> originalCookies = cookieManager.getCookieStore().getCookies();
+            String manuallyCraftedCookie = "";
+            for (HttpCookie originalCookie : originalCookies) {
+                if (originalCookie.getName().equals("SID") || originalCookie.getName().startsWith("_shibsession")) {
+//                    cookies.add(originalCookie.getName() + "=" +originalCookie.getValue());
+                    if (manuallyCraftedCookie.length() == 0) {
+                        manuallyCraftedCookie = originalCookie.getName() + "=" + originalCookie.getValue();
+                    } else {
+                        manuallyCraftedCookie = manuallyCraftedCookie + "; " + originalCookie.getName() + "=" + originalCookie.getValue();
+                    }
+                }
+            }
+            cookies.add(manuallyCraftedCookie);
+//            cookies.add("SID=S65521389070137339398776811499; _shibsession_64656661756c7468747470733a2f2f697269732e62616e712e71632e63612f73686962626f6c6574682d7370=_0d85c1bccc5d5a82796d426ac065bf8d");
+            LOG.debug("sent cookies : " + manuallyCraftedCookie);
+//            for (String cookie : cookies) {
+//
+//            LOG.debug((cookie);
+//            }
+            connect = new HttpBuilder(url).cookie(cookies).connect();
+            if (connect.getResponseCode() == 302) {
+                // the session is not usable, we should re authenticate from there.
+                throw new InvalidSessionException();
+            }
+            InputStream inputStream = connect.getInputStream();
+            responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.UTF_8);
+            LOG.debug("response : " + responseMessage);
+            LOG.debug("request : " + url);
+            if (!responseMessage.contains("\"success\" : \"true\"")) {
+                throw new FailedToRenewException("Renewal not successful.");
+            }
+            if (!responseMessage.contains("\"success\" : \"true\"")) {
+                throw new FailedToRenewException("Renewal not successful.");
+            }
+            if (responseMessage.contains("\"Transaction refu")) {
+                String end = responseMessage.substring(responseMessage.indexOf("\"Transaction refu") + 1);
+                String errorMessage = end.substring(0, end.indexOf("\""));
+                LOG.debug("Renewal not successful : " + errorMessage);
+                throw new FailedToRenewException(errorMessage);
+            }
         } finally {
             if (connect != null) {
                 connect.disconnect();
             }
+//            CookieHandler.setDefault(cookieManager);
         }
-
-        Document parse = Jsoup.parse(responseMessage);
-        Element contenu = parse.getElementById("Contenu");
-        if (contenu.html().contains("La transaction a &eacute;chou&eacute;e")) {
-            StringBuilder sb = new StringBuilder();
-            for (Node node : contenu.childNodes()) {
-                String nodeString = node.toString();
-                // banq returns some soap envelope, with some internal error codes, we filter this
-                if (!nodeString.contains("soap:envelope") && !nodeString.contains("encoding=") && !nodeString.contains("<br />") && !nodeString.trim().equals("")) {
-                    sb.append(nodeString.trim()).append("<br />");
-                }
-            }
-            throw new FailedToRenewException(sb.toString());
-        }
-
     }
 }

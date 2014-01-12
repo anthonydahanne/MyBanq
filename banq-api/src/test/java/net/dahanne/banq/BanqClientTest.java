@@ -1,6 +1,8 @@
 package net.dahanne.banq;
 
+import net.dahanne.banq.exceptions.FailedToRenewException;
 import net.dahanne.banq.exceptions.InvalidCredentialsException;
+import net.dahanne.banq.exceptions.InvalidSessionException;
 import net.dahanne.banq.model.BorrowedItem;
 import net.dahanne.banq.model.ContactDetails;
 import net.dahanne.banq.model.Details;
@@ -12,16 +14,19 @@ import net.dahanne.banq.model.ReturnedLoan;
 import org.hamcrest.core.IsNull;
 import org.junit.Assume;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;
@@ -34,6 +39,9 @@ public class BanqClientTest {
 
     private static final String USERNAME = System.getProperty("username");
     private static final String PASSWORD = System.getProperty("password");
+
+    private static Logger LOG = LoggerFactory.getLogger(BanqClient.class);
+    private CookieManager cookieManager = new CookieManager(null, CookiePolicy.ACCEPT_ALL);
 
 
     @BeforeClass
@@ -58,23 +66,24 @@ public class BanqClientTest {
         InputStream resource = BanqClientTest.class.getClassLoader().getResourceAsStream("sampleDetails-mobile.html");
         String sampleDetailsPage = HttpBuilder.toString(resource, "UTF-8");
 
-        BanqClient bc = new BanqClient();
+        BanqClient bc = new BanqClient(cookieManager);
         Details details = bc.parseDetails(sampleDetailsPage);
         assertEquals("Dahanne Anthony", details.getName());
-//        assertEquals(getDate(2014,4,5,0,0),details.getExpirationDate());
         assertEquals("9,80 $", details.getCurrentDebt());
-//        assertEquals("02002005631076",details.getUserID());
+        assertEquals("ATTENTION : Vous ne pouvez plus vous prévaloir des services aux abonnés de Bibliothèque et Archives nationales du Québec parce que : " +
+                "- les frais apparaissant à votre dossier ont atteint le maximum permis. Les frais peuvent être payés en ligne ou au comptoir de prêt. " +
+                "Vous avez 2 document(s) en retard.", details.getImportantMessage());
+        assertEquals("Obj_1700041386823739", details.getObjId());
 
-        BorrowedItem borrowedItem = new BorrowedItem("Petit Ours brun veut faire comme papa", "Aubinais, Marie", "Grande Bibliothèque", getDate(2013, 10, 30), getDate(2013, 11, 21), "32002511383935", true, "0,10 $");
+        BorrowedItem borrowedItem = new BorrowedItem("Petit Ours brun veut faire comme papa", "Aubinais, Marie", "Grande Bibliothèque", getDate(2013, 10, 30), getDate(2013, 11, 21), "32002511383935", true, "0,10 $", 2);
         assertEquals(borrowedItem, details.getBorrowedItems().get(1));
 
 
-        borrowedItem = new BorrowedItem("This tree, 1, 2, 3", "Formento, Alison", "Grande Bibliothèque", getDate(2013, 10, 30), getDate(2013, 11, 21), "32002515727087", true, null);
+        borrowedItem = new BorrowedItem("This tree, 1, 2, 3", "Formento, Alison", "Grande Bibliothèque", getDate(2013, 10, 30), getDate(2013, 11, 21), "32002515727087", true, null, 3);
         assertEquals(borrowedItem, details.getBorrowedItems().get(2));
 
-        borrowedItem = new BorrowedItem("Green eggs and ham", "Seuss, Dr.", "Grande Bibliothèque", getDate(2013, 11, 1), getDate(2013, 11, 22), "32002501575128", false, null);
+        borrowedItem = new BorrowedItem("Green eggs and ham", "Seuss, Dr.", "Grande Bibliothèque", getDate(2013, 11, 1), getDate(2013, 11, 22), "32002501575128", false, null, 4);
         assertEquals(borrowedItem, details.getBorrowedItems().get(3));
-
 
     }
 
@@ -84,7 +93,7 @@ public class BanqClientTest {
         InputStream resource = BanqClientTest.class.getClassLoader().getResourceAsStream("reservations-mobile.html");
         String reservationsPage = HttpBuilder.toString(resource, "UTF-8");
 
-        BanqClient bc = new BanqClient();
+        BanqClient bc = new BanqClient(cookieManager);
         List<Reservation> reservations = bc.parseReservations(reservationsPage);
         Reservation expectedMaisy = new Reservation(59280, "Les 4 soldats = The 4 soldiers [enregistrement vidéo]", getDate(2013, 11, 12), "Le document n'est pas encore disponible.", 5);
         assertEquals(expectedMaisy, reservations.get(1));
@@ -95,7 +104,7 @@ public class BanqClientTest {
         InputStream resource = BanqClientTest.class.getClassLoader().getResourceAsStream("loanshistory.html");
         String loansHistoryPage = HttpBuilder.toString(resource, "UTF-8");
 
-        BanqClient bc = new BanqClient();
+        BanqClient bc = new BanqClient(cookieManager);
         List<ReturnedLoan> reservations = bc.parseLoansHistory(loansHistoryPage);
         ReturnedLoan expectedMaisy = new ReturnedLoan("Petit Ours brun veut faire comme papa / Aubinais, Marie", getDate(2013, 10, 10), getDate(2013, 10, 30));
         assertEquals(expectedMaisy, reservations.get(2));
@@ -107,7 +116,7 @@ public class BanqClientTest {
         InputStream resource = BanqClientTest.class.getClassLoader().getResourceAsStream("mycontactdetails.html");
         String contactPage = HttpBuilder.toString(resource, "UTF-8");
 
-        BanqClient bc = new BanqClient();
+        BanqClient bc = new BanqClient(cookieManager);
         ContactDetails contactDetails = bc.parseMyContactDetails(contactPage);
         ContactDetails expectedContactDetails = new ContactDetails("Dahanne Anthony", getDate(2014, 04, 5), "0200200999999", "555 rue Saint-André Montréal (QC) Canada H2L 4G4", "(514)316-5555");
         assertEquals(expectedContactDetails, contactDetails);
@@ -118,25 +127,24 @@ public class BanqClientTest {
         InputStream resource = BanqClientTest.class.getClassLoader().getResourceAsStream("accounthistory.html");
         String contactPage = HttpBuilder.toString(resource, "UTF-8");
 
-        BanqClient bc = new BanqClient();
+        BanqClient bc = new BanqClient(cookieManager);
         LateFees lateFees = bc.parseAccountHistory(contactPage);
         assertEquals("9,80 $", lateFees.getCurrentDebt());
         assertEquals(new LateFee("Développer des applications An", "01/02/2013 - 09:26:59", "1,50 $", "Amende", "32002515791042" ), lateFees.getLateFees().get(4));
 
     }
 
-
     @Test
     public void sampleRunTest() throws Exception {
-        BanqClient bc = new BanqClient();
-        Set<String> cookies = bc.authenticate(USERNAME, PASSWORD);
-        String detailsPage = bc.getDetailsPage(cookies);
-        String reservationsPage = bc.getReservationsPage(cookies);
-        String contactPage = bc.getContactDetailsPage(cookies);
-        String loansHistory = bc.getLoansHistory(cookies);
-        String accountHistoryPage = bc.getAccountHistory(cookies);
-
+        BanqClient bc = new BanqClient(cookieManager);
+        bc.authenticate(USERNAME, PASSWORD);
+        String detailsPage = bc.getDetailsPage();
         Details details = bc.parseDetails(detailsPage);
+        String reservationsPage = bc.getReservationsPage();
+        String contactPage = bc.getContactDetailsPage();
+        String loansHistory = bc.getLoansHistory();
+        String accountHistoryPage = bc.getAccountHistory();
+
         List<Reservation> reservations = bc.parseReservations(reservationsPage);
         List<ReturnedLoan> loans = bc.parseLoansHistory(loansHistory);
 
@@ -153,11 +161,31 @@ public class BanqClientTest {
         }
 
         System.out.println(bc.parseAccountHistory(accountHistoryPage));
+
+    }
+
+
+    @Ignore
+    @Test(expected = FailedToRenewException.class)
+    public void renew() throws Exception {
+        BanqClient bc = new BanqClient(cookieManager);
+//        bc.authenticate(USERNAME, PASSWORD);
+        String detailsPage;
+        try {
+            detailsPage = bc.getDetailsPage();
+        } catch (InvalidSessionException ise) {
+            bc.authenticate(USERNAME, PASSWORD);
+            detailsPage = bc.getDetailsPage();
+        }
+        Details details = bc.parseDetails(detailsPage);
+        bc.renew(details.getObjId(), 1);
+
+
     }
 
     @Test(expected = InvalidCredentialsException.class)
     public void authenticateTest__failure() throws Exception {
-        BanqClient bc = new BanqClient();
+        BanqClient bc = new BanqClient(cookieManager);
         bc.authenticate("99999999", "88888888");
 
     }

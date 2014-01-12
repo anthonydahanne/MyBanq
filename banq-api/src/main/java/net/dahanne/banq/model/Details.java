@@ -13,23 +13,32 @@ public class Details {
     private final String lateFeesToCome;
     private final int messagesNumber;
     private final int reservationsNumber;
+    private final String importantMessage;
+    private final String objId;
+
+
     private final List<BorrowedItem> borrowedItems = new ArrayList<BorrowedItem>();
 
-    public Details(String name, String currentDebt, String lateFeesToCome, int messagesNumber, int reservationsNumber, List<BorrowedItem> borrowedItems) {
+    public Details(String name, String currentDebt, String lateFeesToCome, int messagesNumber, int reservationsNumber, String importantMessage, String objId, List<BorrowedItem> borrowedItems) {
         this.name = name;
         this.currentDebt = currentDebt;
         this.lateFeesToCome = lateFeesToCome;
         this.messagesNumber = messagesNumber;
         this.reservationsNumber = reservationsNumber;
+        this.importantMessage = importantMessage;
+        this.objId = objId;
         this.borrowedItems.addAll(borrowedItems);
     }
 
-    public Details(String name, String currentDebt, String lateFeesToCome, int messagesNumber, int reservationsNumber) {
+    public Details(String name, String currentDebt, String lateFeesToCome, int messagesNumber, int reservationsNumber, String importantMessage, String objId) {
         this.name = name;
         this.currentDebt = currentDebt;
         this.lateFeesToCome = lateFeesToCome;
         this.messagesNumber = messagesNumber;
         this.reservationsNumber = reservationsNumber;
+        this.importantMessage = importantMessage;
+        this.objId = objId;
+
     }
 
     public String getName() {
@@ -56,6 +65,14 @@ public class Details {
         return borrowedItems;
     }
 
+    public String getImportantMessage() {
+        return importantMessage;
+    }
+
+    public String getObjId() {
+        return objId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -69,9 +86,12 @@ public class Details {
             return false;
         if (currentDebt != null ? !currentDebt.equals(details.currentDebt) : details.currentDebt != null)
             return false;
+        if (importantMessage != null ? !importantMessage.equals(details.importantMessage) : details.importantMessage != null)
+            return false;
         if (lateFeesToCome != null ? !lateFeesToCome.equals(details.lateFeesToCome) : details.lateFeesToCome != null)
             return false;
         if (name != null ? !name.equals(details.name) : details.name != null) return false;
+        if (objId != null ? !objId.equals(details.objId) : details.objId != null) return false;
 
         return true;
     }
@@ -83,9 +103,12 @@ public class Details {
         result = 31 * result + (lateFeesToCome != null ? lateFeesToCome.hashCode() : 0);
         result = 31 * result + messagesNumber;
         result = 31 * result + reservationsNumber;
+        result = 31 * result + (importantMessage != null ? importantMessage.hashCode() : 0);
+        result = 31 * result + (objId != null ? objId.hashCode() : 0);
         result = 31 * result + (borrowedItems != null ? borrowedItems.hashCode() : 0);
         return result;
     }
+
 
     @Override
     public String toString() {
@@ -95,6 +118,8 @@ public class Details {
                 ", lateFeesToCome='" + lateFeesToCome + '\'' +
                 ", messagesNumber=" + messagesNumber +
                 ", reservationsNumber=" + reservationsNumber +
+                ", importantMessage='" + importantMessage + '\'' +
+                ", objId='" + objId + '\'' +
                 ", borrowedItems=" + borrowedItems +
                 '}';
     }

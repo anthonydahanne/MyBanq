@@ -1,0 +1,25 @@
+{
+
+
+
+
+			"warnings" : [
+
+
+
+
+					 "Attention : l'abonné a des frais impayés."
+
+				],
+
+
+
+				"renewSucceded" : "1",
+				"newDueDate"    : "26/01/2014",
+				"newLoanDate"   : "05/01/2014",
+
+
+	    	"success" : "true"
+
+
+}

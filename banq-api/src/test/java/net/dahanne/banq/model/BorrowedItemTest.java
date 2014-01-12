@@ -15,6 +15,6 @@ public class BorrowedItemTest {
     public void testGetRemainingDays() {
         Calendar instance = Calendar.getInstance();
         instance.add(Calendar.DAY_OF_YEAR, 3);
-        assertEquals(3, new BorrowedItem(null, null, null, null, instance.getTime(), null, false, null).getRemainingDays());
+        assertEquals(3, new BorrowedItem(null, null, null, null, instance.getTime(), null, false, null, 0).getRemainingDays());
     }
 }
