@@ -1,5 +1,8 @@
 package net.dahanne.banq.notifications;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +16,6 @@ import android.provider.Settings;
  * Used to be a fragment, but fragments for preference activities are not compatible with older APIs
  * Look in the commit log to find back
  * BanqNotifications/src/main/java/net/dahanne/banq/notifications/PrefsFragment.java
- *
  */
 public class PreferencesActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 
@@ -37,6 +39,8 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
         findPreference(PreferenceHelper.KEY_PREF_ADD).setOnPreferenceClickListener(onclickListener);
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         updateSummary(PreferenceHelper.KEY_PREF_DAYS_TO_TRIGGER);
+        updateSummary(PreferenceHelper.KEY_PREF_ENABLE_SYNC);
+
     }
 
     public static Intent newIntent(Context context) {
@@ -46,6 +50,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         updateSummary(key);
+        updateSync(key);
     }
 
     @SuppressWarnings("deprecation")
@@ -54,6 +59,19 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
         if (PreferenceHelper.KEY_PREF_DAYS_TO_TRIGGER.equals(key)) {
             int daysToTriggerValue = PreferenceHelper.getDaysToTrigger(this);
             getPreferenceManager().findPreference(key).setSummary(getString(R.string.remaining_days_summary, Integer.toString(daysToTriggerValue)));
+        } else if (PreferenceHelper.KEY_PREF_ENABLE_SYNC.equals(key)) {
+            getPreferenceManager().findPreference(PreferenceHelper.KEY_PREF_ENABLE_SYNC).setSummary(getString(R.string.enable_sync_summary, Boolean.toString(PreferenceHelper.isSyncEnabled(this))));
+        }
+    }
+
+    private void updateSync(String key) {
+        if (PreferenceHelper.KEY_PREF_ENABLE_SYNC.equals(key)) {
+            Account[] accountsByType = AccountManager.get(this).getAccountsByType(this.getString(R.string.accountType));
+            boolean syncEnabled = PreferenceHelper.isSyncEnabled(this);
+            for (Account account : accountsByType) {
+                ContentResolver.setIsSyncable(account, this.getString(R.string.authority), syncEnabled ? 1 : 0);
+                ContentResolver.setSyncAutomatically(account, this.getString(R.string.authority), syncEnabled);
+            }
         }
     }
 }

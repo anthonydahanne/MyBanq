@@ -10,7 +10,7 @@
     <string name="unexpectedError">Unexpected Error</string>
     <string name="item_to_return_to_banq">Item to return to BANQ</string>
     <string name="accountType">BANQ</string>
-    <string name="renew">Renew</string>
+    <string name="plus">+</string>
     <string name="retrieving_your_informations">Retrieving your information</string>
     <string name="invalid_session">The session is invalid, please try to re enter your credentials</string>
     <string name="renewal_successful">Your borrowed item was renewed with success !</string>
@@ -18,16 +18,23 @@
     <string name="daysToTrigger">Remaining days before alert</string>
     <string name="daysToTriggerDialog">Choose the remaining number of days before you get an alert</string>
     <string name="authority">net.dahanne.banq.notifications.stubprovider</string>
-    <string name="remaining_days_summary">When a borrowed item is due for less than %s days, a
-        notification will be launched and the renew option will become available
-    </string>
-    <string name="syncAndAccount">Sync. and Account</string>
+    <string name="remaining_days_summary">When a borrowed item is due for less than %s days, a notification will be triggered</string>
+    <string name="syncAndAccount">Sync. and Accounts</string>
     <string name="several_items_to_return_soon">Several items to return to BANQ soon</string>
     <string name="invalid_credentials">Invalid credentials, please try again</string>
-    <string name="sync_account_summary">Choose your BANQ account, and enable/disable daily
-        sync. for notification or even delete it
+    <string name="sync_account_summary">Choose your BANQ account, and enable/disable sync. for notifications or even delete it
     </string>
     <string name="addAccount">Add account</string>
     <string name="not_renewable">Not renewable</string>
+    <string name="reservation_number">Reservations : %s</string>
+    <string name="enable_sync_summary">Switch on or off the notifications (reminders)</string>
+    <string name="enableSync">Enable notifications</string>
+    <string name="debtToCome">Fines to come : %s</string>
+    <string name="author_info_label">Author Info : </string>
+    <string name="document_location_label">Document Location : </string>
+    <string name="late_fees_label">Late Fees : </string>
+    <string name="borrowed_date_label">Borrowed Date : </string>
+    <string name="to_return_before_label">To Be Returned : </string>
+    <string name="renew_button">Renew</string>
 
 </resources>

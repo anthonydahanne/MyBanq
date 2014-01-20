@@ -12,12 +12,9 @@ import net.dahanne.banq.model.Reservation;
 import net.dahanne.banq.model.ReturnedLoan;
 
 import org.hamcrest.core.IsNull;
-import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,16 +28,16 @@ import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeThat;
 
 /**
- * Created by anthony on 13-08-15.
+ * @author Anthony Dahanne
  */
 public class BanqClientTest {
 
     private static final String USERNAME = System.getProperty("username");
     private static final String PASSWORD = System.getProperty("password");
 
-    private static Logger LOG = LoggerFactory.getLogger(BanqClient.class);
     private CookieManager cookieManager = new CookieManager(null, CookiePolicy.ACCEPT_ALL);
 
 
@@ -49,8 +46,6 @@ public class BanqClientTest {
         if (USERNAME == null || PASSWORD == null) {
             System.err.println("You did not specify USERNAME or PASSWORD vm arguments, integration tests can't be run");
         }
-        Assume.assumeThat(USERNAME, IsNull.notNullValue());
-        Assume.assumeThat(PASSWORD, IsNull.notNullValue());
     }
 
     @Test
@@ -75,14 +70,14 @@ public class BanqClientTest {
                 "Vous avez 2 document(s) en retard.", details.getImportantMessage());
         assertEquals("Obj_1700041386823739", details.getObjId());
 
-        BorrowedItem borrowedItem = new BorrowedItem("Petit Ours brun veut faire comme papa", "Aubinais, Marie", "Grande Bibliothèque", getDate(2013, 10, 30), getDate(2013, 11, 21), "32002511383935", true, "0,10 $", 2);
+        BorrowedItem borrowedItem = new BorrowedItem("Petit Ours brun veut faire comme papa", "Aubinais, Marie", "Grande Bibliothèque", getDate(2013, 10, 30), getDate(2013, 11, 21), "32002511383935", true, "0,10 $", 2, "Obj_1700041386823739");
         assertEquals(borrowedItem, details.getBorrowedItems().get(1));
 
 
-        borrowedItem = new BorrowedItem("This tree, 1, 2, 3", "Formento, Alison", "Grande Bibliothèque", getDate(2013, 10, 30), getDate(2013, 11, 21), "32002515727087", true, null, 3);
+        borrowedItem = new BorrowedItem("This tree, 1, 2, 3", "Formento, Alison", "Grande Bibliothèque", getDate(2013, 10, 30), getDate(2013, 11, 21), "32002515727087", true, null, 3, "Obj_1700041386823739");
         assertEquals(borrowedItem, details.getBorrowedItems().get(2));
 
-        borrowedItem = new BorrowedItem("Green eggs and ham", "Seuss, Dr.", "Grande Bibliothèque", getDate(2013, 11, 1), getDate(2013, 11, 22), "32002501575128", false, null, 4);
+        borrowedItem = new BorrowedItem("Green eggs and ham", "Seuss, Dr.", "Grande Bibliothèque", getDate(2013, 11, 1), getDate(2013, 11, 22), "32002501575128", false, null, 4, "Obj_1700041386823739");
         assertEquals(borrowedItem, details.getBorrowedItems().get(3));
 
     }
@@ -118,7 +113,7 @@ public class BanqClientTest {
 
         BanqClient bc = new BanqClient(cookieManager);
         ContactDetails contactDetails = bc.parseMyContactDetails(contactPage);
-        ContactDetails expectedContactDetails = new ContactDetails("Dahanne Anthony", getDate(2014, 04, 5), "0200200999999", "555 rue Saint-André Montréal (QC) Canada H2L 4G4", "(514)316-5555");
+        ContactDetails expectedContactDetails = new ContactDetails("Dahanne Anthony", getDate(2014, 4, 5), "0200200999999", "555 rue Saint-André Montréal (QC) Canada H2L 4G4", "(514)316-5555");
         assertEquals(expectedContactDetails, contactDetails);
     }
 
@@ -136,6 +131,8 @@ public class BanqClientTest {
 
     @Test
     public void sampleRunTest() throws Exception {
+        assumeThat(USERNAME, IsNull.notNullValue());
+        assumeThat(PASSWORD, IsNull.notNullValue());
         BanqClient bc = new BanqClient(cookieManager);
         bc.authenticate(USERNAME, PASSWORD);
         String detailsPage = bc.getDetailsPage();

@@ -8,21 +8,30 @@
     <string name="expirationDebt">Expiration : %s</string>
     <string name="loggedAs">Connecté en tant que</string>
     <string name="unexpectedError">Erreur</string>
-    <string name="renew">Renouveler</string>
+    <string name="plus">+</string>
     <string name="item_to_return_to_banq">Articles à retourner à la BANQ</string>
     <string name="retrieving_your_informations">Chargement de votre dossier</string>
     <string name="invalid_session">La session est invalide. Essayez de re saisir vos identifiants svp.</string>
     <string name="renewal_successful">Vous avez renouvelé votre emprunt avec succès !</string>
-    <string name="daysRemaining">A rendre dans %s jours</string>
-    <string name="daysToTrigger">Nombre de jours avant notification</string>
-    <string name="daysToTriggerDialog">Définit combien de jours avant la fin de l\'emprunt une notification sera affichée</string>
-    <string name="remaining_days_summary">Quand un emprunt devra être rendu dans moins de %s jours, une notification sera lancée et le bouton de renouvellement sera disponible
-    </string>
+    <string name="daysRemaining">Reste %s jours</string>
+    <string name="daysToTrigger">Nombre de jours avant rappel</string>
+    <string name="daysToTriggerDialog">Définit combien de jours avant la fin de l\'emprunt un rappel sera affiché</string>
+    <string name="remaining_days_summary">Quand un emprunt devra être rendu dans moins de %s jours, une notification sera affichée</string>
     <string name="syncAndAccount">Comptes et synchro.</string>
     <string name="several_items_to_return_soon">Plusieurs emprunts doivent être ramenés à la BANQ</string>
     <string name="invalid_credentials">Identifiants invalides, ré-essayez svp.</string>
-    <string name="sync_account_summary">Choisissez votre compte BANQ et activer/désactiver la synchronisation journalière pour les notifications, ou supprimer le</string>
+    <string name="sync_account_summary">Choisissez votre compte BANQ et activer/désactiver la synchronisation pour les notifications, ou supprimer le</string>
     <string name="addAccount">Ajouter un compte BANQ</string>
     <string name="not_renewable">Non renouvelable</string>
+    <string name="reservation_number">Réservations : %s</string>
+    <string name="enable_sync_summary">Activer ou non les rappels (notifications)</string>
+    <string name="enableSync">Activer les rappels</string>
+    <string name="debtToCome">Frais à venir : %s</string>
+    <string name="author_info_label">Nom de l\'auteur : </string>
+    <string name="document_location_label">Localisation du document : </string>
+    <string name="late_fees_label">Frais de retard : </string>
+    <string name="borrowed_date_label">Emprunté le : </string>
+    <string name="to_return_before_label">A retourner avant : </string>
+    <string name="renew_button">Renouveler</string>
 
 </resources>

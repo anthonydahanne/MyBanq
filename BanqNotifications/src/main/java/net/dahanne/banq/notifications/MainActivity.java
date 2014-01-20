@@ -34,13 +34,8 @@ public class MainActivity extends FragmentActivity {
             viewPager = (ViewPager) findViewById(R.id.pager);
             viewPager.setAdapter(new AccountFragmentPagerAdapter(getSupportFragmentManager(), accounts));
             viewPager.setPageTransformer(true, new DepthPageTransformer());
-            ((PagerTabStrip)findViewById(R.id.tabStrip)).setTabIndicatorColor(Color.BLUE);
+            ((PagerTabStrip) findViewById(R.id.tabStrip)).setTabIndicatorColor(Color.BLUE);
         }
-    }
-
-    public void backToLogin() {
-        startActivity(LoginActivity.newIntent(MainActivity.this, true));
-        finish();
     }
 
     @Override
@@ -66,10 +61,6 @@ public class MainActivity extends FragmentActivity {
         return new Intent(context, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
-    public void refresh() {
-        ((AccountFragmentPagerAdapter)viewPager.getAdapter()).refreshFragments();
-    }
-
     public class AccountFragmentPagerAdapter extends FragmentPagerAdapter {
         List<AccountFragment> fragments = new ArrayList<AccountFragment>();
 
@@ -93,7 +84,7 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return ((AccountFragment)getItem(position)).getTitle();
+            return ((AccountFragment) getItem(position)).getTitle();
         }
 
         public void refreshFragments() {

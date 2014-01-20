@@ -1,9 +1,10 @@
 package net.dahanne.banq.notifications;
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
-import android.os.AsyncTask;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -15,19 +16,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import net.dahanne.banq.BanqClient;
-import net.dahanne.banq.exceptions.FailedToRenewException;
-import net.dahanne.banq.exceptions.InvalidSessionException;
 import net.dahanne.banq.model.BorrowedItem;
 
-import java.text.DateFormat;
 import java.util.List;
-import java.util.Set;
 
 public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
 
+    public static final String ITEM = "net.dahanne.banq.notifications.Item";
+    public static final String ACCOUNT = "net.dahanne.banq.notifications.Account";
     private ViewHolder holder;
     private Account account;
 
@@ -37,36 +34,44 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, final ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.borrowed_item, parent, false);
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.bookName);
             holder.remainingDays = (TextView) convertView.findViewById(R.id.remainingDays);
-            holder.renewButton = (Button) convertView.findViewById(R.id.renewButton);
+            holder.plusButton = (Button) convertView.findViewById(R.id.plusButton);
             holder.separator = convertView.findViewById(R.id.separator);
+            holder.renewable = (TextView) convertView.findViewById(R.id.renewable);
             convertView.setTag(holder);
         }
         holder = (ViewHolder) convertView.getTag();
         final BorrowedItem item = getItem(position);
         Spanned titleFromHtml = Html.fromHtml(item.getTitle());
         holder.name.setText(titleFromHtml.toString(), TextView.BufferType.SPANNABLE);
-        if (item.getItemType() == ItemType.REGULAR_BORROWED_ITEM) {
-            Spannable daysRemaining = new SpannableString(String.format(getContext().getString(R.string.daysRemaining), item.getRemainingDays()));
-            daysRemaining.setSpan(new ForegroundColorSpan(DateComparatorUtil.getBorrowColor(item.getRemainingDays())), 0, daysRemaining.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            holder.remainingDays.setText(daysRemaining);
-            holder.renewButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new RenewAsyncTask(getContext()).execute(item.getUserID(), item.getDocNo());
-                }
-            });
-            int renewVisibility = DateComparatorUtil.getRenewVisibility(getContext(), item.getRemainingDays());
-            holder.renewButton.setVisibility(renewVisibility);
-            holder.separator.setVisibility(renewVisibility);
-        } else if (item.getItemType() == ItemType.RESERVATION) {
-            holder.remainingDays.setText(DateFormat.getDateInstance().format(item.getBorrowedDate()));
+        Spannable daysRemaining = new SpannableString(String.format(getContext().getString(R.string.daysRemaining), item.getRemainingDays()));
+        daysRemaining.setSpan(new ForegroundColorSpan(DateComparatorUtil.getBorrowColor(item.getRemainingDays())), 0, daysRemaining.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.remainingDays.setText(daysRemaining);
+        holder.plusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(parent.getContext(), PlusActivity.class);
+                intent.putExtra(ITEM, item);
+                intent.putExtra(ACCOUNT, account);
+
+                parent.getContext().startActivity(intent);
+//                new RenewAsyncTask(getContext()).execute(item.getItemPosition());
+            }
+        });
+//        int renewVisibility = DateComparatorUtil.getRenewVisibility(getContext(), item.getRemainingDays());
+        holder.plusButton.setVisibility(View.VISIBLE);
+        holder.separator.setVisibility(View.VISIBLE);
+        if (item.isRenewable()) {
+            holder.renewable.setTextColor(Color.GREEN);
+        } else {
+            holder.renewable.setPaintFlags(holder.renewable.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.renewable.setTextColor(Color.RED);
         }
         return convertView;
     }
@@ -74,57 +79,10 @@ public class BorrowedItemAdapter extends ArrayAdapter<BorrowedItem> {
     private class ViewHolder {
         public TextView name;
         public TextView remainingDays;
-        public Button renewButton;
+        public Button plusButton;
         public View separator;
+        public TextView renewable;
     }
 
-    class RenewAsyncTask extends AsyncTask<String, Void, Void> {
-        private final Context context;
-        private Exception exceptionCaught;
 
-        public RenewAsyncTask(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        protected Void doInBackground(String... params) {
-            BanqClient bc = new BanqClient();
-            try {
-                Set<String> cookies = Authenticator.getCookies(context, account);
-
-                String userID = params[0];
-                String docNo = params[1];
-
-                try {
-                    bc.renew(cookies, userID, docNo);
-                } catch (InvalidSessionException ise) {
-                    cookies = Authenticator.authenticate(context, account, AccountManager.get(context).getPassword(account));
-                    bc.renew(cookies, userID, docNo);
-                }
-            } catch (Exception e) {
-                exceptionCaught = e;
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void nothing) {
-            if (exceptionCaught == null) {
-                Toast.makeText(context, context.getString(R.string.renewal_successful), Toast.LENGTH_SHORT).show();
-                ((MainActivity) getContext()).refresh();
-            } else if (exceptionCaught == null) {
-                Toast.makeText(context, context.getString(R.string.unexpectedError), Toast.LENGTH_SHORT).show();
-            } else if (exceptionCaught instanceof InvalidSessionException) {
-                Toast.makeText(context, context.getString(R.string.invalid_session), Toast.LENGTH_SHORT).show();
-                ((MainActivity) getContext()).backToLogin();
-            } else if (exceptionCaught instanceof FailedToRenewException) {
-                Toast.makeText(context, Html.fromHtml(exceptionCaught.getMessage()), Toast.LENGTH_SHORT).show();
-                //TODO does not work
-                holder.renewButton.setEnabled(false);
-                holder.renewButton.setText(context.getString(R.string.not_renewable));
-                notifyDataSetChanged();
-                //TODO end
-            }
-        }
-    }
 }

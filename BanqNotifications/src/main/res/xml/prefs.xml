@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:custom="http://schemas.android.com/apk/res-auto">
+    xmlns:custom="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreference
+        android:title="@string/enableSync"
+        android:summary="@string/enable_sync_summary"
+        android:key="enable_sync_key" />
 
     <net.dahanne.banq.notifications.NumberPickerDialogPreference
-            android:defaultValue="3"
-            android:dialogMessage="@string/daysToTriggerDialog"
-            android:max="20"
-            android:title="@string/daysToTrigger"
-            android:key="days_to_trigger_key"
-            custom:min="1" />
+        android:defaultValue="3"
+        android:dialogMessage="@string/daysToTriggerDialog"
+        android:max="20"
+        android:title="@string/daysToTrigger"
+        android:key="days_to_trigger_key"
+        custom:min="1" />
 
     <Preference
-            android:title="@string/syncAndAccount"
-            android:summary="@string/sync_account_summary"
-            android:key="sync_key"/>
+        android:title="@string/syncAndAccount"
+        android:summary="@string/sync_account_summary"
+        android:key="sync_key" />
 
     <Preference
-            android:title="@string/addAccount"
-            android:key="add_key"/>
+        android:title="@string/addAccount"
+        android:key="add_key" />
 
 </PreferenceScreen>

@@ -120,7 +120,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
             mLoginView.setError(getString(R.string.error_field_required));
             focusView = mLoginView;
             cancel = true;
-        } else if (mLogin.length() !=8 ) {
+        } else if (mLogin.length() != 8) {
             mLoginView.setError(getString(R.string.error_invalid_email));
             focusView = mLoginView;
             cancel = true;
@@ -190,7 +190,6 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-
             try {
                 String login = params[0];
                 String password = params[1];
@@ -215,15 +214,13 @@ public class LoginActivity extends AccountAuthenticatorActivity {
             showProgress(false);
 
             if (exceptionCaught == null) {
-                if (goToMainActivity) {
-                    startActivity(MainActivity.newIntent(LoginActivity.this));
-                }
+                startActivity(MainActivity.newIntent(LoginActivity.this));
                 finish();
             } else if (exceptionCaught instanceof InvalidCredentialsException) {
                 mPasswordView.setError(getString(R.string.invalid_credentials));
                 mPasswordView.requestFocus();
             } else {
-                mPasswordView.setError(exceptionCaught.getMessage());
+                mPasswordView.setError(getString(R.string.unexpectedError) + " : " + exceptionCaught.getMessage());
                 mPasswordView.requestFocus();
             }
         }

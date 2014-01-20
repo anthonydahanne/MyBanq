@@ -1,12 +1,13 @@
 package net.dahanne.banq.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by anthony on 13-08-15.
+ * @author Anthony Dahanne
  */
-public class BorrowedItem {
+public class BorrowedItem implements Serializable {
 
     private final String title;
     private final String authorInfo;
@@ -18,7 +19,10 @@ public class BorrowedItem {
     private final String lateFees;
     private final int itemPosition;
 
-    public BorrowedItem(String title, String authorInfo, String documentLocation, Date borrowedDate, Date toBeReturnedBefore, String docNo, boolean isRenewable, String lateFees, int itemPosition) {
+
+    private final String objId;
+
+    public BorrowedItem(String title, String authorInfo, String documentLocation, Date borrowedDate, Date toBeReturnedBefore, String docNo, boolean isRenewable, String lateFees, int itemPosition, String objId) {
         this.title = title;
         this.authorInfo = authorInfo;
         this.documentLocation = documentLocation;
@@ -28,6 +32,11 @@ public class BorrowedItem {
         this.isRenewable = isRenewable;
         this.lateFees = lateFees;
         this.itemPosition = itemPosition;
+        this.objId = objId;
+    }
+
+    public String getObjId() {
+        return objId;
     }
 
     public String getTitle() {
@@ -101,11 +110,10 @@ public class BorrowedItem {
             return false;
         if (lateFees != null ? !lateFees.equals(that.lateFees) : that.lateFees != null)
             return false;
+        if (objId != null ? !objId.equals(that.objId) : that.objId != null) return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
-        if (toBeReturnedBefore != null ? !toBeReturnedBefore.equals(that.toBeReturnedBefore) : that.toBeReturnedBefore != null)
-            return false;
+        return !(toBeReturnedBefore != null ? !toBeReturnedBefore.equals(that.toBeReturnedBefore) : that.toBeReturnedBefore != null);
 
-        return true;
     }
 
     @Override
@@ -119,8 +127,10 @@ public class BorrowedItem {
         result = 31 * result + (isRenewable ? 1 : 0);
         result = 31 * result + (lateFees != null ? lateFees.hashCode() : 0);
         result = 31 * result + itemPosition;
+        result = 31 * result + (objId != null ? objId.hashCode() : 0);
         return result;
     }
+
 
     @Override
     public String toString() {
@@ -133,7 +143,8 @@ public class BorrowedItem {
                 ", docNo='" + docNo + '\'' +
                 ", isRenewable=" + isRenewable +
                 ", lateFees='" + lateFees + '\'' +
-                ", itemPosition='" + itemPosition + '\'' +
+                ", itemPosition=" + itemPosition +
+                ", objId='" + objId + '\'' +
                 '}';
     }
 }

@@ -1,44 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:paddingLeft="@dimen/activity_horizontal_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingTop="@dimen/activity_vertical_margin"
-              android:background="@drawable/container_dropshadow"
-              android:orientation="vertical"
-              android:paddingBottom="@dimen/activity_vertical_margin">
+    android:layout_width="match_parent"
+    android:layout_height="105dp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/container_dropshadow"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin">
 
     <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lines="2"
-            android:gravity="center_horizontal"
-            android:ellipsize="end"
-            android:id="@+id/bookName"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:ellipsize="end"
+        android:height="35dp"
+        android:id="@+id/bookName" />
 
-    <TextView
-            android:layout_width="match_parent"
-            android:gravity="center_horizontal|bottom"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:gravity="left|bottom"
             android:layout_margin="5dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/remainingDays"/>
+            android:id="@+id/remainingDays" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:gravity="right|bottom"
+            android:layout_height="wrap_content"
+            android:text="Re"
+            android:layout_marginTop="5dp"
+            android:id="@+id/renewable" />
+    </LinearLayout>
 
     <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            android:id="@+id/separator"
-            android:visibility="gone"/>
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        android:id="@+id/separator"
+        android:visibility="gone" />
 
     <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:text="@string/renew"
-            style="?android:attr/borderlessButtonStyle"
-            android:id="@+id/renewButton"/>
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:visibility="gone"
+        android:text="@string/plus"
+        style="?android:attr/borderlessButtonStyle"
+        android:id="@+id/plusButton" />
 
 </LinearLayout>

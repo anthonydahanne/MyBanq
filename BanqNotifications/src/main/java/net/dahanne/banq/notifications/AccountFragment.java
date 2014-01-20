@@ -1,20 +1,15 @@
 package net.dahanne.banq.notifications;
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,16 +22,19 @@ import net.dahanne.banq.BanqClient;
 import net.dahanne.banq.exceptions.InvalidSessionException;
 import net.dahanne.banq.model.Details;
 
-import java.text.DateFormat;
-import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AccountFragment extends Fragment {
     private static final String EXTRA_ACOUNT_NAME = "EXTRA_ACCOUNT";
     private static final String EXTRA_ACOUNT_TYPE = "EXTRA_ACOUNT_TYPE";
     private TextView userName;
     private TextView currentDebt;
-    private TextView expirationDate;
+    private TextView debtToCome;
+    private TextView reservationNumber;
     private Account account;
+    private static Logger LOG = LoggerFactory.getLogger(BanqClient.class);
+
 
     public static AccountFragment newInstance(Account account) {
         AccountFragment accountFragment = new AccountFragment();
@@ -57,7 +55,8 @@ public class AccountFragment extends Fragment {
         inflater.inflate(R.layout.fragment_main, wrapper, true);
         userName = (TextView) wrapper.findViewById(R.id.userName);
         currentDebt = (TextView) wrapper.findViewById(R.id.currentDebt);
-        expirationDate = (TextView) wrapper.findViewById(R.id.expirationDate);
+        debtToCome = (TextView) wrapper.findViewById(R.id.debtToCome);
+        reservationNumber = (TextView) wrapper.findViewById(R.id.reservationNumber);
         return wrapper;
     }
 
@@ -95,25 +94,25 @@ public class AccountFragment extends Fragment {
 
         @Override
         protected Details doInBackground(Void[] nothing) {
-            BanqClient bc = new BanqClient();
             Details details = null;
+            BanqClient bc = null;
             try {
-                Log.i(getClass().getSimpleName(), "Récupération des cookies");
-                Set<String> cookies = Authenticator.getCookies(getActivity(), account);
-                Log.i(getClass().getSimpleName(), "Cookies récupérés");
+                bc = Authenticator.getBanqClient(getActivity(), account);
+                LOG.info("Getting details");
+                details = bc.getDetails();
+                LOG.info("Details retrieved");
+            } catch (InvalidSessionException ise) {
                 try {
-                    Log.i(getClass().getSimpleName(), "Récupération du détail");
-                    details = bc.getDetails(cookies);
-                    Log.i(getClass().getSimpleName(), "Cookies récupérés");
-                } catch (InvalidSessionException ise) {
-                    Log.i(getClass().getSimpleName(), "Session invalide : reconnexion");
-                    cookies = Authenticator.authenticate(getActivity(), account, AccountManager.get(getActivity()).getPassword(account));
-                    Log.i(getClass().getSimpleName(), "Réconnecté avec cookies -> Récupération du détail");
-                    details = bc.getDetails(cookies);
-                    Log.i(getClass().getSimpleName(), "Détail récupéré");
+                    LOG.info("Session not valid : trying to reconnect");
+                    Authenticator.authenticate(getActivity(), account);
+                    details = bc.getDetails();
+                    LOG.info("Detail retrieved");
+                } catch (Exception e) {
+                    LOG.error(e.getMessage(), e);
+                    exceptionCaught = e;
                 }
             } catch (Exception e) {
-                Log.e(getClass().getSimpleName(), e.getMessage(), e);
+                LOG.error(e.getMessage(), e);
                 exceptionCaught = e;
             }
             return details;
@@ -125,18 +124,21 @@ public class AccountFragment extends Fragment {
             if (exceptionCaught == null && details != null) {
                 userName.setText(String.format(getString(R.string.name), details.getName()));
                 Spannable debt = new SpannableString(String.format(getString(R.string.currentDebt), details.getCurrentDebt()));
-                debt.setSpan(new ForegroundColorSpan(Color.RED), debt.length() - 5, debt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                Spannable debtToComeSpanable = new SpannableString(String.format(getString(R.string.debtToCome), details.getLateFeesToCome()));
+//                debt.setSpan(new ForegroundColorSpan(Color.RED), debt.length() - 5, debt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 currentDebt.setText(debt);
-                String formattedExpirationDate = DateFormat.getDateInstance().format(details.getExpirationDate());
-                Spannable expiration = new SpannableString(String.format(getString(R.string.expirationDebt), formattedExpirationDate));
-                expiration.setSpan(new ForegroundColorSpan(DateComparatorUtil.getExpirationColor(details.getRemaingDays())), expiration.length() - formattedExpirationDate.length(), expiration.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                expirationDate.setText(expiration);
+                debtToCome.setText(debtToComeSpanable);
+//                String formattedExpirationDate = DateFormat.getDateInstance().format(details.getExpirationDate());
+//                Spannable expiration = new SpannableString(String.format(getString(R.string.expirationDebt), formattedExpirationDate));
+//                expiration.setSpan(new ForegroundColorSpan(DateComparatorUtil.getExpirationColor(details.getRemaingDays())), expiration.length() - formattedExpirationDate.length(), expiration.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                expirationDate.setText(expiration);
+                reservationNumber.setText(String.format(getString(R.string.reservation_number), details.getReservationsNumber()));
                 ((GridView) getView().findViewById(android.R.id.list)).setAdapter(new BorrowedItemAdapter(getActivity(), details.getBorrowedItems(), account));
             } else if (exceptionCaught == null) {
                 Toast.makeText(getActivity(), getString(R.string.unexpectedError), Toast.LENGTH_SHORT).show();
             } else if (exceptionCaught instanceof InvalidSessionException) {
                 Toast.makeText(getActivity(), getString(R.string.invalid_session), Toast.LENGTH_SHORT).show();
-                ((MainActivity) getActivity()).backToLogin();
+//                ((MainActivity) getActivity()).backToLogin();
             } else {
                 Toast.makeText(getActivity(), exceptionCaught.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -151,6 +153,10 @@ public class AccountFragment extends Fragment {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
+        if (getView() == null) {
+            // got a NPE once because of getView()
+            return;
+        }
         final View detailStatusView = getView().findViewById(R.id.detail_status);
         final View userInfosView = getView().findViewById(R.id.user_infos);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {

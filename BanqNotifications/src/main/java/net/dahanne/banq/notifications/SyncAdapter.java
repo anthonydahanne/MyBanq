@@ -16,7 +16,6 @@
 package net.dahanne.banq.notifications;
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.Context;
@@ -32,7 +31,6 @@ import net.dahanne.banq.model.Details;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * SyncAdapter implementation for syncing sample SyncAdapter contacts to the
@@ -65,15 +63,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                               ContentProviderClient provider, SyncResult syncResult) {
         try {
             Log.i(getClass().getSimpleName(), "Start syncing");
-            Set<String> cookies = Authenticator.getCookies(mContext, account);
-            Log.i(getClass().getSimpleName(), "Cookies retrieved");
-            BanqClient bc = new BanqClient();
-            Details details = getDetails(cookies, bc, null);
+            BanqClient bc = Authenticator.getBanqClient(mContext, account);
+            Log.i(getClass().getSimpleName(), "Getting details");
+            Details details = getDetails(bc, account);
             Log.i(getClass().getSimpleName(), "Detail retrieved");
             List<BorrowedItem> itemsToReturnSoon = new ArrayList<BorrowedItem>();
             for (BorrowedItem borrowedItem : details.getBorrowedItems()) {
-                if (borrowedItem.getItemType() == ItemType.REGULAR_BORROWED_ITEM && DateComparatorUtil.shouldPopNotification(mContext, borrowedItem.getRemainingDays())) {
-//                    NotificationHelper.launchNotification(mContext, borrowedItem);
+                if (DateComparatorUtil.shouldPopNotification(mContext, borrowedItem.getRemainingDays())) {
+                    NotificationHelper.launchNotification(mContext, borrowedItem.getTitle(), borrowedItem.getRemainingDays());
                     itemsToReturnSoon.add(borrowedItem);
                 }
             }
@@ -97,12 +94,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    private Details getDetails(Set<String> cookies, BanqClient bc, Account account) throws Exception {
+    private Details getDetails(BanqClient bc, Account account) throws Exception {
         try {
-            return bc.getDetails(cookies);
+            return bc.getDetails();
         } catch (InvalidSessionException ise) {
-            cookies = Authenticator.authenticate(mContext, account, AccountManager.get(mContext).getPassword(account));
-            return bc.getDetails(cookies);
+            Authenticator.authenticate(mContext, account);
+            return bc.getDetails();
         }
     }
 }

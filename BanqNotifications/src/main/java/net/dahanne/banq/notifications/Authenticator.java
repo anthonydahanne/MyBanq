@@ -21,17 +21,21 @@ import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.accounts.NetworkErrorException;
-import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 
 import net.dahanne.banq.BanqClient;
+import net.dahanne.banq.exceptions.InvalidCredentialsException;
 
+import java.io.IOException;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class is an implementation of AbstractAccountAuthenticator for
@@ -52,10 +56,24 @@ import java.util.Set;
  */
 class Authenticator extends AbstractAccountAuthenticator {
 
-    /**
-     * The tag used to log to adb console. *
-     */
+
     private static final String TAG = "Authenticator";
+
+    private static Map<String, BanqClient> getBanqClientsMap() {
+        return banqClientsMap;
+    }
+
+    public static BanqClient getBanqClient(Context context, Account account) throws InterruptedException, IOException, InvalidCredentialsException {
+        BanqClient banqClient = getBanqClientsMap().get(account.name);
+        if (banqClient != null) {
+            return banqClient;
+        } else {
+            authenticate(context, account);
+            return getBanqClientsMap().get(account.name);
+        }
+    }
+
+    private final static Map<String, BanqClient> banqClientsMap = new ConcurrentHashMap<String, BanqClient>();
 
     // Authentication Service context
     private final Context mContext;
@@ -105,20 +123,13 @@ class Authenticator extends AbstractAccountAuthenticator {
         // Extract the username and password from the Account Manager, and ask
         // the server for an appropriate AuthToken.
         final AccountManager am = AccountManager.get(mContext);
-        final String password = am.getPassword(account);
-        if (password != null) {
-            try {
-                Set<String> cookies = authenticate(mContext, account, password);
-                if (cookies != null && !cookies.isEmpty()) {
-                    final Bundle result = new Bundle();
-                    result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
-                    result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
-                    result.putString(AccountManager.KEY_AUTHTOKEN, TextUtils.join("$$$", cookies));
-                    return result;
-                }
-            } catch (Exception e) {
-                Log.e(getClass().getSimpleName(), e.getMessage(), e);
-            }
+        String savedCookies = am.getUserData(account, "cookies");
+        if (savedCookies != null) {
+            final Bundle result = new Bundle();
+            result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
+            result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
+            result.putString(AccountManager.KEY_AUTHTOKEN, savedCookies);
+            return result;
         }
 
         // If we get here, then we couldn't access the user's password - so we
@@ -158,21 +169,7 @@ class Authenticator extends AbstractAccountAuthenticator {
         return null;
     }
 
-    private static String getPassword(Context context, Account account) {
-        return AccountManager.get(context).getPassword(account);
-    }
-
-    private static Set<String> getLocalCookies(Activity activity, Account account) {
-        try {
-            AccountManager accountManager = AccountManager.get(activity);
-            return extractCookies(accountManager.getAuthToken(account, activity.getString(R.string.accountType), null, activity, null, null).getResult().getString(AccountManager.KEY_AUTHTOKEN));
-        } catch (Exception e) {
-            Log.e(Authenticator.class.getSimpleName(), e.getMessage(), e);
-        }
-        return new HashSet<String>();
-    }
-
-    private static Set<String> extractCookies(String cookieString) {
+    private static HashSet<String> extractCookies(String cookieString) {
         HashSet<String> cookies = new HashSet<String>();
         for (String cookie : cookieString.split("&&&")) {
             cookies.add(cookie);
@@ -181,24 +178,22 @@ class Authenticator extends AbstractAccountAuthenticator {
     }
 
 
-    public static Set<String> authenticate(Context context, Account account, String password) throws Exception {
-        Set<String> cookies = new HashSet<String>();
-        cookies = new BanqClient().authenticate(account.name, password);
+    public synchronized static void authenticate(Context context, Account account, String password) throws InterruptedException, IOException, InvalidCredentialsException {
         AccountManager accountManager = AccountManager.get(context);
+        CookieManager cookieManager = new CookieManager(null, CookiePolicy.ACCEPT_ALL);
+        BanqClient banqClient = new BanqClient(cookieManager);
+        banqClient.authenticate(account.name, password);
         //If the account already exists, we update the account
         if (!accountManager.addAccountExplicitly(account, password, null)) {
             accountManager.setPassword(account, password);
         }
-        return cookies;
+//        ContentResolver.setIsSyncable(account, context.getString(R.string.authority), 1);
+        ContentResolver.setSyncAutomatically(account, context.getString(R.string.authority), true);
+        banqClientsMap.put(account.name, banqClient);
     }
 
-    public static Set<String> getCookies(Context mContext, Account account) {
-        try {
-            String cookieString = AccountManager.get(mContext).blockingGetAuthToken(account, mContext.getString(R.string.accountType), true);
-            return extractCookies(cookieString);
-        } catch (Exception e) {
-            Log.e(Authenticator.class.getSimpleName(), e.getMessage(), e);
-        }
-        return new HashSet<String>();
+    public synchronized static void authenticate(Context context, Account account) throws InterruptedException, IOException, InvalidCredentialsException {
+        AccountManager accountManager = AccountManager.get(context);
+        authenticate(context, account, accountManager.getPassword(account));
     }
 }
