@@ -4,10 +4,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.7.+'
-//        classpath group: 'org.slf4j', name: 'slf4j-api', version: '1.7.5'
-//        classpath group: 'com.github.tony19', name: 'logback-android-core', version: '1.0.10-2'
-//        classpath group: 'com.github.tony19', name: 'logback-android-classic', version: '1.0.10-2'
-        //classpath 'com.squareup.gradle:gradle-android-test-plugin:0.9.+'
     }
 }
 apply plugin: 'android'
@@ -21,25 +17,19 @@ android {
         minSdkVersion 10
         targetSdkVersion 16
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
     // those dependencies need to be there BEFORE the android deps
-    //testCompile 'junit:junit:4.10'
-    //testCompile 'org.robolectric:robolectric:2.1.+'
-    //testCompile 'com.squareup:fest-android:1.0.+'
-//    compile 'org.slf4j:slf4j-android:1.6.1-RC1'
-//    compile 'org.slf4j:slf4j-api:1.6.1-RC1'
     compile 'com.android.support:support-v4:13.0.0'
     compile 'com.android.support:appcompat-v7:18.0.+'
     compile 'com.github.tony19:logback-android-core:1.0.10-2'
     compile 'com.github.tony19:logback-android-classic:1.0.10-2'
 
     compile project(':banq-api') {
-//excluding a particular transitive dependency:
-//        exclude module: 'cglib' //by artifact name
-//        exclude group: 'org.slf4j' //by group
-//        exclude group: 'org.unwanted', module: 'iAmBuggy' //by both name and group
     }
 
 }

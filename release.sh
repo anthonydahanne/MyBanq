@@ -27,5 +27,6 @@ export ORG_GRADLE_PROJECT_keyPassword="$KEY_PASS"
 read -p "Is this correct? [y/n] " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-./gradlew build -Dusername=$USERNAME -Dpassword=$PASSWORD
+#./gradlew build -Dusername=$USERNAME -Dpassword=$PASSWORD
+./gradlew build
 fi
