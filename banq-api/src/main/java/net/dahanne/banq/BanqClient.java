@@ -325,7 +325,10 @@ public class BanqClient {
             String name = userIdElement.text().trim();
 
 
-            String importantMessage = contenu.getElementsByAttributeValueStarting("class", "AccountTrap").last().text().trim();
+            String importantMessage = "";
+            if (contenu.getElementsByAttributeValueStarting("class", "AccountTrap").last() != null) {
+                importantMessage = contenu.getElementsByAttributeValueStarting("class", "AccountTrap").last().text().trim();
+            }
             Element summaryDetailsTable = contenu.getElementsByClass("SummaryDetailsTable").first();
             String detailsLink = summaryDetailsTable.getElementsByClass("AccountSummaryCounterLink").first().attr("href");
             String detailsObjId = detailsLink.substring(0, detailsLink.indexOf("?"));
@@ -340,8 +343,10 @@ public class BanqClient {
             String lateFeesToCome = lateFeesText.substring(0, lateFeesText.indexOf("$") + 1).trim();
 
             Element inlineCurrentLoans = contenu.getElementsByClass("InlineCurrentLoans").first();
-            Elements loanBrowseTables = inlineCurrentLoans.getElementsByClass("LoanBrowseTable");
-
+            Elements loanBrowseTables = null;
+            if (inlineCurrentLoans != null) {
+                loanBrowseTables = inlineCurrentLoans.getElementsByClass("LoanBrowseTable");
+            }
             if (loanBrowseTables == null) {
                 details = new Details(name, currentDebt, lateFeesToCome, messagesNumber, reservationsNumber, importantMessage, detailsObjId);
             } else {

@@ -55,6 +55,18 @@ public class BanqClientTest {
         assertTrue(expectedDate.compareTo(date) == 0);
     }
 
+    @Test
+    public void parseEmptyDetailsTest() throws IOException, ParseException {
+        InputStream resource = BanqClientTest.class.getClassLoader().getResourceAsStream("sampleDetails-mobile-empty-list.html");
+        String sampleDetailsPage = HttpBuilder.toString(resource, "UTF-8");
+
+        BanqClient bc = new BanqClient(cookieManager);
+        Details details = bc.parseDetails(sampleDetailsPage);
+        assertEquals("Dahanne Anthony", details.getName());
+        assertEquals("0,00 $", details.getCurrentDebt());
+        assertEquals(0, details.getBorrowedItems().size());
+
+    }
 
     @Test
     public void parseDetailsTest() throws IOException, ParseException {

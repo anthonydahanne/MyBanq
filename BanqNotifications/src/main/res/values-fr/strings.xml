@@ -34,4 +34,7 @@
     <string name="to_return_before_label">A retourner avant : </string>
     <string name="renew_button">Renouveler</string>
 
+    <string name="no_borrowed_items">Il n\'y a pas d\'emprunt en cours pour cet abonné</string>
+
+
 </resources>

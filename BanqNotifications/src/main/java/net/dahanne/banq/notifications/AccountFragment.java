@@ -133,7 +133,11 @@ public class AccountFragment extends Fragment {
 //                expiration.setSpan(new ForegroundColorSpan(DateComparatorUtil.getExpirationColor(details.getRemaingDays())), expiration.length() - formattedExpirationDate.length(), expiration.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //                expirationDate.setText(expiration);
                 reservationNumber.setText(String.format(getString(R.string.reservation_number), details.getReservationsNumber()));
-                ((GridView) getView().findViewById(android.R.id.list)).setAdapter(new BorrowedItemAdapter(getActivity(), details.getBorrowedItems(), account));
+                if(details.getBorrowedItems().isEmpty()) {
+                    Toast.makeText(getActivity(), getString(R.string.no_borrowed_items), Toast.LENGTH_SHORT).show();
+                } else {
+                    ((GridView) getView().findViewById(android.R.id.list)).setAdapter(new BorrowedItemAdapter(getActivity(), details.getBorrowedItems(), account));
+                }
             } else if (exceptionCaught == null) {
                 Toast.makeText(getActivity(), getString(R.string.unexpectedError), Toast.LENGTH_SHORT).show();
             } else if (exceptionCaught instanceof InvalidSessionException) {

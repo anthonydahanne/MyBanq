@@ -37,4 +37,8 @@
     <string name="to_return_before_label">To Be Returned : </string>
     <string name="renew_button">Renew</string>
 
+    <string name="no_borrowed_items">There is no borrowed item attached to this account</string>
+
+
+
 </resources>
