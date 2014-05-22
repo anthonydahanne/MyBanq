@@ -134,7 +134,9 @@ public class AccountFragment extends Fragment {
 //                expirationDate.setText(expiration);
                 reservationNumber.setText(String.format(getString(R.string.reservation_number), details.getReservationsNumber()));
                 if(details.getBorrowedItems().isEmpty()) {
-                    Toast.makeText(getActivity(), getString(R.string.no_borrowed_items), Toast.LENGTH_SHORT).show();
+                    TextView viewById = (TextView) getView().findViewById(R.id.no_items);
+                    viewById.setText(getString(R.string.no_borrowed_items, details.getName()));
+                    viewById.setVisibility(View.VISIBLE);
                 } else {
                     ((GridView) getView().findViewById(android.R.id.list)).setAdapter(new BorrowedItemAdapter(getActivity(), details.getBorrowedItems(), account));
                 }

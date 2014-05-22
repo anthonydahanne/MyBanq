@@ -49,6 +49,12 @@
             android:layout_height="1dp"
             android:background="?android:attr/listDivider" />
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/no_items"
+            android:visibility="invisible"
+            />
         <GridView
             android:id="@android:id/list"
             android:numColumns="auto_fit"

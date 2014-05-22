@@ -5,8 +5,10 @@ import android.accounts.AccountAuthenticatorActivity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SyncInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +21,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import net.dahanne.banq.exceptions.InvalidCredentialsException;
+
+import java.util.List;
 
 import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
 import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
@@ -200,7 +204,12 @@ public class LoginActivity extends AccountAuthenticatorActivity {
                 intent.putExtra(KEY_ACCOUNT_TYPE, getString(R.string.accountType));
                 setAccountAuthenticatorResult(intent.getExtras());
                 setResult(RESULT_OK, intent);
-                getContentResolver().addPeriodicSync(account, LoginActivity.this.getString(R.string.authority), Bundle.EMPTY, PreferenceHelper.getSyncFrequency(LoginActivity.this));
+                getContentResolver().setSyncAutomatically(account, LoginActivity.this.getString(R.string.authority), true);
+                List<SyncInfo> currentSyncs = ContentResolver.getCurrentSyncs();
+                for (SyncInfo currentSync : currentSyncs) {
+                    Log.e(getClass().getSimpleName(),"authority :" + currentSync.authority + " , account : " + currentSync.account + ", "+currentSync.startTime);
+                }
+
             } catch (Exception e) {
                 Log.e(getClass().getSimpleName(), e.getMessage(), e);
                 exceptionCaught = e;

@@ -22,8 +22,7 @@
     <string name="syncAndAccount">Sync. and Accounts</string>
     <string name="several_items_to_return_soon">Several items to return to BANQ soon</string>
     <string name="invalid_credentials">Invalid credentials, please try again</string>
-    <string name="sync_account_summary">Choose your BANQ account, and enable/disable sync. for notifications or even delete it
-    </string>
+    <string name="sync_account_summary">Choose your BANQ account, and enable/disable sync. for notifications or even delete it</string>
     <string name="addAccount">Add account</string>
     <string name="not_renewable">Not renewable</string>
     <string name="reservation_number">Reservations : %s</string>
@@ -37,7 +36,7 @@
     <string name="to_return_before_label">To Be Returned : </string>
     <string name="renew_button">Renew</string>
 
-    <string name="no_borrowed_items">There is no borrowed item attached to this account</string>
+    <string name="no_borrowed_items">There is no borrowed item for this account : %1$s</string>
 
 
 
