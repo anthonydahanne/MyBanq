@@ -85,6 +85,17 @@ public class BanqClient {
         }
         LOG.debug("2nd step completed (getting auth. page), cookies : " + cookieManager.getCookieStore().getCookies());
 
+        try {
+            connect = new HttpBuilder(location).connect();
+            location = getLocationHeader(connect);
+            inputStream = connect.getInputStream();
+            responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
+        } finally {
+            if (connect != null) {
+                connect.disconnect();
+            }
+        }
+
         String relayState = null;
         String SAMLResponse = null;
         HashMap<String, String> data = new HashMap<String, String>();
@@ -94,9 +105,22 @@ public class BanqClient {
             data.put("j_password", password);
             connect = new HttpBuilder(HttpBuilder.HttpMethod.POST, "https://www.banq.qc.ca/idp/Authn/UserPassword").data(data).connect();
             location = getLocationHeader(connect);
-            inputStream = connect.getInputStream();
-            responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
-
+            int responseCode = connect.getResponseCode();
+            if(responseCode ==  302) {
+                try {
+                    connect = new HttpBuilder(location).connect();
+                    location = getLocationHeader(connect);
+                    inputStream = connect.getInputStream();
+                    responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
+                } finally {
+                    if (connect != null) {
+                        connect.disconnect();
+                    }
+                }
+            } else {
+                inputStream = connect.getInputStream();
+                responseMessage = HttpBuilder.toString(inputStream, HttpBuilder.ISO_8859_1);
+            }
             Document parse = Jsoup.parse(responseMessage);
 
             Elements echec = parse.getElementsByAttributeValue("class", "echec");
