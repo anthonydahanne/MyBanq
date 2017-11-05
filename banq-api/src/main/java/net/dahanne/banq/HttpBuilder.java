@@ -16,11 +16,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * HTTP Utility class
@@ -85,8 +89,15 @@ public class HttpBuilder {
 
     public HttpURLConnection connect() throws IOException {
 //        HttpURLConnection httpURLConnection = client.open(url);
-        HttpURLConnection httpURLConnection = (HttpURLConnection) url
+        HttpsURLConnection httpURLConnection = (HttpsURLConnection) url
                 .openConnection();
+        try {
+            httpURLConnection.setSSLSocketFactory(new SSLSocketFactoryExtended());
+        } catch (NoSuchAlgorithmException e) {
+            throw new IOException(e);
+        } catch (KeyManagementException e) {
+            throw new IOException(e);
+        }
         httpURLConnection.setInstanceFollowRedirects(false);
         httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; U; Android 2.2; en-us; Nexus One Build/FRF91) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1");
         if (connectionTimeout != -1) {
