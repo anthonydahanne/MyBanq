@@ -9,7 +9,7 @@
     <string name="loggedAs">Logged in as</string>
     <string name="unexpectedError">Unexpected Error</string>
     <string name="item_to_return_to_banq">Item to return to BANQ</string>
-    <string name="accountType">BANQ</string>
+    <string name="accountType" translatable="false">BANQ</string>
     <string name="plus">+</string>
     <string name="retrieving_your_informations">Retrieving your information</string>
     <string name="invalid_session">The session is invalid, please try to re enter your credentials</string>
@@ -17,7 +17,7 @@
     <string name="daysRemaining">%s days remaining</string>
     <string name="daysToTrigger">Remaining days before alert</string>
     <string name="daysToTriggerDialog">Choose the remaining number of days before you get an alert</string>
-    <string name="authority">net.dahanne.banq.notifications.stubprovider</string>
+    <string name="authority" translatable="false">net.dahanne.banq.notifications.stubprovider</string>
     <string name="remaining_days_summary">When a borrowed item is due for less than %s days, a notification will be triggered</string>
     <string name="syncAndAccount">Sync. and Accounts</string>
     <string name="several_items_to_return_soon">Several items to return to BANQ soon</string>

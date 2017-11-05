@@ -15,7 +15,7 @@ This is a gradle based project; just clone this repository and run
     ./gradlew build
 
 to build both the java api project, and the Android app
-But it may be even more insteresting to run 
+But it may be even more interesting to run
 
     ./gradlew build installDebug
 

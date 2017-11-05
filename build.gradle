@@ -4,7 +4,7 @@ subprojects {
     repositories {
         mavenCentral()
     }
-    version = '1.5-SNAPSHOT'
+    version = '1.7-SNAPSHOT'
     group = "net.dahanne.banq"
 }
 
