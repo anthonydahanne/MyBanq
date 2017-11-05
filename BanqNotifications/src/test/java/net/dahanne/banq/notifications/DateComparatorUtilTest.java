@@ -6,7 +6,7 @@ import android.view.View;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 
 import static net.dahanne.banq.notifications.DateComparatorUtil.BLUE_BANQ;
 import static net.dahanne.banq.notifications.DateComparatorUtil.GREEN_BANQ;
@@ -55,7 +55,7 @@ public class DateComparatorUtilTest {
 
     @Test
     public void testGetRenewVisibility() {
-        Context targetContext = Robolectric.application;
+        Context targetContext = RuntimeEnvironment.application;
         assertEquals(View.GONE, DateComparatorUtil.getRenewVisibility(targetContext, 10));
         assertEquals(View.GONE, DateComparatorUtil.getRenewVisibility(targetContext, 8));
         assertEquals(View.GONE, DateComparatorUtil.getRenewVisibility(targetContext, 7));
@@ -71,7 +71,7 @@ public class DateComparatorUtilTest {
 
     @Test
     public void testShouldPopNotification() {
-        Context targetContext = Robolectric.application;
+        Context targetContext = RuntimeEnvironment.application;
         assertEquals(3, PreferenceHelper.getDaysToTrigger(targetContext));
         assertFalse(DateComparatorUtil.shouldPopNotification(targetContext, 10));
         assertFalse(DateComparatorUtil.shouldPopNotification(targetContext, 8));
